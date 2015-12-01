@@ -35,6 +35,11 @@ class ExampleTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     // MARK: Examples
     
     /// demonstrates various ways to setup the same simple data source
