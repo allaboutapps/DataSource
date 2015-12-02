@@ -76,7 +76,7 @@ extension TableViewDataSource: UITableViewDataSource {
         let row = dataSource.rowAtIndexPath(indexPath)
         
         guard let configurator = configuratorForRowIdentifier(row.identifier) else {
-            assert(false, "no cell configurator for rowIdentifier: \(row.identifier)")
+            fatalError("no cell configurator for rowIdentifier: \(row.identifier)")
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
