@@ -47,5 +47,8 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
         if let row = row as? Row<T>, cell = cell as? C {
             configure(row.data, cell, row.identifier)
         }
+        else {
+            assert(false, "invalid row or cell type");
+        }
     }
 }
