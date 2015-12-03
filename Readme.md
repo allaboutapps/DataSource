@@ -84,6 +84,26 @@ Create a `TableViewDataSource` with a `TableViewCellConfigurator` for each row t
 
 Assign it to your tableView´s dataSource and again make sure to keep a strong reference to the data source.
 
+### Creating rows using a creator closure
+
+Instead of setting an array of rows you can also instantiate rows using a closure:
+
+    let dataSource = DataSource([
+        Section(title: "test", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
+            return Row(identifier: Identifiers.TextCell.rawValue, data: ((rowIndex + 1) % 2 == 0) ? "even" : "odd")
+        }),
+        Section<Any>(title: "mixed", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
+            if rowIndex % 2 == 0 {
+                return Row(identifier: Identifiers.TextCell.rawValue, data: "test")
+            }
+            else {
+               return Row(identifier: Identifiers.PersonCell.rawValue, data: Person(firstName: "Max", lastName: "Mustermann"))
+            }
+        })
+        ])
+
+Create a `TableViewDataSource` with cell configurators as shown above.
+
 ### Convenience
 
 Several extensions on `Array` and `Dictionary` exist to make creating data sources even easier.
