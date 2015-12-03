@@ -44,8 +44,8 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
     
     /// Takes a row and cell, makes the required casts and calls the configure closure
     public func configureRow(row: RowType, cell: UITableViewCell) {
-        if let row = row as? Row<T>, cell = cell as? C {
-            configure(row.data, cell, row.identifier)
+        if let data = row.anyData as? T, cell = cell as? C {
+            configure(data, cell, row.identifier)
         }
         else {
             assert(false, "invalid row or cell type");

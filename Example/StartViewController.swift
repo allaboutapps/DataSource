@@ -9,14 +9,14 @@
 import UIKit
 
 class StartViewController: UITableViewController {
-    let titles = ["Example 1", "Example 2", "Example 3", "Example 4", "Example 5"]
+    let titles = ["Example 1", "Example 2", "Example 3", "Example 4", "Example 5", "Example 6"]
     
     override func viewDidLoad() {
         super.viewDidLoad() 
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return titles.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -41,6 +41,8 @@ class StartViewController: UITableViewController {
             viewController.setupExample4()
         case 4:
             viewController.setupExample5()
+        case 5:
+            viewController.setupExample6()
         default:
             break
         }

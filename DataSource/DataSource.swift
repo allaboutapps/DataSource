@@ -68,37 +68,68 @@ public struct Section<T>: SectionType {
     /// Array of typed rows
     public let rows: Array<Row<T>>
     
-    /// Optional title of the section
+    /// Title of the section
     public let title: String?
+    
+    /// Closure which returns a row given its index
+    public let rowCreatorClosure: ((rowIndex: Int) -> Row<T>)?
+    
+    /// Closure which returns the total number of rows
+    public let rowCountClosure: (() -> Int)?
     
     /// Initializes an empty section
     public init() {
         self.rows = []
         self.title = nil
+        self.rowCreatorClosure = nil
+        self.rowCountClosure = nil
     }
     
     /// Initializes a section with an array of rows and an optional title
     public init(title: String? = nil, rows: Array<Row<T>>) {
         self.rows = rows
         self.title = title
+        self.rowCreatorClosure = nil
+        self.rowCountClosure = nil
     }
     
     /// Initializes a section with an array of models (or view models) which are encapsulated in rows using the specified row identifier
     public init(title: String? = nil, rowIdentifier: String, rows: Array<T>) {
-        self.rows = rows.toDataSourceRows(rowIdentifier)
+        self.init(title: title, rows: rows.toDataSourceRows(rowIdentifier))
+    }
+    
+    /// Initializes a section with a row creator closure
+    public init(title: String? = nil, rowCountClosure: (() -> Int), rowCreatorClosure: (rowIndex: Int) -> Row<T>) {
+        self.rows = []
         self.title = title
+        self.rowCountClosure = rowCountClosure
+        self.rowCreatorClosure = rowCreatorClosure
+    }
+    
+    public func rowAtIndex(index: Int) -> Row<T> {
+        if let creator = rowCreatorClosure {
+            return creator(rowIndex: index)
+        }
+        else {
+            return rows[index]
+        }
     }
     
     public subscript(index: Int) -> Row<T> {
-        return rows[index]
+        return rowAtIndex(index)
     }
     
     public subscript(index: Int) -> RowType {
-        return rows[index]
+        return rowAtIndex(index)
     }
     
     public var numberOfRows: Int {
-        return rows.count
+        if let count = rowCountClosure {
+            return count()
+        }
+        else {
+            return rows.count
+        }
     }
     
     public var hasTitle: Bool {
