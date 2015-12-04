@@ -85,7 +85,7 @@ extension TableViewDataSource: UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let showTitles = showSectionTitles ?? (dataSource.numberOfSections > 1)
+        let showTitles = showSectionTitles ?? (tableView.style == .Grouped || dataSource.numberOfSections > 1)
         
         if showTitles && dataSource.numberOfRowsInSection(section) > 0 {
             return dataSource.sections[section].title
