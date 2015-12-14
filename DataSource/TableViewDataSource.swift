@@ -80,7 +80,7 @@ extension TableViewDataSource: UITableViewDataSource {
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
-        configurator.configureRow(row, cell: cell)
+        configurator.configureRow(row, cell: cell, indexPath: indexPath)
         return cell
     }
     
