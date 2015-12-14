@@ -65,8 +65,8 @@ class ExampleTableViewController: UITableViewController {
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource1,
-            configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
-                cell.textLabel?.text = title
+            configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
+                cell.textLabel?.text = "\(indexPath.row): \(title)"
             })
         
         debugPrint(dataSource1)

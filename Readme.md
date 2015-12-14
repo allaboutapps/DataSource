@@ -27,7 +27,7 @@ Create a `TableViewDataSource` with a single `TableViewCellConfigurator` for the
     let tableDataSource = TableViewDataSource(
         dataSource: dataSource1,
         configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
-            cell.textLabel?.text = title
+            cell.textLabel?.text = "\(indexPath.row): \(title)"
         })
 
 Assign it to your tableView´s dataSource:
