@@ -1,12 +1,14 @@
 # DataSource
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+<img src="https://img.shields.io/badge/Platform-iOS%208%2B-blue.svg" alt="Platform iOS8+">
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Language-Swift%202-orange.svg" alt="Language: Swift 2" /></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg" alt="Carthage compatible" /></a>
 
 Framework to simplify the setup of `UITableView` data sources and cells. Separates the model (represented by a generic `DataSource`) from the representation (`TableViewDataSource`) by using type-safe cell configurators (`TableViewCellConfigurator`) to handle the table cell setup in an simple way.
 
 `DataSource` is not limited to table views but could be extended to collection views or other custom representations as well.
 
-## Platform
+## Requirements
 
 iOS 8.0+, Swift 2
 
