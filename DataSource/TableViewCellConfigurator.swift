@@ -48,7 +48,7 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
             configure(data, cell, indexPath)
         }
         else {
-            assert(false, "invalid row or cell type");
+            fatalError("invalid row or cell type");
         }
     }
 }

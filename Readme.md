@@ -141,3 +141,11 @@ Then run `carthage update`.
 ### Manually
 
 Just drag and drop the `.swift` files in the `DataSource` folder into your project.
+
+## License
+
+`DataSource` is available under the MIT license. See the [LICENSE](https://github.com/mbuchetics/DataSource/blob/master/LICENSE.md) file for more info.
+
+## Contact
+
+TODO

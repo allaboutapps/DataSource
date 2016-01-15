@@ -25,13 +25,13 @@ public class TableViewDataSource: NSObject {
     var configurators = Dictionary<String, TableViewCellConfiguratorType>()
     
     /// Initializes the table view data source with a single cell configurator
-    public init (dataSource: DataSource, configurator: TableViewCellConfiguratorType) {
+    public init(dataSource: DataSource, configurator: TableViewCellConfiguratorType) {
         self.dataSource = dataSource
         self.configurators[configurator.rowIdentifier] = configurator
     }
     
     /// Initializes the table view data source with multiple cell configurators
-    public init (dataSource: DataSource, configurators: Array<TableViewCellConfiguratorType>) {
+    public init(dataSource: DataSource, configurators: Array<TableViewCellConfiguratorType>) {
         self.dataSource = dataSource
         
         for configurator in configurators {
