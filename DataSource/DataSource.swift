@@ -66,7 +66,7 @@ public struct Row<T>: RowType {
 */
 public struct Section<T>: SectionType {
     /// Array of typed rows
-    public let rows: Array<Row<T>>
+    public let rows: [Row<T>]
     
     /// Title of the section
     public let title: String?
@@ -86,7 +86,7 @@ public struct Section<T>: SectionType {
     }
     
     /// Initializes a section with an array of rows and an optional title
-    public init(title: String? = nil, rows: Array<Row<T>>) {
+    public init(title: String? = nil, rows: [Row<T>]) {
         self.rows = rows
         self.title = title
         self.rowCreatorClosure = nil
@@ -94,7 +94,7 @@ public struct Section<T>: SectionType {
     }
     
     /// Initializes a section with an array of models (or view models) which are encapsulated in rows using the specified row identifier
-    public init(title: String? = nil, rowIdentifier: String, rows: Array<T>) {
+    public init(title: String? = nil, rowIdentifier: String, rows: [T]) {
         self.init(title: title, rows: rows.toDataSourceRows(rowIdentifier))
     }
     
@@ -149,7 +149,7 @@ public struct Section<T>: SectionType {
 */
 public struct DataSource: DataSourceType {
     /// Array of sections
-    var sections: Array<SectionType>
+    var sections: [SectionType]
     
     /// Initializes an empty data source (no sections)
     public init() {
@@ -162,12 +162,12 @@ public struct DataSource: DataSourceType {
     }
     
     /// Initializes a data source with multiple sections
-    public init(_ sections: Array<SectionType>) {
+    public init(_ sections: [SectionType]) {
         self.sections = sections
     }
     
     /// Initializes a data source with multiple other data sources by concatinating their sections
-    public init(dataSources: Array<DataSource>) {
+    public init(dataSources: [DataSource]) {
         self.init()
         
         for dataSource in dataSources {

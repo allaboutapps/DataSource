@@ -22,7 +22,7 @@ public class TableViewDataSource: NSObject {
     /// Whether to show section titles
     public var showSectionTitles: Bool?
     
-    var configurators = Dictionary<String, TableViewCellConfiguratorType>()
+    var configurators = [String: TableViewCellConfiguratorType]()
     
     /// Initializes the table view data source with a single cell configurator
     public init(dataSource: DataSource, configurator: TableViewCellConfiguratorType) {
@@ -31,7 +31,7 @@ public class TableViewDataSource: NSObject {
     }
     
     /// Initializes the table view data source with multiple cell configurators
-    public init(dataSource: DataSource, configurators: Array<TableViewCellConfiguratorType>) {
+    public init(dataSource: DataSource, configurators: [TableViewCellConfiguratorType]) {
         self.dataSource = dataSource
         
         for configurator in configurators {
