@@ -128,7 +128,7 @@ Create a data source with a single section based on an array:
 let dataSource = ["a", "b", "c", "d"].toDataSource("Text")
 ```
 
-Create a data source based on an dictionary, using it's keys as the section titles:
+Create a data source based on a dictionary, using it's keys as the section titles:
 
 ```swift
 let data = [
