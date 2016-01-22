@@ -22,7 +22,7 @@ Create a `DataSource` with a single section and some rows that all share the sam
 
 ```swift
 let dataSource = DataSource([
-    Section(rowIdentifier: Identifiers.TextCell.rawValue, rows: ["a", "b", "c", "d"])
+    Section(rowIdentifier: "Text", rows: ["a", "b", "c", "d"])
 ])
 ```
 
@@ -30,8 +30,8 @@ Create a `TableViewDataSource` with a single `TableViewCellConfigurator` for the
 
 ```swift
 let tableDataSource = TableViewDataSource(
-    dataSource: dataSource1,
-    configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
+    dataSource: dataSource,
+    configurator: TableViewCellConfigurator("Text") { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
         cell.textLabel?.text = "\(indexPath.row): \(title)"
     })
 ```
@@ -50,18 +50,18 @@ Create a `DataSource` with multiple sections and rows:
 
 ```swift
 let dataSource = DataSource([
-    Section(title: "B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+    Section(title: "B", rowIdentifier: "Person", rows: [
         Person(firstName: "Matthias", lastName: "Buchetics"),
         ]),
-    Section(title: "M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+    Section(title: "M", rowIdentifier: "Person", rows: [
         Person(firstName: "Hugo", lastName: "Maier"),
         Person(firstName: "Max", lastName: "Mustermann"),
         ]),
-    Section(title: "Strings", rowIdentifier: Identifiers.TextCell.rawValue, rows: [
+    Section(title: "Strings", rowIdentifier: "Text", rows: [
         "some text",
         "another text"
         ]),
-    Section(rowIdentifier: Identifiers.ButtonCell.rawValue, rows: [
+    Section(rowIdentifier: "Button", rows: [
         Button.Add,
         Button.Remove
         ]),
@@ -74,14 +74,14 @@ Create a `TableViewDataSource` with a `TableViewCellConfigurator` for each row t
 let tableDataSource = TableViewDataSource(
     dataSource: dataSource,
     configurators: [
-        TableViewCellConfigurator(Identifiers.PersonCell.rawValue) { (person: Person, cell: PersonCell, _) in
+        TableViewCellConfigurator("Person") { (person: Person, cell: PersonCell, _) in
             cell.firstNameLabel?.text = person.firstName
             cell.lastNameLabel?.text = person.lastName
         },
-        TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
+        TableViewCellConfigurator("Text") { (title: String, cell: UITableViewCell, _) in
             cell.textLabel?.text = title
         },
-        TableViewCellConfigurator(Identifiers.ButtonCell.rawValue) { (button: Button, cell: ButtonCell, _) in
+        TableViewCellConfigurator("Button") { (button: Button, cell: ButtonCell, _) in
             switch (button) {
             case .Add:
                 cell.titleLabel?.text = "Add"
@@ -103,14 +103,14 @@ Instead of setting an array of rows you can also instantiate rows using a closur
 ```swift
 let dataSource = DataSource([
     Section(title: "test", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
-        return Row(identifier: Identifiers.TextCell.rawValue, data: ((rowIndex + 1) % 2 == 0) ? "even" : "odd")
+        return Row(identifier: "Text", data: ((rowIndex + 1) % 2 == 0) ? "even" : "odd")
     }),
     Section<Any>(title: "mixed", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
         if rowIndex % 2 == 0 {
-            return Row(identifier: Identifiers.TextCell.rawValue, data: "test")
+            return Row(identifier: "Text", data: "test")
         }
         else {
-           return Row(identifier: Identifiers.PersonCell.rawValue, data: Person(firstName: "Max", lastName: "Mustermann"))
+           return Row(identifier: "Person", data: Person(firstName: "Max", lastName: "Mustermann"))
         }
     })
     ])
@@ -125,7 +125,7 @@ Several extensions on `Array` and `Dictionary` exist to make creating data sourc
 Create a data source with a single section based on an array:
 
 ```swift
-let dataSource = ["a", "b", "c", "d"].toDataSource(Identifiers.TextCell.rawValue)
+let dataSource = ["a", "b", "c", "d"].toDataSource("Text")
 ```
 
 Create a data source based on an dictionary, using it's keys as the section titles:
@@ -137,7 +137,7 @@ let data = [
     "section 3": ["g", "h", "i"],
 ]
 
-let dataSource = data.toDataSource(Identifiers.TextCell.rawValue, orderedKeys: data.keys.sort())
+let dataSource = data.toDataSource("Text", orderedKeys: data.keys.sort())
 ```
 
 Note: Because dictionaries are unordered, it's required to provide an array of ordered keys as well.
