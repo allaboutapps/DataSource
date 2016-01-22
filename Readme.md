@@ -160,8 +160,10 @@ Just drag and drop the `.swift` files in the `DataSource` folder into your proje
 
 ## License
 
-`DataSource` is available under the MIT license. See the [LICENSE](https://github.com/mbuchetics/DataSource/blob/master/LICENSE.md) file for more info.
+`DataSource` is available under the MIT license. See the [LICENSE](https://github.com/mbuchetics/DataSource/blob/master/LICENSE.md) file for details.
 
 ## Contact
 
-TODO
+Contact me at [matthias.buchetics.com](http://matthias.buchetics.com) or follow me on [Twitter](https://twitter.com/mbuchetics).
+
+Made with ❤ at [<img src="https://github.com/mbuchetics/DataSource/blob/master/Resources/aaa_logo.png" alt="all about apps" />](https://www.allaboutapps.at)
