@@ -149,7 +149,7 @@ Note: Because dictionaries are unordered, it's required to provide an array of o
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-git "ssh://git@git.allaboutapps.at:2222/aaaios/datasource.git"
+github "mbuchetics/DataSource"
 ```
 
 Then run `carthage update`.
