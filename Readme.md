@@ -166,4 +166,6 @@ Just drag and drop the `.swift` files in the `DataSource` folder into your proje
 
 Contact me at [matthias.buchetics.com](http://matthias.buchetics.com) or follow me on [Twitter](https://twitter.com/mbuchetics).
 
-Made with ❤ at [<img src="https://github.com/mbuchetics/DataSource/blob/master/Resources/aaa_logo.png" height="60" alt="all about apps" />](https://www.allaboutapps.at)
+Made with ❤ at [all about apps](https://www.allaboutapps.at).
+
+[<img src="https://github.com/mbuchetics/DataSource/blob/master/Resources/aaa_logo.png" height="60" alt="all about apps" />](https://www.allaboutapps.at)
