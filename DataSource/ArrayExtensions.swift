@@ -10,7 +10,7 @@ import Foundation
 
 extension Array {
     /// Transforms an array into typed data source rows
-    public func toDataSourceRows(rowIdentifier: String) -> Array<Row<Element>> {
+    public func toDataSourceRows(rowIdentifier: String) -> [Row<Element>] {
         return self.map { item in Row(identifier: rowIdentifier, data: item) }
     }
     

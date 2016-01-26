@@ -183,7 +183,7 @@ class ExampleTableViewController: UITableViewController {
                 Person(firstName: "Hugo", lastName: "Maier"),
                 Person(firstName: "Max", lastName: "Mustermann"),
                 ]),
-            Section(title: "Empty Section", rowIdentifier: Identifiers.TextCell.rawValue, rows: Array<String>()),
+            Section(title: "Empty Section", rowIdentifier: Identifiers.TextCell.rawValue, rows: [String]()),
             Section(title: "Strings", rowIdentifier: Identifiers.TextCell.rawValue, rows: ["some text", "another text"]),
             ])
         
