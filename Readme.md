@@ -142,6 +142,10 @@ let dataSource = data.toDataSource("Text", orderedKeys: data.keys.sort())
 
 Note: Because dictionaries are unordered, it's required to provide an array of ordered keys as well.
 
+### Realm Support
+
+Check out [RealmDataSource](https://github.com/mbuchetics/RealmDataSource) to create data sources based on [Realm](http://realm.io) queries.
+
 ## Installation
 
 ### Carthage
@@ -149,7 +153,7 @@ Note: Because dictionaries are unordered, it's required to provide an array of o
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "mbuchetics/DataSource"
+github "mbuchetics/DataSource", ~> 1.0
 ```
 
 Then run `carthage update`.
