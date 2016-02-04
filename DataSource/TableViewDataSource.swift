@@ -75,13 +75,14 @@ extension TableViewDataSource: UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = dataSource.rowAtIndexPath(indexPath)
         
-        guard let configurator = configuratorForRowIdentifier(row.identifier) else {
-            fatalError("no cell configurator for rowIdentifier: \(row.identifier)")
+        if let configurator = configuratorForRowIdentifier(row.identifier) {
+            let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
+            configurator.configureRow(row, cell: cell, indexPath: indexPath)
+            return cell
         }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
-        configurator.configureRow(row, cell: cell, indexPath: indexPath)
-        return cell
+        else {
+            return tableView.dequeueReusableCellWithIdentifier(row.identifier, forIndexPath: indexPath)
+        }
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

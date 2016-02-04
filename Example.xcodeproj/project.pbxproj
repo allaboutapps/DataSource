@@ -166,9 +166,9 @@
 				39D82E581C04AC2C002A7B1B /* Extensions */,
 				395D14A61B90612D00658680 /* DataSource.h */,
 				39D82E491C049ABE002A7B1B /* DataSource.swift */,
+				395D14A81B90612D00658680 /* Info.plist */,
 				3949A38E1C0706A200715B7F /* TableViewCellConfigurator.swift */,
 				39D82E4D1C049C34002A7B1B /* TableViewDataSource.swift */,
-				395D14A81B90612D00658680 /* Info.plist */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";

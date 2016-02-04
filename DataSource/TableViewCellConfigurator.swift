@@ -28,22 +28,24 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
     public var cellIdentifier: String
     
     /// Typed configuration closure
-    var configure: (T, C, NSIndexPath) -> Void
+    var configure: ((T, C, NSIndexPath) -> Void)?
     
     /// Initializes the configurator given row and cell identifiers and a configure closure
-    public init (rowIdentifier: String, cellIdentifier: String, configure: (data: T, cell: C, indexPath: NSIndexPath) -> Void) {
+    public init (rowIdentifier: String, cellIdentifier: String, configure: ((data: T, cell: C, indexPath: NSIndexPath) -> Void)? = nil) {
         self.cellIdentifier = cellIdentifier
         self.rowIdentifier = rowIdentifier
         self.configure = configure
     }
     
     /// Initializes the configurator using the same identifier for rowIdentifier and cellIdentifier and a configure closure
-    public convenience init (_ cellIdentifier: String, configure: (data: T, cell: C, indexPath: NSIndexPath) -> Void) {
+    public convenience init (_ cellIdentifier: String, configure: ((data: T, cell: C, indexPath: NSIndexPath) -> Void)? = nil) {
         self.init(rowIdentifier: cellIdentifier, cellIdentifier: cellIdentifier, configure: configure)
     }
     
     /// Takes a row and cell, makes the required casts and calls the configure closure
     public func configureRow(row: RowType, cell: UITableViewCell, indexPath: NSIndexPath) {
+        guard let configure = configure else { return }
+
         if let data = row.anyData as? T, cell = cell as? C {
             configure(data, cell, indexPath)
         }
