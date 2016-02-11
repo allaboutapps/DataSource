@@ -50,7 +50,7 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
             configure(data, cell, indexPath)
         }
         else {
-            fatalError("invalid row or cell type (row: (\(row.identifier), cell: \(String(cell))");
+            fatalError("invalid row or cell type (row: \(row.identifier), cell: \(String(cell)))");
         }
     }
 }
