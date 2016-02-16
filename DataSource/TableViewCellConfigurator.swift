@@ -14,7 +14,7 @@ import UIKit
 public protocol TableViewCellConfiguratorType {
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
-    
+
     func configureRow(row: RowType, cell: UITableViewCell, indexPath: NSIndexPath)
 }
 

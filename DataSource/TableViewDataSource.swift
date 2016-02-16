@@ -21,7 +21,11 @@ public class TableViewDataSource: NSObject {
     
     /// Whether to show section titles
     public var showSectionTitles: Bool?
-    
+
+    /// Optional closure which is called after a cell is dequeued, but before it's being configured (e.g. to "reset" a cell)
+    public var prepareCell: ((UITableViewCell, indexPath: NSIndexPath) -> Void)?
+
+    /// Registered cell configurators
     var configurators = [String: TableViewCellConfiguratorType]()
     
     /// Initializes the table view data source with a single cell configurator
@@ -77,11 +81,14 @@ extension TableViewDataSource: UITableViewDataSource {
         
         if let configurator = configuratorForRowIdentifier(row.identifier) {
             let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
+            prepareCell?(cell, indexPath: indexPath)
             configurator.configureRow(row, cell: cell, indexPath: indexPath)
             return cell
         }
         else {
-            return tableView.dequeueReusableCellWithIdentifier(row.identifier, forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCellWithIdentifier(row.identifier, forIndexPath: indexPath)
+            prepareCell?(cell, indexPath: indexPath)
+            return cell
         }
     }
     
