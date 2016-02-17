@@ -50,10 +50,10 @@ Create a `DataSource` with multiple sections and rows:
 
 ```swift
 let dataSource = DataSource([
-    Section(title: "B", rowIdentifier: "Person", rows: [
+    Section(title: "B", footer: "Names starting with B", rowIdentifier: "Person", rows: [
         Person(firstName: "Matthias", lastName: "Buchetics"),
         ]),
-    Section(title: "M", rowIdentifier: "Person", rows: [
+    Section(title: "M", footer: "Names starting with M", rowIdentifier: "Person", rows: [
         Person(firstName: "Hugo", lastName: "Maier"),
         Person(firstName: "Max", lastName: "Mustermann"),
         ]),
