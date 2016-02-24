@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F6C5E751C7B2F8F000EDB92 /* TableViewCellConfiguratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C5E741C7B2F8F000EDB92 /* TableViewCellConfiguratorTests.swift */; };
+		1F6C5E791C7B4193000EDB92 /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C5E781C7B4193000EDB92 /* TestExtensions.swift */; };
 		3949A3901C0706A200715B7F /* TableViewCellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949A38E1C0706A200715B7F /* TableViewCellConfigurator.swift */; };
 		3949A3931C071E7700715B7F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949A3921C071E7700715B7F /* StartViewController.swift */; };
 		395D14801B90610A00658680 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D147F1B90610A00658680 /* AppDelegate.swift */; };
@@ -38,13 +40,6 @@
 			remoteGlobalIDString = 395D14A31B90612D00658680;
 			remoteInfo = DataSource;
 		};
-		395D14B11B90612D00658680 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 395D14741B90610A00658680 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 395D147B1B90610A00658680;
-			remoteInfo = Example;
-		};
 		395D14B71B90612D00658680 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 395D14741B90610A00658680 /* Project object */;
@@ -69,6 +64,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F6C5E741C7B2F8F000EDB92 /* TableViewCellConfiguratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellConfiguratorTests.swift; sourceTree = "<group>"; };
+		1F6C5E781C7B4193000EDB92 /* TestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestExtensions.swift; sourceTree = "<group>"; };
 		3949A38E1C0706A200715B7F /* TableViewCellConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellConfigurator.swift; sourceTree = "<group>"; };
 		3949A3921C071E7700715B7F /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		395D147C1B90610A00658680 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,7 +173,9 @@
 		395D14B31B90612D00658680 /* DataSourceTests */ = {
 			isa = PBXGroup;
 			children = (
+				1F6C5E781C7B4193000EDB92 /* TestExtensions.swift */,
 				395D14B41B90612D00658680 /* DataSourceTests.swift */,
+				1F6C5E741C7B2F8F000EDB92 /* TableViewCellConfiguratorTests.swift */,
 				395D14B61B90612D00658680 /* Info.plist */,
 			);
 			path = DataSourceTests;
@@ -255,7 +254,6 @@
 			);
 			dependencies = (
 				395D14B01B90612D00658680 /* PBXTargetDependency */,
-				395D14B21B90612D00658680 /* PBXTargetDependency */,
 			);
 			name = DataSourceTests;
 			productName = DataSourceTests;
@@ -268,7 +266,7 @@
 		395D14741B90610A00658680 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "aaa - all about apps GmbH";
 				TargetAttributes = {
@@ -280,7 +278,6 @@
 					};
 					395D14AC1B90612D00658680 = {
 						CreatedOnToolsVersion = 7.0;
-						TestTargetID = 395D147B1B90610A00658680;
 					};
 				};
 			};
@@ -363,7 +360,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6C5E751C7B2F8F000EDB92 /* TableViewCellConfiguratorTests.swift in Sources */,
 				395D14B51B90612D00658680 /* DataSourceTests.swift in Sources */,
+				1F6C5E791C7B4193000EDB92 /* TestExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,11 +373,6 @@
 			isa = PBXTargetDependency;
 			target = 395D14A31B90612D00658680 /* DataSource */;
 			targetProxy = 395D14AF1B90612D00658680 /* PBXContainerItemProxy */;
-		};
-		395D14B21B90612D00658680 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 395D147B1B90610A00658680 /* Example */;
-			targetProxy = 395D14B11B90612D00658680 /* PBXContainerItemProxy */;
 		};
 		395D14B81B90612D00658680 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -562,7 +556,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = at.allaboutapps.DataSourceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example.app/Example";
 			};
 			name = Debug;
 		};
@@ -573,7 +566,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = at.allaboutapps.DataSourceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example.app/Example";
 			};
 			name = Release;
 		};
