@@ -131,8 +131,9 @@ class DataSourceTests: XCTestCase {
         let row3: Row<String> = dataSource1.rowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0))
         XCTAssertEqual(row3.data, "d", "row_0_3: 4")
     }
-    
 }
+
+// MARK: - Convenience
 
 extension DataSourceTests {
     

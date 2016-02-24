@@ -92,8 +92,9 @@ class TableViewCellConfiguratorTests: XCTestCase {
         let stringCell = tableViewDataSource.tableView(tableView, cellForRowAtIndexPath: stringIndexPath)
         XCTAssertEqual(stringCell.textLabel?.text, "a", "cell.textLabel.text = a")
     }
-    
 }
+
+// MARK: - Convenience
 
 extension TableViewCellConfiguratorTests {
     
