@@ -78,10 +78,10 @@ class ExampleTableViewController: UITableViewController {
     /// heterogenous data source with different row/cell types
     func setupExample2() {
         let dataSource = DataSource([
-            Section(title: "B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+            Section(title: "B", footer: "Names starting with B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
                 Person(firstName: "Matthias", lastName: "Buchetics"),
                 ]),
-            Section(title: "M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+            Section(title: "M", footer: "Names starting with M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
                 Person(firstName: "Hugo", lastName: "Maier"),
                 Person(firstName: "Max", lastName: "Mustermann"),
                 ]),
@@ -259,13 +259,4 @@ class ExampleTableViewController: UITableViewController {
         }
     }
     
-    // need to fix section header and footer height if section is empty (only required for grouped table style)
-    
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return tableView.heightForHeaderInSection(tableDataSource.sectionAtIndex(section))
-    }
-
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return tableView.heightForFooterInSection(tableDataSource.sectionAtIndex(section))
-    }
 }

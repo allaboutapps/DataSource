@@ -22,6 +22,9 @@ public class TableViewDataSource: NSObject {
     /// Whether to show section titles
     public var showSectionTitles: Bool?
 
+    /// Whether to show section titles
+    public var showSectionFooters: Bool?
+    
     /// Optional closure which is called after a cell is dequeued, but before it's being configured (e.g. to "reset" a cell)
     public var prepareCell: ((UITableViewCell, indexPath: NSIndexPath) -> Void)?
 
@@ -97,6 +100,17 @@ extension TableViewDataSource: UITableViewDataSource {
         
         if showTitles && dataSource.numberOfRowsInSection(section) > 0 {
             return dataSource.sections[section].title
+        }
+        else {
+            return nil
+        }
+    }
+    
+    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        let showFooters = showSectionFooters ?? (tableView.style == .Grouped || dataSource.numberOfSections > 1)
+        
+        if showFooters && dataSource.numberOfRowsInSection(section) > 0 {
+            return dataSource.sections[section].footer
         }
         else {
             return nil

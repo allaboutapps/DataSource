@@ -18,6 +18,8 @@ public protocol RowType {
 public protocol SectionType {
     var title: String? { get }
     var hasTitle: Bool { get }
+    var footer: String? { get }
+    var hasFooter: Bool { get }
     var numberOfRows: Int { get }
     
     subscript(index: Int) -> RowType { get }
@@ -71,6 +73,9 @@ public struct Section<T>: SectionType {
     /// Title of the section
     public let title: String?
     
+    /// Footer of the section
+    public let footer: String?
+    
     /// Closure which returns a row given its index
     public let rowCreatorClosure: ((rowIndex: Int) -> Row<T>)?
     
@@ -81,27 +86,30 @@ public struct Section<T>: SectionType {
     public init() {
         self.rows = []
         self.title = nil
+        self.footer = nil
         self.rowCreatorClosure = nil
         self.rowCountClosure = nil
     }
     
-    /// Initializes a section with an array of rows and an optional title
-    public init(title: String? = nil, rows: [Row<T>]) {
+    /// Initializes a section with an array of rows and an optional title and footer
+    public init(title: String? = nil, footer: String? = nil, rows: [Row<T>]) {
         self.rows = rows
         self.title = title
+        self.footer = footer
         self.rowCreatorClosure = nil
         self.rowCountClosure = nil
     }
     
     /// Initializes a section with an array of models (or view models) which are encapsulated in rows using the specified row identifier
-    public init(title: String? = nil, rowIdentifier: String, rows: [T]) {
-        self.init(title: title, rows: rows.toDataSourceRows(rowIdentifier))
+    public init(title: String? = nil, footer: String? = nil, rowIdentifier: String, rows: [T]) {
+        self.init(title: title, footer: footer, rows: rows.toDataSourceRows(rowIdentifier))
     }
     
     /// Initializes a section with a row creator closure
-    public init(title: String? = nil, rowCountClosure: (() -> Int), rowCreatorClosure: (rowIndex: Int) -> Row<T>) {
+    public init(title: String? = nil, footer: String? = nil, rowCountClosure: (() -> Int), rowCreatorClosure: (rowIndex: Int) -> Row<T>) {
         self.rows = []
         self.title = title
+        self.footer = footer
         self.rowCountClosure = rowCountClosure
         self.rowCreatorClosure = rowCreatorClosure
     }
@@ -134,6 +142,15 @@ public struct Section<T>: SectionType {
     
     public var hasTitle: Bool {
         if let title = title where !title.isEmpty {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    public var hasFooter: Bool {
+        if let footer = title where !footer.isEmpty {
             return true
         }
         else {
