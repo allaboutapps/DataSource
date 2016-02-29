@@ -10,21 +10,22 @@ import Foundation
 
 // MARK: - Protocols
 
+// MARK: RowType
 public protocol RowType {
     var identifier: String { get }
     var anyData: Any { get }
 }
 
+// MARK: SectionType
 public protocol SectionType {
     var title: String? { get }
-    var hasTitle: Bool { get }
     var footer: String? { get }
-    var hasFooter: Bool { get }
     var numberOfRows: Int { get }
     
     subscript(index: Int) -> RowType { get }
 }
 
+// MARK: DataSourceType
 public protocol DataSourceType {
     var numberOfSections: Int { get }
     var firstSection: SectionType? { get }
@@ -117,8 +118,7 @@ public struct Section<T>: SectionType {
     public func rowAtIndex(index: Int) -> Row<T> {
         if let creator = rowCreatorClosure {
             return creator(rowIndex: index)
-        }
-        else {
+        } else {
             return rows[index]
         }
     }
@@ -134,27 +134,8 @@ public struct Section<T>: SectionType {
     public var numberOfRows: Int {
         if let count = rowCountClosure {
             return count()
-        }
-        else {
+        } else {
             return rows.count
-        }
-    }
-    
-    public var hasTitle: Bool {
-        if let title = title where !title.isEmpty {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-
-    public var hasFooter: Bool {
-        if let footer = title where !footer.isEmpty {
-            return true
-        }
-        else {
-            return false
         }
     }
 }
@@ -261,7 +242,7 @@ public struct DataSource: DataSourceType {
     }
 }
 
-// MARK: - Debugging
+// MARK: CustomDebugStringConvertible
 
 extension DataSource: CustomDebugStringConvertible {
     public var debugDescription: String {
@@ -281,7 +262,25 @@ extension DataSource: CustomDebugStringConvertible {
     }
 }
 
-// MARK: - Convenience
+// MARK: - Extensions
+
+extension SectionType {
+    public var hasTitle: Bool {
+        if let title = title where !title.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    public var hasFooter: Bool {
+        if let footer = footer where !footer.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
+}
 
 extension Section {
     /// Converts a section into a data source (with a single section)

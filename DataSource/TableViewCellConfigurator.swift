@@ -48,8 +48,7 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
 
         if let data = row.anyData as? T, cell = cell as? C {
             configure(data, cell, indexPath)
-        }
-        else {
+        } else {
             fatalError("invalid row or cell type (row: \(row.identifier), cell: \(String(cell)))");
         }
     }

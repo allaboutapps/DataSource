@@ -58,11 +58,9 @@ public class TableViewDataSource: NSObject {
     public func configuratorForRowIdentifier(rowIdentifier: String) -> TableViewCellConfiguratorType? {
         if let configurator = self.configurators[rowIdentifier] {
             return configurator
-        }
-        else if let configurator = self.configurators[""] {
+        } else if let configurator = self.configurators[""] {
             return configurator
-        }
-        else {
+        } else {
             return nil
         }
     }
@@ -87,8 +85,7 @@ extension TableViewDataSource: UITableViewDataSource {
             prepareCell?(cell, indexPath: indexPath)
             configurator.configureRow(row, cell: cell, indexPath: indexPath)
             return cell
-        }
-        else {
+        } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(row.identifier, forIndexPath: indexPath)
             prepareCell?(cell, indexPath: indexPath)
             return cell
@@ -100,8 +97,7 @@ extension TableViewDataSource: UITableViewDataSource {
         
         if showTitles && dataSource.numberOfRowsInSection(section) > 0 {
             return dataSource.sections[section].title
-        }
-        else {
+        } else {
             return nil
         }
     }
@@ -111,8 +107,7 @@ extension TableViewDataSource: UITableViewDataSource {
         
         if showFooters && dataSource.numberOfRowsInSection(section) > 0 {
             return dataSource.sections[section].footer
-        }
-        else {
+        } else {
             return nil
         }
     }

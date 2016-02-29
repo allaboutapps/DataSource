@@ -15,12 +15,11 @@ extension UITableView {
     }
     
     public func heightForHeaderInSection(section: SectionType) -> CGFloat {
-        return heightForHeaderFooterInSection(section, defaultHeight: sectionHeaderHeight)
+        return heightForHeaderFooterInSection(section)
     }
     
     public func heightForFooterInSection(section: SectionType) -> CGFloat {
-        let footerHeight = style == .Grouped ? sectionFooterHeight : 0
-        return heightForHeaderFooterInSection(section, defaultHeight: footerHeight)
+        return style == .Grouped ? heightForHeaderFooterInSection(section) : 0
     }
     
     /**
@@ -28,12 +27,11 @@ extension UITableView {
         We only want to show a section if it has any rows and we only want to show a section header if it has a title.
         Used to fix an issue where the section header height of empty sections in a grouped table view is calculated wrong by iOS.
     */
-    func heightForHeaderFooterInSection(section: SectionType, defaultHeight: CGFloat) -> CGFloat {
+    func heightForHeaderFooterInSection(section: SectionType) -> CGFloat {
         if style == .Grouped {
-            return section.numberOfRows > 0 ? defaultHeight : CGFloat.min
-        }
-        else {
-            return (section.numberOfRows > 0 && section.hasTitle) ? defaultHeight : 0
+            return section.numberOfRows > 0 ? UITableViewAutomaticDimension : CGFloat.min
+        } else {
+            return (section.numberOfRows > 0 && section.hasTitle) ? UITableViewAutomaticDimension : 0
         }
     }
 }

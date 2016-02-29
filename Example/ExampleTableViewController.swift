@@ -81,7 +81,7 @@ class ExampleTableViewController: UITableViewController {
             Section(title: "B", footer: "Names starting with B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
                 Person(firstName: "Matthias", lastName: "Buchetics"),
                 ]),
-            Section(title: "M", footer: "Names starting with M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+            Section<Person>(title: "M", footer: "Names starting with M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
                 Person(firstName: "Hugo", lastName: "Maier"),
                 Person(firstName: "Max", lastName: "Mustermann"),
                 ]),
@@ -258,5 +258,14 @@ class ExampleTableViewController: UITableViewController {
             print("\(row.identifier) selected")
         }
     }
-    
+
+    // need to fix section header and footer height if section is empty (only required for grouped table style)
+
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tableView.heightForHeaderInSection(tableDataSource.sectionAtIndex(section))
+    }
+
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return tableView.heightForFooterInSection(tableDataSource.sectionAtIndex(section))
+    }
 }

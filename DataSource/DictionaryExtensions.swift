@@ -20,16 +20,15 @@ extension Dictionary where Key: Any, Value: CollectionType {
 
         for key in orderedKeys {
             let values = self[key]!
-            let rows = values.map({ (item) in
+            let rows = values.map { item in
                 Row<Value.Generator.Element>(identifier: rowIdentifier, data: item)
-            })
+            }
             
             var title: String?
             
             if let key = key as? String {
                 title = key
-            }
-            else if let key = key as? CustomStringConvertible {
+            } else if let key = key as? CustomStringConvertible {
                 title = key.description
             }
             
