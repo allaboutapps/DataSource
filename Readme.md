@@ -4,6 +4,7 @@
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Language-Swift%202-orange.svg" alt="Language: Swift 2" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg" alt="Carthage compatible" /></a>
 [![Build Status](https://travis-ci.org/mbuchetics/DataSource.svg?branch=master)](https://travis-ci.org/mbuchetics/DataSource)
+[![codecov.io](https://codecov.io/github/mbuchetics/DataSource/coverage.svg?branch=master)](https://codecov.io/github/mbuchetics/DataSource?branch=master)
 
 Framework to simplify the setup of `UITableView` data sources and cells. Separates the model (represented by a generic `DataSource`) from the representation (`TableViewDataSource`) by using type-safe cell configurators (`TableViewCellConfigurator`) to handle the table cell setup in an simple way.
 
