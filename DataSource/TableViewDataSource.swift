@@ -24,6 +24,9 @@ public class TableViewDataSource: NSObject {
 
     /// Whether to show section titles
     public var showSectionFooters: Bool?
+
+    /// Whether cells should be configured inside a UIView.performWithoutAnimation closure
+    public var configureWithoutAnimations: Bool = true
     
     /// Optional closure which is called after a cell is dequeued, but before it's being configured (e.g. to "reset" a cell)
     public var prepareCell: ((UITableViewCell, indexPath: NSIndexPath) -> Void)?
@@ -79,17 +82,31 @@ extension TableViewDataSource: UITableViewDataSource {
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = dataSource.rowAtIndexPath(indexPath)
-        
-        if let configurator = configuratorForRowIdentifier(row.identifier) {
-            let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
-            prepareCell?(cell, indexPath: indexPath)
-            configurator.configureRow(row, cell: cell, indexPath: indexPath)
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(row.identifier, forIndexPath: indexPath)
-            prepareCell?(cell, indexPath: indexPath)
-            return cell
+
+        let configure: () -> UITableViewCell = {
+            if let configurator = self.configuratorForRowIdentifier(row.identifier) {
+                let cell = tableView.dequeueReusableCellWithIdentifier(configurator.cellIdentifier, forIndexPath: indexPath)
+                self.prepareCell?(cell, indexPath: indexPath)
+                configurator.configureRow(row, cell: cell, indexPath: indexPath)
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(row.identifier, forIndexPath: indexPath)
+                self.prepareCell?(cell, indexPath: indexPath)
+                return cell
+            }
         }
+
+        var cell: UITableViewCell? = nil
+
+        if configureWithoutAnimations {
+            UIView.performWithoutAnimation {
+                cell = configure()
+            }
+        } else {
+            cell = configure()
+        }
+
+        return cell!
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
