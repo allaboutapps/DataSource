@@ -35,7 +35,7 @@ class ExampleTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
@@ -65,7 +65,7 @@ class ExampleTableViewController: UITableViewController {
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource1,
-            configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
+            configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, indexPath: IndexPath) in
                 cell.textLabel?.text = "\(indexPath.row): \(title)"
             })
         
@@ -164,7 +164,7 @@ class ExampleTableViewController: UITableViewController {
             "section 3": ["g", "h", "i"],
         ]
         
-        let dataSource = data.toDataSource(Identifiers.TextCell.rawValue, orderedKeys: data.keys.sort())
+        let dataSource = data.toDataSource(Identifiers.TextCell.rawValue, orderedKeys: data.keys.sorted())
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource,
@@ -235,8 +235,8 @@ class ExampleTableViewController: UITableViewController {
     
     // MARK: - UITableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let row = tableDataSource.dataSource.rowAtIndexPath(indexPath)
         let rowIdentifier = Identifiers.init(rawValue: row.identifier)!
@@ -261,11 +261,11 @@ class ExampleTableViewController: UITableViewController {
 
     // need to fix section header and footer height if section is empty (only required for grouped table style)
 
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return tableView.heightForHeaderInSection(tableDataSource.sectionAtIndex(section))
     }
 
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return tableView.heightForFooterInSection(tableDataSource.sectionAtIndex(section))
     }
 }

@@ -43,7 +43,7 @@ class DataSourceTests: XCTestCase {
         let dataSource = twoEmpySectionDataSource()
         
         let section1 = dataSource.sectionAtIndex(0)
-        let section2 = dataSource.sectionAtIndexPath(NSIndexPath(forRow: 0, inSection: 1))
+        let section2 = dataSource.sectionAtIndexPath(IndexPath(forRow: 0, inSection: 1))
         
         XCTAssertEqual(dataSource.firstSection?.title, section1.title, "first section")
         XCTAssertEqual(dataSource.lastSection?.title, section2.title, "last section")
@@ -88,7 +88,7 @@ class DataSourceTests: XCTestCase {
         
         XCTAssertEqual(dataSource.sectionAtIndex(0).numberOfRows, 1, "number of rows = 1")
         
-        let row = dataSource.rowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
+        let row = dataSource.rowAtIndexPath(IndexPath(forRow: 0, inSection: 0))
         XCTAssertEqual(row.anyData as? String, "a", "row.anyData = a")
     }
     

@@ -10,17 +10,17 @@ import Foundation
 
 extension Array {
     /// Transforms an array into typed data source rows
-    public func toDataSourceRows(rowIdentifier: String) -> [Row<Element>] {
+    public func toDataSourceRows(_ rowIdentifier: String) -> [Row<Element>] {
         return self.map { item in Row(identifier: rowIdentifier, data: item) }
     }
     
     /// Transforms an array into a typed data source section
-    public func toDataSourceSection(rowIdentifier: String, title: String? = nil) -> Section<Element> {
+    public func toDataSourceSection(_ rowIdentifier: String, title: String? = nil) -> Section<Element> {
         return Section(title: title, rows: self.toDataSourceRows(rowIdentifier))
     }
     
     /// Transforms an array into a data source (with a single section)
-    public func toDataSource(rowIdentifier: String) -> DataSource {
+    public func toDataSource(_ rowIdentifier: String) -> DataSource {
         return DataSource(self.toDataSourceSection(rowIdentifier))
     }
 }

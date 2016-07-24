@@ -31,14 +31,14 @@ public protocol DataSourceType {
     var firstSection: SectionType? { get }
     var lastSection: SectionType? { get }
     
-    func sectionAtIndexPath<T>(indexPath: NSIndexPath) -> Section<T>
-    func sectionAtIndexPath(indexPath: NSIndexPath) -> SectionType
-    func sectionAtIndex<T>(index: Int) -> Section<T>
-    func sectionAtIndex(index: Int) -> SectionType
+    func sectionAtIndexPath<T>(_ indexPath: IndexPath) -> Section<T>
+    func sectionAtIndexPath(_ indexPath: IndexPath) -> SectionType
+    func sectionAtIndex<T>(_ index: Int) -> Section<T>
+    func sectionAtIndex(_ index: Int) -> SectionType
     
-    func numberOfRowsInSection(section: Int) -> Int
-    func rowAtIndexPath(indexPath: NSIndexPath) -> RowType
-    func rowAtIndexPath<T>(indexPath: NSIndexPath) -> Row<T>
+    func numberOfRowsInSection(_ section: Int) -> Int
+    func rowAtIndexPath(_ indexPath: IndexPath) -> RowType
+    func rowAtIndexPath<T>(_ indexPath: IndexPath) -> Row<T>
 }
 
 // MARK: - Row
@@ -115,7 +115,7 @@ public struct Section<T>: SectionType {
         self.rowCreatorClosure = rowCreatorClosure
     }
     
-    public func rowAtIndex(index: Int) -> Row<T> {
+    public func rowAtIndex(_ index: Int) -> Row<T> {
         if let creator = rowCreatorClosure {
             return creator(rowIndex: index)
         } else {
@@ -175,17 +175,17 @@ public struct DataSource: DataSourceType {
     
     // MARK: Rows
     
-    public func numberOfRowsInSection(section: Int) -> Int {
+    public func numberOfRowsInSection(_ section: Int) -> Int {
         return sections[section].numberOfRows
     }
     
-    public func rowAtIndexPath(indexPath: NSIndexPath) -> RowType {
-        return sections[indexPath.section][indexPath.row]
+    public func rowAtIndexPath(_ indexPath: IndexPath) -> RowType {
+        return sections[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
     }
     
-    public func rowAtIndexPath<T>(indexPath: NSIndexPath) -> Row<T> {
-        let section = sections[indexPath.section] as! Section<T>
-        let row: Row<T> = section[indexPath.row]
+    public func rowAtIndexPath<T>(_ indexPath: IndexPath) -> Row<T> {
+        let section = sections[(indexPath as NSIndexPath).section] as! Section<T>
+        let row: Row<T> = section[(indexPath as NSIndexPath).row]
         return row
     }
     
@@ -203,42 +203,42 @@ public struct DataSource: DataSourceType {
         return sections.last
     }
     
-    public func sectionAtIndexPath<T>(indexPath: NSIndexPath) -> Section<T> {
-        return sectionAtIndex(indexPath.section)
+    public func sectionAtIndexPath<T>(_ indexPath: IndexPath) -> Section<T> {
+        return sectionAtIndex((indexPath as NSIndexPath).section)
     }
     
-    public func sectionAtIndexPath(indexPath: NSIndexPath) -> SectionType {
-        return sectionAtIndex(indexPath.section)
+    public func sectionAtIndexPath(_ indexPath: IndexPath) -> SectionType {
+        return sectionAtIndex((indexPath as NSIndexPath).section)
     }
     
-    public func sectionAtIndex<T>(index: Int) -> Section<T> {
+    public func sectionAtIndex<T>(_ index: Int) -> Section<T> {
         return sections[index] as! Section<T>
     }
     
-    public func sectionAtIndex(index: Int) -> SectionType {
+    public func sectionAtIndex(_ index: Int) -> SectionType {
         return sections[index]
     }
     
     // MARK: Mutating
     
-    public mutating func appendSection(section: SectionType) {
+    public mutating func appendSection(_ section: SectionType) {
         sections.append(section)
     }
     
-    public mutating func appendDataSource(dataSource: DataSource) {
-        sections.appendContentsOf(dataSource.sections)
+    public mutating func appendDataSource(_ dataSource: DataSource) {
+        sections.append(contentsOf: dataSource.sections)
     }
     
-    public mutating func insertSection(section: SectionType, index: Int) {
-        sections.insert(section, atIndex: index)
+    public mutating func insertSection(_ section: SectionType, index: Int) {
+        sections.insert(section, at: index)
     }
     
-    public mutating func setSection(section: SectionType, index: Int) {
+    public mutating func setSection(_ section: SectionType, index: Int) {
         sections[index] = section
     }
     
-    public mutating func removeSectionAtIndex(index: Int) {
-        sections.removeAtIndex(index)
+    public mutating func removeSectionAtIndex(_ index: Int) {
+        sections.remove(at: index)
     }
 }
 
@@ -266,7 +266,7 @@ extension DataSource: CustomDebugStringConvertible {
 
 extension SectionType {
     public var hasTitle: Bool {
-        if let title = title where !title.isEmpty {
+        if let title = title, !title.isEmpty {
             return true
         } else {
             return false
@@ -274,7 +274,7 @@ extension SectionType {
     }
 
     public var hasFooter: Bool {
-        if let footer = footer where !footer.isEmpty {
+        if let footer = footer, !footer.isEmpty {
             return true
         } else {
             return false

@@ -15,7 +15,7 @@ public protocol TableViewCellConfiguratorType {
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
 
-    func configureRow(row: RowType, cell: UITableViewCell, indexPath: NSIndexPath)
+    func configureRow(_ row: RowType, cell: UITableViewCell, indexPath: IndexPath)
 }
 
 // MARK: - TableViewCellConfigurator
@@ -28,25 +28,25 @@ public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConf
     public var cellIdentifier: String
     
     /// Typed configuration closure
-    var configure: ((T, C, NSIndexPath) -> Void)?
+    var configure: ((T, C, IndexPath) -> Void)?
     
     /// Initializes the configurator given row and cell identifiers and a configure closure
-    public init (rowIdentifier: String, cellIdentifier: String, configure: ((data: T, cell: C, indexPath: NSIndexPath) -> Void)? = nil) {
+    public init (rowIdentifier: String, cellIdentifier: String, configure: ((data: T, cell: C, indexPath: IndexPath) -> Void)? = nil) {
         self.cellIdentifier = cellIdentifier
         self.rowIdentifier = rowIdentifier
         self.configure = configure
     }
     
     /// Initializes the configurator using the same identifier for rowIdentifier and cellIdentifier and a configure closure
-    public convenience init (_ cellIdentifier: String, configure: ((data: T, cell: C, indexPath: NSIndexPath) -> Void)? = nil) {
+    public convenience init (_ cellIdentifier: String, configure: ((data: T, cell: C, indexPath: IndexPath) -> Void)? = nil) {
         self.init(rowIdentifier: cellIdentifier, cellIdentifier: cellIdentifier, configure: configure)
     }
     
     /// Takes a row and cell, makes the required casts and calls the configure closure
-    public func configureRow(row: RowType, cell: UITableViewCell, indexPath: NSIndexPath) {
+    public func configureRow(_ row: RowType, cell: UITableViewCell, indexPath: IndexPath) {
         guard let configure = configure else { return }
 
-        if let data = row.anyData as? T, cell = cell as? C {
+        if let data = row.anyData as? T, let cell = cell as? C {
             configure(data, cell, indexPath)
         } else {
             fatalError("invalid row or cell type (row: \(row.identifier), cell: \(String(cell)))");

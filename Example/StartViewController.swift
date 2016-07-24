@@ -15,18 +15,18 @@ class StartViewController: UITableViewController {
         super.viewDidLoad() 
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-        cell.textLabel?.text = titles[indexPath.row]
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = titles[(indexPath as NSIndexPath).row]
         return cell
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let index = tableView.indexPathForSelectedRow!.row
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+        let index = (tableView.indexPathForSelectedRow! as NSIndexPath).row
         let viewController = segue.destinationViewController as! ExampleTableViewController
         viewController.title = titles[index]
         

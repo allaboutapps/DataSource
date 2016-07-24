@@ -8,20 +8,20 @@
 
 import Foundation
 
-extension Dictionary where Key: Any, Value: CollectionType {
+extension Dictionary where Key: Any, Value: Collection {
 
     /**
         Simplifies the transformation of a dictionary (with arrays as values) into a data source.
         Because dictionaries are unordered, it's required to provide an array of ordered keys as well.
         Omitted keys will not be added to the data source.
      */
-    public func toDataSource(rowIdentifier: String, orderedKeys: [Key]) -> DataSource {
+    public func toDataSource(_ rowIdentifier: String, orderedKeys: [Key]) -> DataSource {
         var dataSource = DataSource()
 
         for key in orderedKeys {
             let values = self[key]!
             let rows = values.map { item in
-                Row<Value.Generator.Element>(identifier: rowIdentifier, data: item)
+                Row<Value.Iterator.Element>(identifier: rowIdentifier, data: item)
             }
             
             var title: String?
