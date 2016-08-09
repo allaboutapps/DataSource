@@ -27,7 +27,7 @@ class StartViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         let index = (tableView.indexPathForSelectedRow! as NSIndexPath).row
-        let viewController = segue.destinationViewController as! ExampleTableViewController
+        let viewController = segue.destination as! ExampleTableViewController
         viewController.title = titles[index]
         
         switch (index) {

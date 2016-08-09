@@ -13,7 +13,7 @@ class ButtonCell: UITableViewCell {
     
     override func awakeFromNib() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.darkGray()
+        backgroundView.backgroundColor = UIColor.darkGray
         selectedBackgroundView = backgroundView
     }
 }
