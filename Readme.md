@@ -1,7 +1,7 @@
 # DataSource
 
 <img src="https://img.shields.io/badge/Platform-iOS%208%2B-blue.svg" alt="Platform iOS8+">
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Language-Swift%202-orange.svg" alt="Language: Swift 2" /></a>
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Language-Swift%202.3-orange.svg" alt="Language: Swift 2.3" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg" alt="Carthage compatible" /></a>
 [![Build Status](https://travis-ci.org/mbuchetics/DataSource.svg?branch=master)](https://travis-ci.org/mbuchetics/DataSource)
 [![codecov.io](https://codecov.io/github/mbuchetics/DataSource/coverage.svg?branch=master)](https://codecov.io/github/mbuchetics/DataSource?branch=master)
@@ -12,7 +12,7 @@ Framework to simplify the setup of `UITableView` data sources and cells. Separat
 
 ## Requirements
 
-iOS 8.0+, Swift 2
+iOS 8.0+, Swift 2.3
 
 ## Usage
 
