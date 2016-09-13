@@ -29,7 +29,7 @@ public class TableViewDataSource: NSObject {
     public var configureWithoutAnimations: Bool = true
     
     /// Optional closure which is called after a cell is dequeued, but before it's being configured (e.g. to "reset" a cell)
-    public var prepareCell: ((UITableViewCell, indexPath: IndexPath) -> Void)?
+    public var prepareCell: ((UITableViewCell, IndexPath) -> Void)?
 
     /// Registered cell configurators
     var configurators = [String: TableViewCellConfiguratorType]()
@@ -86,12 +86,12 @@ extension TableViewDataSource: UITableViewDataSource {
         let configure: () -> UITableViewCell = {
             if let configurator = self.configuratorForRowIdentifier(row.identifier) {
                 let cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier, for: indexPath)
-                self.prepareCell?(cell, indexPath: indexPath)
-                configurator.configureRow(row, cell: cell, indexPath: indexPath)
+                self.prepareCell?(cell, indexPath)
+                configurator.configure(row: row, cell: cell, indexPath: indexPath)
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: row.identifier, for: indexPath)
-                self.prepareCell?(cell, indexPath: indexPath)
+                self.prepareCell?(cell, indexPath)
                 return cell
             }
         }

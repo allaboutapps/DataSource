@@ -78,7 +78,7 @@ public struct Section<T>: SectionType {
     public let footer: String?
     
     /// Closure which returns a row given its index
-    public let rowCreatorClosure: ((rowIndex: Int) -> Row<T>)?
+    public let rowCreatorClosure: ((_ rowIndex: Int) -> Row<T>)?
     
     /// Closure which returns the total number of rows
     public let rowCountClosure: (() -> Int)?
@@ -107,7 +107,7 @@ public struct Section<T>: SectionType {
     }
     
     /// Initializes a section with a row creator closure
-    public init(title: String? = nil, footer: String? = nil, rowCountClosure: (() -> Int), rowCreatorClosure: (rowIndex: Int) -> Row<T>) {
+    public init(title: String? = nil, footer: String? = nil, rowCountClosure: @escaping (() -> Int), rowCreatorClosure: @escaping (Int) -> Row<T>) {
         self.rows = []
         self.title = title
         self.footer = footer
@@ -117,7 +117,7 @@ public struct Section<T>: SectionType {
     
     public func rowAtIndex(_ index: Int) -> Row<T> {
         if let creator = rowCreatorClosure {
-            return creator(rowIndex: index)
+            return creator(index)
         } else {
             return rows[index]
         }
