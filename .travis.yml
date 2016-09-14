@@ -1,9 +1,7 @@
 osx_image: xcode8
 language: objective-c
-before_install:
-  - gem install xcpretty -N --no-ri --no-rdoc
-script:
-  - xcodebuild test -project Example.xcodeproj -sdk iphonesimulator -scheme DataSource -configuration Debug -destination "platform=iOS Simulator,name=iPhone 6" GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -c
+xcode_project:  Example.xcodeproj
+xcode_scheme: DataSourceTests
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - sleep 5
