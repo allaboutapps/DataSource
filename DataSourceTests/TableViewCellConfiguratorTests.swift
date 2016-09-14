@@ -34,12 +34,12 @@ class TableViewCellConfiguratorTests: XCTestCase {
     func testSingleRowTypeSectionTableViewDataSource() {
         let tableViewDataSource = personTableViewDataSource()
         
-        let row = tableViewDataSource.rowAtIndexPath(IndexPath(forRow: 0, inSection: 0))
+        let row = tableViewDataSource.rowAtIndexPath(IndexPath(row: 0, section: 0))
         
-        let configurator = tableViewDataSource.configuratorForRowIdentifier(RowIdentifier.Person.rawValue)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: RowIdentifier.Person.rawValue)
+        let configurator = tableViewDataSource.configuratorForRowIdentifier(RowIdentifier.person)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: RowIdentifier.person)
         
-        configurator?.configureRow(row, cell: cell, indexPath: IndexPath(forRow: 0, inSection: 0))
+        configurator?.configure(row: row, cell: cell, indexPath: IndexPath(row: 0, section: 0))
         XCTAssertEqual(cell.textLabel?.text, person1.firstname, "cell.textLabel.text = Matthias")
         XCTAssertEqual(cell.detailTextLabel?.text, person1.lastname, "cell.detailTextLabel.text = Buchetics")
     }
@@ -47,21 +47,20 @@ class TableViewCellConfiguratorTests: XCTestCase {
     func testMixedRowTypeSectionTableViewDataSource() {
         let tableViewDataSource = personAndStringsTableViewDataSource()
         
-        let personRow = tableViewDataSource.rowAtIndexPath(IndexPath(forRow: 0, inSection: 0))
-        let personConfigurator = tableViewDataSource.configuratorForRowIdentifier(RowIdentifier.Person.rawValue)
+        let personRow = tableViewDataSource.rowAtIndexPath(IndexPath(row: 0, section: 0))
+        let personConfigurator = tableViewDataSource.configuratorForRowIdentifier(RowIdentifier.person)
         
-        let personCell = UITableViewCell(style: .subtitle, reuseIdentifier: RowIdentifier.Person.rawValue)
+        let personCell = UITableViewCell(style: .subtitle, reuseIdentifier: RowIdentifier.person)
         
-        personConfigurator?.configureRow(personRow, cell: personCell, indexPath: IndexPath(forRow: 0, inSection: 0))
+        personConfigurator?.configure(row: personRow, cell: personCell, indexPath: IndexPath(row: 0, section: 0))
         XCTAssertEqual(personCell.textLabel?.text, person1.firstname, "cell.textLabel.text = Matthias")
         XCTAssertEqual(personCell.detailTextLabel?.text, person1.lastname, "cell.detailTextLabel.text = Buchetics")
         
-        let stringRow = tableViewDataSource.rowAtIndexPath(IndexPath(forRow: 1, inSection: 0))
-        let stringConfigurator = tableViewDataSource.configuratorForRowIdentifier(RowIdentifier.Text.rawValue)
-        
-        let stringCell = UITableViewCell(style: .default, reuseIdentifier: RowIdentifier.Text.rawValue)
-        
-        stringConfigurator?.configureRow(stringRow, cell: stringCell, indexPath: IndexPath(forRow: 1, inSection: 0))
+        let stringRow = tableViewDataSource.rowAtIndexPath(IndexPath(row: 1, section: 0))
+        let stringConfigurator = tableViewDataSource.configuratorForRowIdentifier(RowIdentifier.text)
+        let stringCell = UITableViewCell(style: .default, reuseIdentifier: RowIdentifier.text)
+
+        stringConfigurator?.configure(row: stringRow, cell: stringCell, indexPath: IndexPath(row: 1, section: 0))
         XCTAssertEqual(stringCell.textLabel?.text, "a", "cell.textLabel.text = a")
     }
     
@@ -70,10 +69,10 @@ class TableViewCellConfiguratorTests: XCTestCase {
         let cellIdentifier = "Text"
         
         let tableViewDataSource = TableViewDataSource(dataSource: dataSource, configurators: [
-            TableViewCellConfigurator(rowIdentifier: RowIdentifier.Person.rawValue, cellIdentifier: cellIdentifier, configure: { (person: Person, cell: UITableViewCell, indexPath: IndexPath) in
+            TableViewCellConfigurator(rowIdentifier: RowIdentifier.person, cellIdentifier: cellIdentifier, configure: { (person: Person, cell: UITableViewCell, indexPath: IndexPath) in
                 cell.textLabel?.text = "\(person.firstname) \(person.lastname)"
             }),
-            TableViewCellConfigurator(rowIdentifier: RowIdentifier.Text.rawValue, cellIdentifier: cellIdentifier, configure: { (text: String, cell: UITableViewCell, indexPath: IndexPath) in
+            TableViewCellConfigurator(rowIdentifier: RowIdentifier.text, cellIdentifier: cellIdentifier, configure: { (text: String, cell: UITableViewCell, indexPath: IndexPath) in
                 cell.textLabel?.text = text
             })
             ])
@@ -86,10 +85,10 @@ class TableViewCellConfiguratorTests: XCTestCase {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
-        let personCell = tableViewDataSource.tableView(tableView, cellForRowAtIndexPath: personIndexPath)
+        let personCell = tableViewDataSource.tableView(tableView, cellForRowAt: personIndexPath)
         XCTAssertEqual(personCell.textLabel?.text, "\(person1.firstname) \(person1.lastname)", "cell.textLabel.text = Matthias Buchetics")
         
-        let stringCell = tableViewDataSource.tableView(tableView, cellForRowAtIndexPath: stringIndexPath)
+        let stringCell = tableViewDataSource.tableView(tableView, cellForRowAt: stringIndexPath)
         XCTAssertEqual(stringCell.textLabel?.text, "a", "cell.textLabel.text = a")
     }
 }
@@ -100,7 +99,7 @@ extension TableViewCellConfiguratorTests {
     
     func personDataSource() -> DataSource {
         return DataSource([
-            Section<Person> (title: "Persons", rowIdentifier: RowIdentifier.Person.rawValue, rows: [
+            Section<Person> (title: "Persons", rowIdentifier: RowIdentifier.person, rows: [
                 person1,
                 person2
                 ])
@@ -108,19 +107,21 @@ extension TableViewCellConfiguratorTests {
     }
     
     func personAndStringDataSource() -> DataSource {
+        let rows: [Row<Any>] =  [
+            Row(identifier: RowIdentifier.person, data: person1),
+            Row(identifier: RowIdentifier.text, data: "a")
+        ]
+
         return DataSource([
-            Section<Any> (title: "Mixed", rows: [
-                Row(identifier: RowIdentifier.Person.rawValue, data: person1),
-                Row(identifier: RowIdentifier.Text.rawValue, data: "a")
-                ])
-            ])
+            Section(title: "Mixed", rows: rows)
+        ])
     }
     
     func personTableViewDataSource() -> TableViewDataSource {
         let dataSource = personDataSource()
         
         return TableViewDataSource(dataSource: dataSource, configurator:
-            TableViewCellConfigurator<Person, UITableViewCell>(RowIdentifier.Person.rawValue) { (person: Person, cell: UITableViewCell, _) in
+            TableViewCellConfigurator<Person, UITableViewCell>(RowIdentifier.person) { (person: Person, cell: UITableViewCell, _) in
                 cell.textLabel?.text = person.firstname
                 cell.detailTextLabel?.text = person.lastname
             })
@@ -130,11 +131,11 @@ extension TableViewCellConfiguratorTests {
         let dataSource = personAndStringDataSource()
         
         return TableViewDataSource(dataSource: dataSource, configurators: [
-            TableViewCellConfigurator<Person, UITableViewCell>(RowIdentifier.Person.rawValue) { (person: Person, cell: UITableViewCell, _) in
+            TableViewCellConfigurator<Person, UITableViewCell>(RowIdentifier.person) { (person: Person, cell: UITableViewCell, _) in
                 cell.textLabel?.text = person.firstname
                 cell.detailTextLabel?.text = person.lastname
             },
-            TableViewCellConfigurator<String, UITableViewCell>(RowIdentifier.Text.rawValue) { (title: String, cell: UITableViewCell, _) in
+            TableViewCellConfigurator<String, UITableViewCell>(RowIdentifier.text) { (title: String, cell: UITableViewCell, _) in
                 cell.textLabel?.text = title
             }
             ])

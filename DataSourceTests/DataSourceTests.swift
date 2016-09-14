@@ -43,7 +43,7 @@ class DataSourceTests: XCTestCase {
         let dataSource = twoEmpySectionDataSource()
         
         let section1 = dataSource.sectionAtIndex(0)
-        let section2 = dataSource.sectionAtIndexPath(IndexPath(forRow: 0, inSection: 1))
+        let section2 = dataSource.sectionAtIndexPath(IndexPath(row: 0, section: 1))
         
         XCTAssertEqual(dataSource.firstSection?.title, section1.title, "first section")
         XCTAssertEqual(dataSource.lastSection?.title, section2.title, "last section")
@@ -83,12 +83,12 @@ class DataSourceTests: XCTestCase {
         let dataSource = DataSource(Section(rowCountClosure: { () -> Int in
             return 1
             }, rowCreatorClosure: { (rowIndex) -> Row<Any> in
-                return Row(identifier: RowIdentifier.Text.rawValue, data: "a")
+                return Row(identifier: RowIdentifier.text, data: "a")
         }))
         
         XCTAssertEqual(dataSource.sectionAtIndex(0).numberOfRows, 1, "number of rows = 1")
         
-        let row = dataSource.rowAtIndexPath(IndexPath(forRow: 0, inSection: 0))
+        let row = dataSource.rowAtIndexPath(IndexPath(row: 0, section: 0))
         XCTAssertEqual(row.anyData as? String, "a", "row.anyData = a")
     }
     
@@ -119,16 +119,16 @@ class DataSourceTests: XCTestCase {
         
         XCTAssertEqual(dataSource1.sectionAtIndex(0).numberOfRows, 4, "number of rows")
         
-        let row0: Row<String> = dataSource1.rowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
+        let row0: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 0, section: 0))
         XCTAssertEqual(row0.data, "a", "row_0_0: 1")
         
-        let row1: Row<String> = dataSource1.rowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))
+        let row1: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 1, section: 0))
         XCTAssertEqual(row1.data, "b", "row_0_1: 2")
         
-        let row2: Row<String> = dataSource1.rowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0))
+        let row2: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 2, section: 0))
         XCTAssertEqual(row2.data, "c", "row_0_2: 3")
         
-        let row3: Row<String> = dataSource1.rowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0))
+        let row3: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 3, section: 0))
         XCTAssertEqual(row3.data, "d", "row_0_3: 4")
     }
 }

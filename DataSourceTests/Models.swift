@@ -11,7 +11,7 @@ struct Person {
     let lastname: String
 }
 
-enum RowIdentifier: String {
-    case Text
-    case Person
+struct RowIdentifier {
+    static let text = "text"
+    static let person = "person"
 }
