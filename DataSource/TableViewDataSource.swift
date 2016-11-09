@@ -15,7 +15,7 @@ import UIKit
     Wraps a `DataSource` and uses `TableViewCellConfigurator`s to dequeue and configure table view cells.
     Implements `UITableViewDataSource` and `DataSourceType` protocols.
 */
-public class TableViewDataSource: NSObject {
+open class TableViewDataSource: NSObject {
     /// The data source
     public var dataSource: DataSource
     

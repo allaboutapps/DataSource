@@ -20,7 +20,7 @@ public protocol TableViewCellConfiguratorType {
 
 // MARK: - TableViewCellConfigurator
 
-public class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConfiguratorType {
+open class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConfiguratorType {
 
     /// Row identifier this configurator is responsible for
     public var rowIdentifier: String
