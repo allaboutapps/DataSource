@@ -25,25 +25,25 @@ class DataSourceTests: XCTestCase {
     
     func testNumberOfSections() {
         let dataSource1 = singleSectionDataSource()
-        XCTAssertEqual(dataSource1.sections.count, 1, "number of sections = 1")
+        XCTAssertEqual(dataSource1.numberOfSections, 1, "number of sections = 1")
         
         let dataSource2 = multipleSectionDataSource()
-        XCTAssertEqual(dataSource2.sections.count, 2, "number of sections = 2")
+        XCTAssertEqual(dataSource2.numberOfSections, 2, "number of sections = 2")
     }
     
     func testNumberOfRows() {
         let dataSource1 = singleSectionDataSource()
-        XCTAssertEqual(dataSource1.sectionAtIndex(0).numberOfRows, 4, "number of rows = 4")
+        XCTAssertEqual(dataSource1.section(at: 0).numberOfRows, 4, "number of rows = 4")
         
         let dataSource2 = multipleSectionDataSource()
-        XCTAssertEqual(dataSource2.sectionAtIndex(1).numberOfRows, 3, "number of rows = 3")
+        XCTAssertEqual(dataSource2.section(at: 1).numberOfRows, 3, "number of rows = 3")
     }
     
     func testFirstAndLastSection() {
         let dataSource = twoEmpySectionDataSource()
         
-        let section1 = dataSource.sectionAtIndex(0)
-        let section2 = dataSource.sectionAtIndexPath(IndexPath(row: 0, section: 1))
+        let section1 = dataSource.section(at: 0)
+        let section2 = dataSource.section(at: IndexPath(row: 0, section: 1))
         
         XCTAssertEqual(dataSource.firstSection?.title, section1.title, "first section")
         XCTAssertEqual(dataSource.lastSection?.title, section2.title, "last section")
@@ -51,44 +51,44 @@ class DataSourceTests: XCTestCase {
     
     func testMutatingSections() {
         var dataSource = twoEmpySectionDataSource()
-        let section1 = dataSource.sectionAtIndex(0)
-        let section2 = dataSource.sectionAtIndex(1)
+        let section1 = dataSource.section(at: 0)
+        let section2 = dataSource.section(at: 1)
         
         // remove
-        dataSource.removeSectionAtIndex(0)
+        dataSource.removeSection(at: 0)
         XCTAssertEqual(dataSource.numberOfSections, 1, "number of sections = 1")
         
         // insert
-        dataSource.insertSection(section1, index: 1)
+        dataSource.insert(section: section1, at: 1)
         XCTAssertEqual(dataSource.numberOfSections, 2, "number of sections = 2")
         
         // set
-        dataSource.setSection(section1, index: 0)
-        dataSource.setSection(section2, index: 1)
-        XCTAssertEqual(dataSource.sectionAtIndex(0).title, section1.title, "")
-        XCTAssertEqual(dataSource.sectionAtIndex(1).title, section2.title, "")
+        dataSource.replace(section: section1, at: 0)
+        dataSource.replace(section: section2, at: 1)
+        XCTAssertEqual(dataSource.section(at: 0).title, section1.title, "")
+        XCTAssertEqual(dataSource.section(at: 1).title, section2.title, "")
         
         // append section
-        dataSource.appendSection(section1)
+        dataSource.append(section: section1)
         XCTAssertEqual(dataSource.numberOfSections, 3, "number of sections = 3")
         XCTAssertEqual(dataSource.lastSection?.title, section1.title, "")
         
         // append dataSource
-        dataSource.appendDataSource(twoEmpySectionDataSource())
+        dataSource.append(dataSource: twoEmpySectionDataSource())
         XCTAssertEqual(dataSource.numberOfSections, 5, "number of sections = 5")
         XCTAssertEqual(dataSource.lastSection?.title, section2.title, "")
     }
     
     func testRowCreatorAndCountClosures() {
-        let dataSource = DataSource(Section(rowCountClosure: { () -> Int in
+        let dataSource = DataSource(section: Section(rowCountClosure: { () -> Int in
             return 1
-            }, rowCreatorClosure: { (rowIndex) -> Row<Any> in
-                return Row(identifier: RowIdentifier.text, data: "a")
+        }, rowCreatorClosure: { (rowIndex) in
+            return Row(identifier: RowIdentifier.text, data: "a")
         }))
         
-        XCTAssertEqual(dataSource.sectionAtIndex(0).numberOfRows, 1, "number of rows = 1")
+        XCTAssertEqual(dataSource.section(at: 0).numberOfRows, 1, "number of rows = 1")
         
-        let row = dataSource.rowAtIndexPath(IndexPath(row: 0, section: 0))
+        let row = dataSource.row(at: IndexPath(row: 0, section: 0))
         XCTAssertEqual(row.anyData as? String, "a", "row.anyData = a")
     }
     
@@ -104,7 +104,7 @@ class DataSourceTests: XCTestCase {
     
     func testAlternativeInit() {
         let section1 = Section<Any>(title: "Section", rows: [])
-        let dataSource1 = DataSource(section1)
+        let dataSource1 = DataSource(section: section1)
         
         XCTAssertEqual(dataSource1.numberOfSections, 1, "number of sections = 1")
         
@@ -117,18 +117,18 @@ class DataSourceTests: XCTestCase {
     func testRowDataStrings() {
         let dataSource1 = singleSectionDataSource()
         
-        XCTAssertEqual(dataSource1.sectionAtIndex(0).numberOfRows, 4, "number of rows")
+        XCTAssertEqual(dataSource1.section(at: 0).numberOfRows, 4, "number of rows")
         
-        let row0: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 0, section: 0))
+        let row0: Row<String> = dataSource1.row(at: IndexPath(row: 0, section: 0))
         XCTAssertEqual(row0.data, "a", "row_0_0: 1")
         
-        let row1: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 1, section: 0))
+        let row1: Row<String> = dataSource1.row(at: IndexPath(row: 1, section: 0))
         XCTAssertEqual(row1.data, "b", "row_0_1: 2")
         
-        let row2: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 2, section: 0))
+        let row2: Row<String> = dataSource1.row(at: IndexPath(row: 2, section: 0))
         XCTAssertEqual(row2.data, "c", "row_0_2: 3")
         
-        let row3: Row<String> = dataSource1.rowAtIndexPath(IndexPath(row: 3, section: 0))
+        let row3: Row<String> = dataSource1.row(at: IndexPath(row: 3, section: 0))
         XCTAssertEqual(row3.data, "d", "row_0_3: 4")
     }
 }
@@ -138,35 +138,35 @@ class DataSourceTests: XCTestCase {
 extension DataSourceTests {
     
     func singleSectionDataSource() -> DataSource {
-        return DataSource([
+        return DataSource(section:
             Section(rows: [
                 Row(identifier: "Text", data: "a"),
                 Row(identifier: "Text", data: "b"),
                 Row(identifier: "Text", data: "c"),
                 Row(identifier: "Text", data: "d"),
-                ])
             ])
+        )
     }
     
     func multipleSectionDataSource() -> DataSource {
-        return DataSource([
+        return DataSource(sections: [
             Section(rows: [
                 Row(identifier: "Text", data: "0a"),
                 Row(identifier: "Text", data: "0b"),
                 Row(identifier: "Text", data: "0c"),
-                ]),
+            ]),
             Section(rows: [
                 Row(identifier: "Text", data: "1a"),
                 Row(identifier: "Text", data: "2b"),
                 Row(identifier: "Text", data: "3c"),
-                ])
             ])
+        ])
     }
     
     func twoEmpySectionDataSource() -> DataSource {
         let section1 = Section<Any>(title: "First", rows: [])
         let section2 = Section<Any>(title: "Last", rows: [])
         
-        return DataSource([section1, section2])
+        return DataSource(sections: [section1, section2])
     }
 }
