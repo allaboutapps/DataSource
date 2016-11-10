@@ -39,8 +39,8 @@ open class TableViewCellConfigurator<T, C: UITableViewCell>: TableViewCellConfig
     }
     
     /// Initializes the configurator using the same identifier for rowIdentifier and cellIdentifier and a configure closure
-    public convenience init (_ cellIdentifier: String, configure: ((T, C, IndexPath) -> Void)? = nil) {
-        self.init(rowIdentifier: cellIdentifier, cellIdentifier: cellIdentifier, configure: configure)
+    public convenience init (identifier: String, configure: ((T, C, IndexPath) -> Void)? = nil) {
+        self.init(rowIdentifier: identifier, cellIdentifier: identifier, configure: configure)
     }
 
     /// Takes a row and cell, makes the required casts and calls the configure closure

@@ -15,7 +15,7 @@ extension Dictionary where Key: Any, Value: Collection {
         Because dictionaries are unordered, it's required to provide an array of ordered keys as well.
         Omitted keys will not be added to the data source.
      */
-    public func toDataSource(_ rowIdentifier: String, orderedKeys: [Key]) -> DataSource {
+    public func dataSource(rowIdentifier: String, orderedKeys: [Key]) -> DataSource {
         var dataSource = DataSource()
 
         for key in orderedKeys {
@@ -32,7 +32,7 @@ extension Dictionary where Key: Any, Value: Collection {
                 title = key.description
             }
             
-            dataSource.appendSection(Section(title: title, rows: rows))
+            dataSource.append(section: Section(title: title, rows: rows))
         }
 
         return dataSource

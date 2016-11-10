@@ -10,6 +10,8 @@ Framework to simplify the setup of `UITableView` data sources and cells. Separat
 
 `DataSource` is not limited to table views but could be extended to collection views or other custom representations as well.
 
+<img src="https://github.com/mbuchetics/DataSource/blob/master/Resources/screenshot.png" height="300" alt="all about apps" />
+
 ## Requirements
 
 iOS 9.0+, Swift 3
@@ -23,9 +25,9 @@ An example app is included demonstrating DataSource's functionality. The example
 Create a `DataSource` with a single section and some rows that all share the same row identifier:
 
 ```swift
-let dataSource = DataSource([
-    Section(rowIdentifier: "Text", rows: ["a", "b", "c", "d"])
-])
+let dataSource2 = DataSource(section:
+	Section(title: "Strings", rowIdentifier: "TextCell", rows: ["some text", "another text"])
+)
 ```
 
 Create a `TableViewDataSource` with a single `TableViewCellConfigurator` for the strings:
@@ -33,7 +35,7 @@ Create a `TableViewDataSource` with a single `TableViewCellConfigurator` for the
 ```swift
 let tableDataSource = TableViewDataSource(
     dataSource: dataSource,
-    configurator: TableViewCellConfigurator("Text") { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
+    configurator: TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, indexPath: NSIndexPath) in
         cell.textLabel?.text = "\(indexPath.row): \(title)"
     })
 ```
@@ -51,23 +53,23 @@ Note: Make sure to keep a strong reference to `tableDataSource` (e.g. by storing
 Create a `DataSource` with multiple sections and rows:
 
 ```swift
-let dataSource = DataSource([
-    Section(title: "B", footer: "Names starting with B", rowIdentifier: "Person", rows: [
+let dataSource = DataSource(sections: [
+    Section(title: "B", footer: "Names starting with B", rowIdentifier: "PersonCell", rows: [
         Person(firstName: "Matthias", lastName: "Buchetics"),
-        ]),
-    Section(title: "M", footer: "Names starting with M", rowIdentifier: "Person", rows: [
+    ]),
+    Section(title: "M", footer: "Names starting with M", rowIdentifier: "PersonCell", rows: [
         Person(firstName: "Hugo", lastName: "Maier"),
         Person(firstName: "Max", lastName: "Mustermann"),
-        ]),
-    Section(title: "Strings", rowIdentifier: "Text", rows: [
+    ]),
+    Section(title: "Strings", rowIdentifier: "TextCell", rows: [
         "some text",
         "another text"
-        ]),
+    ]),
     Section(rowIdentifier: "Button", rows: [
         Button.Add,
         Button.Remove
-        ]),
-    ])
+    ]),
+])
 ```
 
 Create a `TableViewDataSource` with a `TableViewCellConfigurator` for each row type:
@@ -76,14 +78,14 @@ Create a `TableViewDataSource` with a `TableViewCellConfigurator` for each row t
 let tableDataSource = TableViewDataSource(
     dataSource: dataSource,
     configurators: [
-        TableViewCellConfigurator("Person") { (person: Person, cell: PersonCell, _) in
+        TableViewCellConfigurator(identifier: "PersonCell") { (person: Person, cell: PersonCell, _) in
             cell.firstNameLabel?.text = person.firstName
             cell.lastNameLabel?.text = person.lastName
         },
-        TableViewCellConfigurator("Text") { (title: String, cell: UITableViewCell, _) in
+        TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, _) in
             cell.textLabel?.text = title
         },
-        TableViewCellConfigurator("Button") { (button: Button, cell: ButtonCell, _) in
+        TableViewCellConfigurator(identifier: "ButtonCell") { (button: Button, cell: ButtonCell, _) in
             switch (button) {
             case .Add:
                 cell.titleLabel?.text = "Add"
@@ -103,19 +105,19 @@ Assign it to your tableView´s dataSource and again make sure to keep a strong r
 Instead of setting an array of rows you can also instantiate rows using a closure:
 
 ```swift
-let dataSource = DataSource([
-    Section(title: "test", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
+let dataSource = DataSource(sections: [
+    Section<String>(title: "test", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
         return Row(identifier: "Text", data: ((rowIndex + 1) % 2 == 0) ? "even" : "odd")
     }),
     Section<Any>(title: "mixed", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
         if rowIndex % 2 == 0 {
-            return Row(identifier: "Text", data: "test")
+            return Row(identifier: "TextCell", data: "test")
         }
         else {
-           return Row(identifier: "Person", data: Person(firstName: "Max", lastName: "Mustermann"))
+           return Row(identifier: "PersonCell", data: Person(firstName: "Max", lastName: "Mustermann"))
         }
     })
-    ])
+])
 ```
 
 Create a `TableViewDataSource` with cell configurators as shown above.
@@ -127,7 +129,7 @@ Several extensions on `Array` and `Dictionary` exist to make creating data sourc
 Create a data source with a single section based on an array:
 
 ```swift
-let dataSource = ["a", "b", "c", "d"].toDataSource("Text")
+let dataSource = ["a", "b", "c", "d"].dataSource(rowIdentifier: "Text")
 ```
 
 Create a data source based on a dictionary, using it's keys as the section titles:
@@ -139,7 +141,7 @@ let data = [
     "section 3": ["g", "h", "i"],
 ]
 
-let dataSource = data.toDataSource("Text", orderedKeys: data.keys.sort())
+let dataSource = data.dataSource(rowIdentifier: "TextCell", orderedKeys: data.keys.sort())
 ```
 
 Note: Because dictionaries are unordered, it's required to provide an array of ordered keys as well.
@@ -155,7 +157,7 @@ Check out [RealmDataSource](https://github.com/mbuchetics/RealmDataSource) to cr
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "mbuchetics/DataSource", ~> 2.0
+github "mbuchetics/DataSource", ~> 3.0
 ```
 
 Then run `carthage update`.

@@ -16,6 +16,7 @@ import UIKit
     Implements `UITableViewDataSource` and `DataSourceType` protocols.
 */
 open class TableViewDataSource: NSObject {
+
     /// The data source
     public var dataSource: DataSource
     
@@ -50,7 +51,7 @@ open class TableViewDataSource: NSObject {
     }
     
     /// Add a cell configurator
-    public func addConfigurator(_ configurator: TableViewCellConfiguratorType) {
+    public func add(configurator: TableViewCellConfiguratorType) {
         configurators[configurator.rowIdentifier] = configurator
     }
     
@@ -58,7 +59,7 @@ open class TableViewDataSource: NSObject {
         Tries to get the appropriate cell configurator given the specified row identifier.
         If no cell configurator for the specified row identifier is found, the default configurator with identifier "" (empty string) is used if available.
      */
-    public func configuratorForRowIdentifier(_ rowIdentifier: String) -> TableViewCellConfiguratorType? {
+    public func configurator(for rowIdentifier: String) -> TableViewCellConfiguratorType? {
         if let configurator = self.configurators[rowIdentifier] {
             return configurator
         } else if let configurator = self.configurators[""] {
@@ -72,19 +73,20 @@ open class TableViewDataSource: NSObject {
 // MARK: - UITableViewDataSource
 
 extension TableViewDataSource: UITableViewDataSource {
+
     public func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfRowsInSection(section)
+        return dataSource.numberOfRows(in: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = dataSource.rowAtIndexPath(indexPath)
+        let row = dataSource.row(at: indexPath)
 
         let configure: () -> UITableViewCell = {
-            if let configurator = self.configuratorForRowIdentifier(row.identifier) {
+            if let configurator = self.configurator(for: row.identifier) {
                 let cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier, for: indexPath)
                 self.prepareCell?(cell, indexPath)
                 configurator.configure(row: row, cell: cell, indexPath: indexPath)
@@ -112,8 +114,8 @@ extension TableViewDataSource: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let showTitles = showSectionTitles ?? (tableView.style == .grouped || dataSource.numberOfSections > 1)
         
-        if showTitles && dataSource.numberOfRowsInSection(section) > 0 {
-            return dataSource.sections[section].title
+        if showTitles && dataSource.numberOfRows(in: section) > 0 {
+            return dataSource.section(at: section).title
         } else {
             return nil
         }
@@ -122,8 +124,8 @@ extension TableViewDataSource: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let showFooters = showSectionFooters ?? (tableView.style == .grouped || dataSource.numberOfSections > 1)
         
-        if showFooters && dataSource.numberOfRowsInSection(section) > 0 {
-            return dataSource.sections[section].footer
+        if showFooters && dataSource.numberOfRows(in: section) > 0 {
+            return dataSource.section(at: section).footer
         } else {
             return nil
         }
@@ -132,18 +134,19 @@ extension TableViewDataSource: UITableViewDataSource {
 
 // MARK: - DataSourceType
 extension TableViewDataSource: DataSourceType {
+
     // MARK: Rows
     
-    public func numberOfRowsInSection(_ section: Int) -> Int {
-        return dataSource.numberOfRowsInSection(section)
+    public func numberOfRows(in section: Int) -> Int {
+        return dataSource.numberOfRows(in: section)
     }
     
-    public func rowAtIndexPath(_ indexPath: IndexPath) -> RowType {
-        return dataSource.rowAtIndexPath(indexPath)
+    public func row(at indexPath: IndexPath) -> RowType {
+        return dataSource.row(at: indexPath)
     }
     
-    public func rowAtIndexPath<T>(_ indexPath: IndexPath) -> Row<T> {
-        return dataSource.rowAtIndexPath(indexPath)
+    public func row<T>(at indexPath: IndexPath) -> Row<T> {
+        return dataSource.row(at: indexPath)
     }
     
     // MARK: Sections
@@ -160,19 +163,19 @@ extension TableViewDataSource: DataSourceType {
         return dataSource.lastSection
     }
     
-    public func sectionAtIndexPath<T>(_ indexPath: IndexPath) -> Section<T> {
-        return dataSource.sectionAtIndexPath(indexPath)
+    public func section<T>(at indexPath: IndexPath) -> Section<T> {
+        return dataSource.section(at: indexPath)
     }
     
-    public func sectionAtIndexPath(_ indexPath: IndexPath) -> SectionType {
-        return dataSource.sectionAtIndexPath(indexPath)
+    public func section(at indexPath: IndexPath) -> SectionType {
+        return dataSource.section(at: indexPath)
     }
     
-    public func sectionAtIndex<T>(_ index: Int) -> Section<T> {
-        return dataSource.sectionAtIndex(index)
+    public func section<T>(at index: Int) -> Section<T> {
+        return dataSource.section(at: index)
     }
     
-    public func sectionAtIndex(_ index: Int) -> SectionType {
-        return dataSource.sectionAtIndex(index)
+    public func section(at index: Int) -> SectionType {
+        return dataSource.section(at: index)
     }
 }

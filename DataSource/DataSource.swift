@@ -12,12 +12,14 @@ import Foundation
 
 // MARK: RowType
 public protocol RowType {
+
     var identifier: String { get }
     var anyData: Any { get }
 }
 
 // MARK: SectionType
 public protocol SectionType {
+
     var title: String? { get }
     var footer: String? { get }
     var numberOfRows: Int { get }
@@ -27,18 +29,19 @@ public protocol SectionType {
 
 // MARK: DataSourceType
 public protocol DataSourceType {
+
     var numberOfSections: Int { get }
     var firstSection: SectionType? { get }
     var lastSection: SectionType? { get }
     
-    func sectionAtIndexPath<T>(_ indexPath: IndexPath) -> Section<T>
-    func sectionAtIndexPath(_ indexPath: IndexPath) -> SectionType
-    func sectionAtIndex<T>(_ index: Int) -> Section<T>
-    func sectionAtIndex(_ index: Int) -> SectionType
+    func section<T>(at indexPath: IndexPath) -> Section<T>
+    func section(at indexPath: IndexPath) -> SectionType
+    func section<T>(at index: Int) -> Section<T>
+    func section(at index: Int) -> SectionType
     
-    func numberOfRowsInSection(_ section: Int) -> Int
-    func rowAtIndexPath(_ indexPath: IndexPath) -> RowType
-    func rowAtIndexPath<T>(_ indexPath: IndexPath) -> Row<T>
+    func numberOfRows(in section: Int) -> Int
+    func row(at indexPath: IndexPath) -> RowType
+    func row<T>(at indexPath: IndexPath) -> Row<T>
 }
 
 // MARK: - Row
@@ -49,6 +52,7 @@ public protocol DataSourceType {
     of the same type usually share the same identifier.
 */
 public struct Row<T>: RowType {
+
     public let identifier: String
     public let data: T
     
@@ -68,6 +72,7 @@ public struct Row<T>: RowType {
     Representation of a table section containing multiple rows with an optional title.
 */
 public struct Section<T>: SectionType {
+
     /// Array of typed rows
     public let rows: [Row<T>]
     
@@ -103,7 +108,7 @@ public struct Section<T>: SectionType {
     
     /// Initializes a section with an array of models (or view models) which are encapsulated in rows using the specified row identifier
     public init(title: String? = nil, footer: String? = nil, rowIdentifier: String, rows: [T]) {
-        self.init(title: title, footer: footer, rows: rows.toDataSourceRows(rowIdentifier))
+        self.init(title: title, footer: footer, rows: rows.dataSourceRows(rowIdentifier: rowIdentifier))
     }
     
     /// Initializes a section with a row creator closure
@@ -115,7 +120,7 @@ public struct Section<T>: SectionType {
         self.rowCreatorClosure = rowCreatorClosure
     }
     
-    public func rowAtIndex(_ index: Int) -> Row<T> {
+    public func row(at index: Int) -> Row<T> {
         if let creator = rowCreatorClosure {
             return creator(index)
         } else {
@@ -124,11 +129,11 @@ public struct Section<T>: SectionType {
     }
     
     public subscript(index: Int) -> Row<T> {
-        return rowAtIndex(index)
+        return row(at: index)
     }
     
     public subscript(index: Int) -> RowType {
-        return rowAtIndex(index)
+        return row(at: index)
     }
     
     public var numberOfRows: Int {
@@ -146,8 +151,9 @@ public struct Section<T>: SectionType {
     Representation of a data source containing multiple sections.
 */
 public struct DataSource: DataSourceType {
+
     /// Array of sections
-    var sections: [SectionType]
+    fileprivate var sections: [SectionType]
     
     /// Initializes an empty data source (no sections)
     public init() {
@@ -155,12 +161,12 @@ public struct DataSource: DataSourceType {
     }
     
     /// Initializes a data source with a single section
-    public init(_ section: SectionType) {
+    public init(section: SectionType) {
         self.sections = [section]
     }
     
     /// Initializes a data source with multiple sections
-    public init(_ sections: [SectionType]) {
+    public init(sections: [SectionType]) {
         self.sections = sections
     }
     
@@ -169,21 +175,21 @@ public struct DataSource: DataSourceType {
         self.init()
         
         for dataSource in dataSources {
-            appendDataSource(dataSource)
+            append(dataSource: dataSource)
         }
     }
     
     // MARK: Rows
     
-    public func numberOfRowsInSection(_ section: Int) -> Int {
+    public func numberOfRows(in section: Int) -> Int {
         return sections[section].numberOfRows
     }
     
-    public func rowAtIndexPath(_ indexPath: IndexPath) -> RowType {
+    public func row(at indexPath: IndexPath) -> RowType {
         return sections[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
     }
     
-    public func rowAtIndexPath<T>(_ indexPath: IndexPath) -> Row<T> {
+    public func row<T>(at indexPath: IndexPath) -> Row<T> {
         let section = sections[(indexPath as NSIndexPath).section] as! Section<T>
         let row: Row<T> = section[(indexPath as NSIndexPath).row]
         return row
@@ -203,41 +209,41 @@ public struct DataSource: DataSourceType {
         return sections.last
     }
     
-    public func sectionAtIndexPath<T>(_ indexPath: IndexPath) -> Section<T> {
-        return sectionAtIndex((indexPath as NSIndexPath).section)
+    public func section<T>(at indexPath: IndexPath) -> Section<T> {
+        return section(at: indexPath.section)
     }
     
-    public func sectionAtIndexPath(_ indexPath: IndexPath) -> SectionType {
-        return sectionAtIndex((indexPath as NSIndexPath).section)
+    public func section(at indexPath: IndexPath) -> SectionType {
+        return section(at: indexPath.section)
     }
     
-    public func sectionAtIndex<T>(_ index: Int) -> Section<T> {
+    public func section<T>(at index: Int) -> Section<T> {
         return sections[index] as! Section<T>
     }
     
-    public func sectionAtIndex(_ index: Int) -> SectionType {
+    public func section(at index: Int) -> SectionType {
         return sections[index]
     }
     
     // MARK: Mutating
     
-    public mutating func appendSection(_ section: SectionType) {
+    public mutating func append(section: SectionType) {
         sections.append(section)
     }
     
-    public mutating func appendDataSource(_ dataSource: DataSource) {
+    public mutating func append(dataSource: DataSource) {
         sections.append(contentsOf: dataSource.sections)
     }
     
-    public mutating func insertSection(_ section: SectionType, index: Int) {
+    public mutating func insert(section: SectionType, at index: Int) {
         sections.insert(section, at: index)
     }
     
-    public mutating func setSection(_ section: SectionType, index: Int) {
+    public mutating func replace(section: SectionType, at index: Int) {
         sections[index] = section
     }
     
-    public mutating func removeSectionAtIndex(_ index: Int) {
+    public mutating func removeSection(at index: Int) {
         sections.remove(at: index)
     }
 }
@@ -245,6 +251,7 @@ public struct DataSource: DataSourceType {
 // MARK: CustomDebugStringConvertible
 
 extension DataSource: CustomDebugStringConvertible {
+
     public var debugDescription: String {
         var text = ""
         
@@ -265,6 +272,7 @@ extension DataSource: CustomDebugStringConvertible {
 // MARK: - Extensions
 
 extension SectionType {
+
     public var hasTitle: Bool {
         if let title = title, !title.isEmpty {
             return true
@@ -283,8 +291,9 @@ extension SectionType {
 }
 
 extension Section {
+
     /// Converts a section into a data source (with a single section)
-    public func toDataSource() -> DataSource {
-        return DataSource(self)
+    public func dataSource() -> DataSource {
+        return DataSource(section: self)
     }
 }

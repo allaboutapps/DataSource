@@ -9,13 +9,7 @@
 import UIKit
 import DataSource
 
-enum Identifiers: String {
-    case TextCell
-    case PersonCell
-    case ButtonCell
-}
-
-enum Button: String {
+enum Button {
     case Add
     case Remove
 }
@@ -26,7 +20,7 @@ class ExampleTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerNib(Identifiers.ButtonCell.rawValue)
+        tableView.registerNib("ButtonCell")
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
@@ -44,28 +38,28 @@ class ExampleTableViewController: UITableViewController {
     
     /// demonstrates various ways to setup the same simple data source
     func setupExample1() {
-        let dataSource1 = DataSource([
+        let dataSource1 = DataSource(sections: [
             Section(rows: [
-                Row(identifier: Identifiers.TextCell.rawValue, data: "a"),
-                Row(identifier: Identifiers.TextCell.rawValue, data: "b"),
-                Row(identifier: Identifiers.TextCell.rawValue, data: "c"),
-                Row(identifier: Identifiers.TextCell.rawValue, data: "d"),
+                Row(identifier: "TextCell", data: "a"),
+                Row(identifier: "TextCell", data: "b"),
+                Row(identifier: "TextCell", data: "c"),
+                Row(identifier: "TextCell", data: "d"),
             ])
         ])
         
-        let dataSource2 = DataSource([
-            Section(rowIdentifier: Identifiers.TextCell.rawValue, rows: ["a", "b", "c", "d"])
+        let dataSource2 = DataSource(sections: [
+            Section(rowIdentifier: "TextCell", rows: ["a", "b", "c", "d"])
         ])
 
         let dataSource3 = ["a", "b", "c", "d"]
-            .toDataSourceSection(Identifiers.TextCell.rawValue)
-            .toDataSource()
+            .dataSourceSection(rowIdentifier: "TextCell")
+            .dataSource()
         
-        let dataSource4 = ["a", "b", "c", "d"].toDataSource(Identifiers.TextCell.rawValue)
+        let dataSource4 = ["a", "b", "c", "d"].dataSource(rowIdentifier: "TextCell")
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource1,
-            configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, indexPath: IndexPath) in
+            configurator: TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, indexPath: IndexPath) in
                 cell.textLabel?.text = "\(indexPath.row): \(title)"
             })
         
@@ -77,37 +71,37 @@ class ExampleTableViewController: UITableViewController {
     
     /// heterogenous data source with different row/cell types
     func setupExample2() {
-        let dataSource = DataSource([
-            Section(title: "B", footer: "Names starting with B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+        let dataSource = DataSource(sections: [
+            Section(title: "B", footer: "Names starting with B", rowIdentifier: "PersonCell", rows: [
                 Person(firstName: "Matthias", lastName: "Buchetics"),
-                ]),
-            Section<Person>(title: "M", footer: "Names starting with M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+            ]),
+            Section<Person>(title: "M", footer: "Names starting with M", rowIdentifier: "PersonCell", rows: [
                 Person(firstName: "Hugo", lastName: "Maier"),
                 Person(firstName: "Max", lastName: "Mustermann"),
-                ]),
-            Section(title: "Strings", rowIdentifier: Identifiers.TextCell.rawValue, rows: [
+            ]),
+            Section(title: "Strings", rowIdentifier: "TextCell", rows: [
                 "some text",
                 "another text"
-                ]),
-            Section(rowIdentifier: Identifiers.ButtonCell.rawValue, rows: [
+            ]),
+            Section(rowIdentifier: "ButtonCell", rows: [
                 Button.Add,
                 Button.Remove
-                ]),
-            ])
+            ]),
+        ])
         
         debugPrint(dataSource)
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource,
             configurators: [
-                TableViewCellConfigurator(Identifiers.PersonCell.rawValue) { (person: Person, cell: PersonCell, _) in
+                TableViewCellConfigurator(identifier: "PersonCell") { (person: Person, cell: PersonCell, _) in
                     cell.firstNameLabel?.text = person.firstName
                     cell.lastNameLabel?.text = person.lastName
                 },
-                TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
+                TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, _) in
                     cell.textLabel?.text = title
                 },
-                TableViewCellConfigurator(Identifiers.ButtonCell.rawValue) { (button: Button, cell: ButtonCell, _) in
+                TableViewCellConfigurator(identifier: "ButtonCell") { (button: Button, cell: ButtonCell, _) in
                     switch (button) {
                     case .Add:
                         cell.titleLabel?.text = "Add"
@@ -122,35 +116,35 @@ class ExampleTableViewController: UITableViewController {
     
     /// example how to combine and modify existing data sources
     func setupExample3() {
-        let dataSource1 = DataSource([
-            Section(title: "B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+        let dataSource1 = DataSource(sections: [
+            Section(title: "B", rowIdentifier: "PersonCell", rows: [
                 Person(firstName: "Matthias", lastName: "Buchetics"),
-                ]),
-            Section(title: "M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+            ]),
+            Section(title: "M", rowIdentifier: "PersonCell", rows: [
                 Person(firstName: "Hugo", lastName: "Maier"),
                 Person(firstName: "Max", lastName: "Mustermann"),
-                ]),
-            ])
+            ]),
+        ])
         
-        let dataSource2 = DataSource(
-            Section(title: "Strings", rowIdentifier: Identifiers.TextCell.rawValue, rows: ["some text", "another text"]))
+        let dataSource2 = DataSource(section:
+            Section(title: "Strings", rowIdentifier: "TextCell", rows: ["some text", "another text"]))
         
         var compoundDataSource = DataSource(dataSources: [dataSource1, dataSource2])
         
-        compoundDataSource.appendDataSource(dataSource2)
-        compoundDataSource.appendDataSource(dataSource1)
-        compoundDataSource.removeSectionAtIndex(1)
+        compoundDataSource.append(dataSource: dataSource2)
+        compoundDataSource.append(dataSource: dataSource1)
+        compoundDataSource.removeSection(at: 1)
         
         debugPrint(compoundDataSource)
         
         tableDataSource = TableViewDataSource(
             dataSource: compoundDataSource,
             configurators: [
-                TableViewCellConfigurator(Identifiers.PersonCell.rawValue) { (person: Person, cell: PersonCell, _) in
+                TableViewCellConfigurator(identifier: "PersonCell") { (person: Person, cell: PersonCell, _) in
                     cell.firstNameLabel?.text = person.firstName
                     cell.lastNameLabel?.text = person.lastName
                 },
-                TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
+                TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, _) in
                     cell.textLabel?.text = title
                 }
             ])
@@ -164,39 +158,39 @@ class ExampleTableViewController: UITableViewController {
             "section 3": ["g", "h", "i"],
         ]
         
-        let dataSource = data.toDataSource(Identifiers.TextCell.rawValue, orderedKeys: data.keys.sorted())
+        let dataSource = data.dataSource(rowIdentifier: "TextCell", orderedKeys: data.keys.sorted())
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource,
-            configurator: TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
+            configurator: TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, _) in
                 cell.textLabel?.text = title
             })
     }
     
     /// example with an empty section
     func setupExample5() {
-        let dataSource = DataSource([
-            Section(title: "B", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+        let dataSource = DataSource(sections: [
+            Section(title: "B", rowIdentifier: "PersonCell", rows: [
                 Person(firstName: "Matthias", lastName: "Buchetics"),
-                ]),
-            Section(title: "M", rowIdentifier: Identifiers.PersonCell.rawValue, rows: [
+            ]),
+            Section(title: "M", rowIdentifier: "PersonCell", rows: [
                 Person(firstName: "Hugo", lastName: "Maier"),
                 Person(firstName: "Max", lastName: "Mustermann"),
-                ]),
-            Section(title: "Empty Section", rowIdentifier: Identifiers.TextCell.rawValue, rows: [String]()),
-            Section(title: "Strings", rowIdentifier: Identifiers.TextCell.rawValue, rows: ["some text", "another text"]),
-            ])
+            ]),
+            Section(title: "Empty Section", rowIdentifier: "TextCell", rows: [String]()),
+            Section(title: "Strings", rowIdentifier: "TextCell", rows: ["some text", "another text"]),
+        ])
         
         debugPrint(dataSource)
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource,
             configurators: [
-                TableViewCellConfigurator(Identifiers.PersonCell.rawValue) { (person: Person, cell: PersonCell, _) in
+                TableViewCellConfigurator(identifier: "PersonCell") { (person: Person, cell: PersonCell, _) in
                     cell.firstNameLabel?.text = person.firstName
                     cell.lastNameLabel?.text = person.lastName
                 },
-                TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
+                TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, _) in
                     cell.textLabel?.text = title
                 },
             ])
@@ -204,30 +198,34 @@ class ExampleTableViewController: UITableViewController {
     
     /// example of an row creator closure
     func setupExample6() {
-        let dataSource = DataSource([
-            Section(title: "test", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
-                return Row(identifier: Identifiers.TextCell.rawValue, data: ((rowIndex + 1) % 2 == 0) ? "even" : "odd")
+        let dataSource = DataSource(sections: [
+            Section<String>(title: "test", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
+                if (rowIndex + 1) % 2 == 0 {
+                    return Row(identifier: "TextCell", data: "even")
+                } else {
+                    return Row(identifier: "TextCell", data: "odd")
+                }
+
             }),
             Section<Any>(title: "mixed", rowCountClosure: { return 5 }, rowCreatorClosure: { (rowIndex) in
                 if rowIndex % 2 == 0 {
-                    return Row(identifier: Identifiers.TextCell.rawValue, data: "test")
-                }
-                else {
-                   return Row(identifier: Identifiers.PersonCell.rawValue, data: Person(firstName: "Max", lastName: "Mustermann"))
+                    return Row(identifier: "TextCell", data: "test")
+                } else {
+                   return Row(identifier: "PersonCell", data: Person(firstName: "Max", lastName: "Mustermann"))
                 }
             })
-            ])
+        ])
         
         debugPrint(dataSource)
         
         tableDataSource = TableViewDataSource(
             dataSource: dataSource,
             configurators: [
-                TableViewCellConfigurator(Identifiers.PersonCell.rawValue) { (person: Person, cell: PersonCell, _) in
+                TableViewCellConfigurator(identifier: "PersonCell") { (person: Person, cell: PersonCell, _) in
                     cell.firstNameLabel?.text = person.firstName
                     cell.lastNameLabel?.text = person.lastName
                 },
-                TableViewCellConfigurator(Identifiers.TextCell.rawValue) { (title: String, cell: UITableViewCell, _) in
+                TableViewCellConfigurator(identifier: "TextCell") { (title: String, cell: UITableViewCell, _) in
                     cell.textLabel?.text = title
                 },
             ])
@@ -238,15 +236,14 @@ class ExampleTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let row = tableDataSource.dataSource.rowAtIndexPath(indexPath)
-        let rowIdentifier = Identifiers.init(rawValue: row.identifier)!
+        let row = tableDataSource.dataSource.row(at: indexPath)
         
-        switch (rowIdentifier) {
-        case .PersonCell:
+        switch (row.identifier) {
+        case "PersonCell":
             let person = row.anyData as! Person
             print("\(person) selected")
             
-        case .ButtonCell:
+        case "ButtonCell":
             switch (row.anyData as! Button) {
             case .Add:
                 print("add")
@@ -262,10 +259,10 @@ class ExampleTableViewController: UITableViewController {
     // need to fix section header and footer height if section is empty (only required for grouped table style)
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return tableView.heightForHeaderInSection(tableDataSource.sectionAtIndex(section))
+        return tableView.heightForHeaderInSection(tableDataSource.section(at: section))
     }
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return tableView.heightForFooterInSection(tableDataSource.sectionAtIndex(section))
+        return tableView.heightForFooterInSection(tableDataSource.section(at: section))
     }
 }

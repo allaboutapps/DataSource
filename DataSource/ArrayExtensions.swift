@@ -9,18 +9,19 @@
 import Foundation
 
 extension Array {
+
     /// Transforms an array into typed data source rows
-    public func toDataSourceRows(_ rowIdentifier: String) -> [Row<Element>] {
+    public func dataSourceRows(rowIdentifier: String) -> [Row<Element>] {
         return self.map { item in Row(identifier: rowIdentifier, data: item) }
     }
     
     /// Transforms an array into a typed data source section
-    public func toDataSourceSection(_ rowIdentifier: String, title: String? = nil) -> Section<Element> {
-        return Section(title: title, rows: self.toDataSourceRows(rowIdentifier))
+    public func dataSourceSection(rowIdentifier: String, title: String? = nil) -> Section<Element> {
+        return Section(title: title, rows: self.dataSourceRows(rowIdentifier: rowIdentifier))
     }
     
     /// Transforms an array into a data source (with a single section)
-    public func toDataSource(_ rowIdentifier: String) -> DataSource {
-        return DataSource(self.toDataSourceSection(rowIdentifier))
+    public func dataSource(rowIdentifier: String) -> DataSource {
+        return DataSource(section: self.dataSourceSection(rowIdentifier: rowIdentifier))
     }
 }
