@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "395D14A31B90612D00658680"
-               BuildableName = "DataSource.framework"
-               BlueprintName = "DataSource"
-               ReferencedContainer = "container:Example.xcodeproj">
+               BlueprintIdentifier = "395D147B1B90610A00658680"
+               BuildableName = "Example.app"
+               BlueprintName = "Example"
+               ReferencedContainer = "container:DataSource.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,20 +32,30 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "395D148F1B90610A00658680"
+               BuildableName = "ExampleTests.xctest"
+               BlueprintName = "ExampleTests"
+               ReferencedContainer = "container:DataSource.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "395D14AC1B90612D00658680"
                BuildableName = "DataSourceTests.xctest"
                BlueprintName = "DataSourceTests"
-               ReferencedContainer = "container:Example.xcodeproj">
+               ReferencedContainer = "container:DataSource.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "395D14A31B90612D00658680"
-            BuildableName = "DataSource.framework"
-            BlueprintName = "DataSource"
-            ReferencedContainer = "container:Example.xcodeproj">
+            BlueprintIdentifier = "395D147B1B90610A00658680"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:DataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -61,15 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "395D14A31B90612D00658680"
-            BuildableName = "DataSource.framework"
-            BlueprintName = "DataSource"
-            ReferencedContainer = "container:Example.xcodeproj">
+            BlueprintIdentifier = "395D147B1B90610A00658680"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:DataSource.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -79,15 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "395D14A31B90612D00658680"
-            BuildableName = "DataSource.framework"
-            BlueprintName = "DataSource"
-            ReferencedContainer = "container:Example.xcodeproj">
+            BlueprintIdentifier = "395D147B1B90610A00658680"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:DataSource.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

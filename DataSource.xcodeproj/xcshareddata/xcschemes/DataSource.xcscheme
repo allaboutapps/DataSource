@@ -17,7 +17,7 @@
                BlueprintIdentifier = "395D14A31B90612D00658680"
                BuildableName = "DataSource.framework"
                BlueprintName = "DataSource"
-               ReferencedContainer = "container:Example.xcodeproj">
+               ReferencedContainer = "container:DataSource.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,7 +36,7 @@
                BlueprintIdentifier = "395D14AC1B90612D00658680"
                BuildableName = "DataSourceTests.xctest"
                BlueprintName = "DataSourceTests"
-               ReferencedContainer = "container:Example.xcodeproj">
+               ReferencedContainer = "container:DataSource.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -46,7 +46,7 @@
             BlueprintIdentifier = "395D14A31B90612D00658680"
             BuildableName = "DataSource.framework"
             BlueprintName = "DataSource"
-            ReferencedContainer = "container:Example.xcodeproj">
+            ReferencedContainer = "container:DataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -68,7 +68,7 @@
             BlueprintIdentifier = "395D14A31B90612D00658680"
             BuildableName = "DataSource.framework"
             BlueprintName = "DataSource"
-            ReferencedContainer = "container:Example.xcodeproj">
+            ReferencedContainer = "container:DataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -86,7 +86,7 @@
             BlueprintIdentifier = "395D14A31B90612D00658680"
             BuildableName = "DataSource.framework"
             BlueprintName = "DataSource"
-            ReferencedContainer = "container:Example.xcodeproj">
+            ReferencedContainer = "container:DataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
