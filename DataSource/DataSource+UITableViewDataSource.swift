@@ -20,11 +20,11 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let configurator = self.configurator(at: indexPath)
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
         let row = self.row(at: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellDescriptor.cellIdentifier, for: indexPath)
         
-        configurator.configure(row, cell, indexPath)
+        cellDescriptor.configureClosure?(row, cell, indexPath)
         
         return cell
     }

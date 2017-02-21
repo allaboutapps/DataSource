@@ -14,9 +14,7 @@ class TextCell: UITableViewCell {
 
 extension TextCell {
     
-    static var configurator: CellConfigurator {
-        return CellConfigurator() { (text: String, cell: TextCell, indexPath: IndexPath) in
-            cell.textLabel?.text = text
-        }
+    func configure(text: String) {
+        textLabel?.text = text
     }
 }

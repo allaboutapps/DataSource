@@ -27,7 +27,7 @@
 		398248BE1E5C742A00F802D1 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 398248BD1E5C742A00F802D1 /* TextCell.xib */; };
 		398248C11E5C7A3500F802D1 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C01E5C7A3500F802D1 /* Row.swift */; };
 		398248C31E5C7A4000F802D1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C21E5C7A4000F802D1 /* Section.swift */; };
-		398248C51E5C7A5600F802D1 /* CellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C41E5C7A5600F802D1 /* CellConfigurator.swift */; };
+		398248C51E5C7A5600F802D1 /* CellDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C41E5C7A5600F802D1 /* CellDescriptor.swift */; };
 		398248C71E5C7CCA00F802D1 /* DataSourceDiffable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */; };
 		398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */; };
 		398248CB1E5CA74A00F802D1 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */; };
@@ -89,7 +89,7 @@
 		398248BD1E5C742A00F802D1 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		398248C01E5C7A3500F802D1 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		398248C21E5C7A4000F802D1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
-		398248C41E5C7A5600F802D1 /* CellConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfigurator.swift; sourceTree = "<group>"; };
+		398248C41E5C7A5600F802D1 /* CellDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDescriptor.swift; sourceTree = "<group>"; };
 		398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceDiffable.swift; sourceTree = "<group>"; };
 		398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDataSource.swift"; sourceTree = "<group>"; };
 		398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 			children = (
 				398248C01E5C7A3500F802D1 /* Row.swift */,
 				398248C21E5C7A4000F802D1 /* Section.swift */,
-				398248C41E5C7A5600F802D1 /* CellConfigurator.swift */,
+				398248C41E5C7A5600F802D1 /* CellDescriptor.swift */,
 				398248AE1E5C6EFB00F802D1 /* DataSource.swift */,
 				398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */,
 				398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */,
@@ -413,7 +413,7 @@
 			files = (
 				398248CB1E5CA74A00F802D1 /* UITableViewExtensions.swift in Sources */,
 				398248CD1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift in Sources */,
-				398248C51E5C7A5600F802D1 /* CellConfigurator.swift in Sources */,
+				398248C51E5C7A5600F802D1 /* CellDescriptor.swift in Sources */,
 				398248C31E5C7A4000F802D1 /* Section.swift in Sources */,
 				398248C71E5C7CCA00F802D1 /* DataSourceDiffable.swift in Sources */,
 				398248C11E5C7A3500F802D1 /* Row.swift in Sources */,

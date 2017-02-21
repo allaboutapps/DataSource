@@ -28,13 +28,15 @@ class StartViewController: UITableViewController {
             sections: [
                 Section(key: "titles", rows: titles.map { Row($0) })
             ],
-            configurators: [
-                TextCell.configurator.with(
-                    didSelect: { (text: String, indexPath: IndexPath) in
+            cellDescriptors: [
+                CellDescriptor<String, TextCell>()
+                    .configure { (text, cell, indexPath) in
+                        cell.configure(text: text)
+                    }
+                    .didSelect { (text, indexPath) in
                         print("selected \(text)")
                         return .deselect
                     }
-                )
             ]
         )
         

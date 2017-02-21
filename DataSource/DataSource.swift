@@ -16,8 +16,8 @@ public class DataSource: NSObject {
         let row: RowType
     }
     
-    private(set) var sections: [Section<Any>]
-    private let configurators: [String: CellConfigurator]
+    private(set) var sections: [Section<Any>] = []
+    private var cellDescriptors: [String: CellDescriptorType] = [:]
     
     // MARK: Fallback closures
     
@@ -25,14 +25,12 @@ public class DataSource: NSObject {
     
     // MARK: Init
     
-    public init(sections: [Section<Any>], configurators: [CellConfigurator]) {
+    public init(sections: [Section<Any>], cellDescriptors: [CellDescriptorType]) {
         self.sections = sections
         
-        var dict = [String: CellConfigurator]()
-        for c in configurators {
-            dict[c.rowIdentifier] = c
+        for d in cellDescriptors {
+            self.cellDescriptors[d.rowIdentifier] = d
         }
-        self.configurators = dict
     }
     
     // MARK: Getters
@@ -49,23 +47,23 @@ public class DataSource: NSObject {
         }
     }
     
-    // MARK: Configurators
+    // MARK: Cell Descriptors
     
-    public func configurator(at indexPath: IndexPath) -> CellConfigurator {
+    public func cellDescriptor(at indexPath: IndexPath) -> CellDescriptorType {
         let row = sections[indexPath.section].rows[indexPath.row]
         
-        if let configurator = configurators[row.identifier] {
-            return configurator
+        if let cellDescriptor = cellDescriptors[row.identifier] {
+            return cellDescriptor
         } else {
-            fatalError("[DataSource] no configurator found for indexPath \(indexPath)")
+            fatalError("[DataSource] no cellDescriptor found for indexPath \(indexPath)")
         }
     }
     
-    public func configurator(for rowIdentifier: String) -> CellConfigurator {
-        if let configurator = configurators[rowIdentifier] {
-            return configurator
+    public func cellDescriptor(for rowIdentifier: String) -> CellDescriptorType {
+        if let cellDescriptor = cellDescriptors[rowIdentifier] {
+            return cellDescriptor
         } else {
-            fatalError("[DataSource] no configurator found for rowIdentifier \(rowIdentifier)")
+            fatalError("[DataSource] no cellDescriptor found for rowIdentifier \(rowIdentifier)")
         }
     }
     

@@ -22,12 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: test
     
     func test() {
-        let configurators = [
-            CellConfigurator(
+        /*
+        let cellDescriptors: [CellDescriptorType] = [
+            CellDescriptor(
                 configure: { (person: Person, cell: PersonCell, indexPath: IndexPath) in
                     cell.textLabel?.text = person.firstName
                 }),
-            CellConfigurator(
+            CellDescriptor(
                 configure: { (text: String, cell: TextCell, indexPath: IndexPath) in
                     cell.textLabel?.text = text
                 })
@@ -44,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Row("XYZ")
                 ])
             ],
-            configurators: configurators
+            cellDescriptors: cellDescriptors
         )
         
         let newSections: [Section<Any>] = [
@@ -61,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let diff = dataSource.diff(sections: newSections)
         
         print(diff.elements)
+ */
     }
 }
 
