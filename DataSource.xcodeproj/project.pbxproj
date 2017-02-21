@@ -13,8 +13,6 @@
 		395D14AE1B90612D00658680 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; };
 		395D14B91B90612D00658680 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; };
 		395D14BA1B90612D00658680 /* DataSource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3982488E1E5C6CA200F802D1 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982488B1E5C6CA200F802D1 /* ButtonCell.swift */; };
-		3982488F1E5C6CA200F802D1 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3982488C1E5C6CA200F802D1 /* ButtonCell.xib */; };
 		398248901E5C6CA200F802D1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982488D1E5C6CA200F802D1 /* PersonCell.swift */; };
 		398248A21E5C6D9900F802D1 /* ExampleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248A01E5C6D9900F802D1 /* ExampleTableViewController.swift */; };
 		398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248A11E5C6D9900F802D1 /* StartViewController.swift */; };
@@ -25,6 +23,12 @@
 		398248B71E5C70B200F802D1 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
 		398248B91E5C716300F802D1 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
 		398248BA1E5C717400F802D1 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
+		398248BC1E5C73FC00F802D1 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248BB1E5C73FC00F802D1 /* TextCell.swift */; };
+		398248BE1E5C742A00F802D1 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 398248BD1E5C742A00F802D1 /* TextCell.xib */; };
+		398248C11E5C7A3500F802D1 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C01E5C7A3500F802D1 /* Row.swift */; };
+		398248C31E5C7A4000F802D1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C21E5C7A4000F802D1 /* Section.swift */; };
+		398248C51E5C7A5600F802D1 /* CellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C41E5C7A5600F802D1 /* CellConfigurator.swift */; };
+		398248C71E5C7CCA00F802D1 /* DataSourceDiffable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,8 +72,6 @@
 		395D14A81B90612D00658680 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395D14AD1B90612D00658680 /* DataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		395D14B61B90612D00658680 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3982488B1E5C6CA200F802D1 /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
-		3982488C1E5C6CA200F802D1 /* ButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ButtonCell.xib; sourceTree = "<group>"; };
 		3982488D1E5C6CA200F802D1 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		398248A01E5C6D9900F802D1 /* ExampleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleTableViewController.swift; sourceTree = "<group>"; };
 		398248A11E5C6D9900F802D1 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,12 @@
 		398248B31E5C704700F802D1 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		398248B41E5C705000F802D1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		398248B61E5C70B200F802D1 /* Diff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Diff.framework; path = Carthage/Build/iOS/Diff.framework; sourceTree = "<group>"; };
+		398248BB1E5C73FC00F802D1 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
+		398248BD1E5C742A00F802D1 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
+		398248C01E5C7A3500F802D1 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
+		398248C21E5C7A4000F802D1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		398248C41E5C7A5600F802D1 /* CellConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfigurator.swift; sourceTree = "<group>"; };
+		398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceDiffable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,8 +160,12 @@
 		395D14A51B90612D00658680 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
-				395D14A61B90612D00658680 /* DataSource.h */,
+				398248C01E5C7A3500F802D1 /* Row.swift */,
+				398248C21E5C7A4000F802D1 /* Section.swift */,
 				398248AE1E5C6EFB00F802D1 /* DataSource.swift */,
+				398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */,
+				398248C41E5C7A5600F802D1 /* CellConfigurator.swift */,
+				395D14A61B90612D00658680 /* DataSource.h */,
 				395D14A81B90612D00658680 /* Info.plist */,
 			);
 			path = DataSource;
@@ -170,9 +182,9 @@
 		3982488A1E5C6C7900F802D1 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				3982488B1E5C6CA200F802D1 /* ButtonCell.swift */,
-				3982488C1E5C6CA200F802D1 /* ButtonCell.xib */,
 				3982488D1E5C6CA200F802D1 /* PersonCell.swift */,
+				398248BB1E5C73FC00F802D1 /* TextCell.swift */,
+				398248BD1E5C742A00F802D1 /* TextCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -333,7 +345,7 @@
 			files = (
 				398248AC1E5C6DDC00F802D1 /* LaunchScreen.storyboard in Resources */,
 				395D14871B90610A00658680 /* Assets.xcassets in Resources */,
-				3982488F1E5C6CA200F802D1 /* ButtonCell.xib in Resources */,
+				398248BE1E5C742A00F802D1 /* TextCell.xib in Resources */,
 				398248AD1E5C6DDC00F802D1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,8 +392,8 @@
 				398248A61E5C6DB400F802D1 /* Person.swift in Sources */,
 				398248A21E5C6D9900F802D1 /* ExampleTableViewController.swift in Sources */,
 				398248901E5C6CA200F802D1 /* PersonCell.swift in Sources */,
+				398248BC1E5C73FC00F802D1 /* TextCell.swift in Sources */,
 				395D14801B90610A00658680 /* AppDelegate.swift in Sources */,
-				3982488E1E5C6CA200F802D1 /* ButtonCell.swift in Sources */,
 				398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,6 +402,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				398248C51E5C7A5600F802D1 /* CellConfigurator.swift in Sources */,
+				398248C31E5C7A4000F802D1 /* Section.swift in Sources */,
+				398248C71E5C7CCA00F802D1 /* DataSourceDiffable.swift in Sources */,
+				398248C11E5C7A3500F802D1 /* Row.swift in Sources */,
 				398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

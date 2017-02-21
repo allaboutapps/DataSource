@@ -7,11 +7,27 @@
 //
 
 import Foundation
+import DataSource
 
 struct Person {
     
     let firstName: String
     let lastName: String
+}
+
+extension Person: Equatable {
+    
+    static func ==(lhs: Person, rhs: Person) -> Bool {
+        return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName
+    }
+}
+
+extension Person: DataSourceDiffable {
+    
+    func isEqualToDiffable(_ other: DataSourceDiffable?) -> Bool {
+        guard let other = other as? Person else { return false }
+        return self == other
+    }
 }
 
 extension Person: CustomStringConvertible {
