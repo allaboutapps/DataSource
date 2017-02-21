@@ -18,6 +18,10 @@ public struct Section<Model>: Collection {
         self.rows = rows
     }
     
+    public init(key: String, models: [Model], rowIdentifier: String? = nil) {
+        self.init(key: key, rows: models.map { Row($0, identifier: rowIdentifier) })
+    }
+    
     public typealias Index = Int
     
     public var startIndex: Int {

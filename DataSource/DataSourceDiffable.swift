@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol DataSourceDiffable {
+    
     func isEqualToDiffable(_ other: DataSourceDiffable?) -> Bool
 }
 

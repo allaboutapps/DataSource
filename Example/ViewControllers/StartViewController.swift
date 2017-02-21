@@ -19,9 +19,36 @@ class StartViewController: UITableViewController {
         "Example 6"
     ]
     
+    var dataSource: DataSource!
+    
     override func viewDidLoad() {
-        super.viewDidLoad() 
+        super.viewDidLoad()
+        
+        dataSource = DataSource(
+            sections: [
+                Section(key: "titles", rows: titles.map { Row($0) })
+            ],
+            configurators: [
+                TextCell.configurator.with(
+                    didSelect: { (text: String, indexPath: IndexPath) in
+                        print("selected \(text)")
+                        return .deselect
+                    }
+                )
+            ]
+        )
+        
+        dataSource.didSelect = { (row, indexPath) in
+            print("fallback didSelect")
+            return .deselect
+        }
+        
+        tableView.registerNib(TextCell.self)
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
     }
+    
+    /*
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
@@ -35,13 +62,6 @@ class StartViewController: UITableViewController {
         
         return cell
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let viewController = segue.destination as? ExampleTableViewController else {
-            return
-        }
-        
-        let index = tableView.indexPathForSelectedRow?.row ?? 0
-        viewController.title = titles[index]
-    }
+ 
+    */
 }

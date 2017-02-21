@@ -24,42 +24,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func test() {
         let configurators = [
             CellConfigurator(
-                configure: { (person: Person, cell: PersonCell?) in
-                    cell?.textLabel?.text = person.firstName
-                    print(person)
-            }
-            ),
+                configure: { (person: Person, cell: PersonCell, indexPath: IndexPath) in
+                    cell.textLabel?.text = person.firstName
+                }),
             CellConfigurator(
-                configure: { (text: String, cell: TextCell?) in
-                    cell?.textLabel?.text = text
-                    print(text)
-            }
-            )
+                configure: { (text: String, cell: TextCell, indexPath: IndexPath) in
+                    cell.textLabel?.text = text
+                })
         ]
         
         let dataSource = DataSource(
             sections: [
-                Section(key: "Names", rows: [
+                Section(key: "names", rows: [
                     Row(Person(firstName: "Matthias", lastName: "Buchetics")),
                     Row(Person(firstName: "Hugo", lastName: "Maier"))
-                    ]),
-                Section(key: "Strings", rows: [
+                ]),
+                Section(key: "strings", rows: [
                     Row("ABC"),
                     Row("XYZ")
-                    ])
+                ])
             ],
             configurators: configurators
         )
         
         let newSections: [Section<Any>] = [
-            Section(key: "Strings", rows: [
+            Section(key: "strings", rows: [
                 Row("ABC"),
                 Row("XYZ"),
                 Row("AAA"),
-                ]),
-            Section(key: "Names", rows: [
+            ]),
+            Section(key: "names‚", rows: [
                 Row(Person(firstName: "Matthias", lastName: "Buchetics")),
-                ])
+            ])
         ]
         
         let diff = dataSource.diff(sections: newSections)
