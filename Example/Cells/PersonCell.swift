@@ -8,7 +8,9 @@
 
 import UIKit
 
+// this cell is designed in the Main.storyboard
 class PersonCell: UITableViewCell {
+    
     @IBOutlet weak var firstNameLabel: UILabel!
     @IBOutlet weak var lastNameLabel: UILabel!
 }

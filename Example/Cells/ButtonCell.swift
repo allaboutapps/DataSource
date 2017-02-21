@@ -9,9 +9,11 @@
 import UIKit
 
 class ButtonCell: UITableViewCell {
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
+        
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.darkGray
         selectedBackgroundView = backgroundView

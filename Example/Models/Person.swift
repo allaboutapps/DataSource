@@ -8,9 +8,13 @@
 
 import Foundation
 
-struct Person: CustomStringConvertible {
+struct Person {
+    
     let firstName: String
     let lastName: String
+}
+
+extension Person: CustomStringConvertible {
     
     var description: String {
         return "\(firstName) \(lastName)"
