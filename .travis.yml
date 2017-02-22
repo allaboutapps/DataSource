@@ -8,7 +8,7 @@ env:
   - IOS_FRAMEWORK_SCHEME="DataSource"
   matrix:
     - DESTINATION="OS=10.1,name=iPhone 7"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="iphonesimulator10.2"
-  before_install:
+before_install:
   - curl -OlL "https://github.com/Carthage/Carthage/releases/download/0.18.1/Carthage.pkg"
   - sudo installer -pkg "Carthage.pkg" -target /
   - rm "Carthage.pkg"
