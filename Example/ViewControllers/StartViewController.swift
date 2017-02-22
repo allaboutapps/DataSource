@@ -26,7 +26,11 @@ class StartViewController: UITableViewController {
         
         dataSource = DataSource(
             sections: [
-                Section(key: "titles", rows: titles.map { Row($0) })
+                Section(
+                    key: "titles",
+                    title: "Examples",
+                    footer: "Choose an example",
+                    rows: titles.map { Row($0) })
             ],
             cellDescriptors: [
                 CellDescriptor<String, TextCell>()
@@ -48,22 +52,12 @@ class StartViewController: UITableViewController {
         tableView.registerNib(TextCell.self)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
-    }
-    
-    /*
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let index = indexPath.row
         
-        cell.textLabel?.text = titles[index]
-        
-        return cell
+        dataSource.fallbackDataSource = self
+        dataSource.fallbackDelegate = self
     }
- 
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("fallback delegate didSelect")
+    }
 }

@@ -19,9 +19,17 @@ public class DataSource: NSObject {
     private(set) var sections: [Section<Any>] = []
     private var cellDescriptors: [String: CellDescriptorType] = [:]
     
-    // MARK: Fallback closures
+    // MARK: Fallback UITableViewDataSource
+    
+    public var configure: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    
+    public var fallbackDataSource: UITableViewDataSource? = nil
+    
+    // MARK: Fallback UITableViewDelegate
     
     public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
+    
+    public var fallbackDelegate: UITableViewDelegate? = nil
     
     // MARK: Init
     

@@ -15,13 +15,17 @@ extension DataSource: UITableViewDelegate {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
         let row = self.row(at: indexPath)
         
-        if let selectionResult = cellDescriptor.didSelectClosure?(row, indexPath) ?? didSelect?(row, indexPath) {
+        if let closure = cellDescriptor.didSelectClosure ?? didSelect {
+            let selectionResult = closure(row, indexPath)
+            
             switch selectionResult {
             case .deselect:
                 tableView.deselectRow(at: indexPath, animated: true)
             default:
                 break
             }
+        } else {
+            fallbackDelegate?.tableView!(tableView, didSelectRowAt: indexPath)
         }
     }
 }

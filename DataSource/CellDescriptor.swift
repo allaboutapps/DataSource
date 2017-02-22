@@ -27,37 +27,48 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public let rowIdentifier: String
     public let cellIdentifier: String
     
-    public private(set) var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
-    public private(set) var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)?
-    
     public init(rowIdentifier: String? = nil, cellIdentifier: String? = nil) {
         self.rowIdentifier = rowIdentifier ?? String(describing: Model.self)
         self.cellIdentifier = cellIdentifier ?? String(describing: Cell.self)
     }
     
+    // MARK: Typed Getters
+    
+    private func typedModel(_ row: RowType) -> Model {
+        guard let model = row.anyModel as? Model else {
+            fatalError("[DataSource] could not cast to expected model type \(Model.self)")
+        }
+        
+        return model
+    }
+    
+    private func typedCell(_ cell: UITableViewCell) -> Cell {
+        guard let cell = cell as? Cell else {
+            fatalError("[DataSource] could not cast to expected cell type \(Cell.self)")
+        }
+        
+        return cell
+    }
+    
+    // MARK: configure
+    
+    public private(set) var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
+    
     public func configure(_ configure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
         self.configureClosure = { (row, cell, indexPath) in
-            guard let model = row.anyModel as? Model else {
-                fatalError("[DataSource] configure: could not cast to expected model type \(Model.self)")
-            }
-            
-            guard let cell = cell as? Cell else {
-                fatalError("[DataSource] configure: could not cast to expected cell type \(Cell.self)")
-            }
-            
-            configure(model, cell, indexPath)
+            configure(self.typedModel(row), self.typedCell(cell), indexPath)
         }
         
         return self
     }
     
+    // MARK: didSelect
+    
+    public private(set) var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)?
+    
     public func didSelect(_ closure: @escaping (Model, IndexPath) -> SelectionResult) -> CellDescriptor {
         self.didSelectClosure = { (row, indexPath) in
-            guard let model = row.anyModel as? Model else {
-                fatalError("[DataSource] didSelect: could not cast to expected model type \(Model.self)")
-            }
-            
-            return closure(model, indexPath)
+            return closure(self.typedModel(row), indexPath)
         }
         
         return self

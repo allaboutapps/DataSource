@@ -11,10 +11,14 @@ import Foundation
 public struct Section<Model>: Collection {
     
     public let key: String
+    public let title: String?
+    public let footer: String?
     public let rows: [Row<Model>]
     
-    public init(key: String, rows: [Row<Model>]) {
+    public init(key: String, title: String? = nil, footer: String? = nil, rows: [Row<Model>]) {
         self.key = key
+        self.title = title
+        self.footer = footer
         self.rows = rows
     }
     

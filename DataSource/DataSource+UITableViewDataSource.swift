@@ -21,11 +21,26 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
-        let row = self.row(at: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellDescriptor.cellIdentifier, for: indexPath)
-        
-        cellDescriptor.configureClosure?(row, cell, indexPath)
-        
-        return cell
+       
+        if let closure = cellDescriptor.configureClosure ?? configure {
+            let row = self.row(at: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellDescriptor.cellIdentifier, for: indexPath)
+            
+            closure(row, cell, indexPath)
+            
+            return cell
+        } else if let fallbackDataSource = fallbackDataSource {
+            return fallbackDataSource.tableView(tableView, cellForRowAt: indexPath)
+        } else {
+            fatalError("[DataSource] no configure closure and no fallback UITableViewDataSource set")
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].title
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return sections[section].footer
     }
 }
