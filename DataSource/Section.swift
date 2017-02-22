@@ -6,24 +6,22 @@
 //  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-public struct Section<Model>: Collection {
+public class Section: Collection {
     
-    public let key: String
-    public let title: String?
-    public let footer: String?
-    public let rows: [Row<Model>]
-    
-    public init(key: String, title: String? = nil, footer: String? = nil, rows: [Row<Model>]) {
-        self.key = key
-        self.title = title
-        self.footer = footer
-        self.rows = rows
+    public enum HeaderFooter {
+        case none
+        case title(String)
+        case view(UIView)
     }
     
-    public init(key: String, models: [Model], rowIdentifier: String? = nil) {
-        self.init(key: key, rows: models.map { Row($0, identifier: rowIdentifier) })
+    public let key: String
+    public let rows: [RowType]
+    
+    public init(key: String, rows: [RowType]) {
+        self.key = key
+        self.rows = rows
     }
     
     public typealias Index = Int
@@ -36,7 +34,7 @@ public struct Section<Model>: Collection {
         return rows.endIndex
     }
     
-    public subscript(i: Int) -> Row<Model> {
+    public subscript(i: Int) -> RowType {
         return rows[i]
     }
     
@@ -44,7 +42,39 @@ public struct Section<Model>: Collection {
         return rows.index(after: i)
     }
     
-    public static func ==(fst: Section<Model>, snd: Section<Model>) -> Bool {
-        return fst.key == snd.key
+    public static func ==(a: Section, b: Section) -> Bool {
+        return a.key == b.key
+    }
+    
+    // MARK: Header
+    
+    public private(set) var headerClosure: ((Section, Int) -> HeaderFooter)?
+    
+    public func header(_ closure: @escaping (Section, Int) -> HeaderFooter) -> Section {
+        headerClosure = closure
+        return self
+    }
+    
+    public func header(_ closure: @escaping () -> HeaderFooter) -> Section {
+        headerClosure = { (_, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: Footer
+    
+    public private(set) var footerClosure: ((Section, Int) -> HeaderFooter)?
+    
+    public func footer(_ closure: @escaping (Section, Int) -> HeaderFooter) -> Section {
+        footerClosure = closure
+        return self
+    }
+    
+    public func footer(_ closure: @escaping () -> HeaderFooter) -> Section {
+        footerClosure = { (_, _) in
+            closure()
+        }
+        return self
     }
 }

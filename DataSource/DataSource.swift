@@ -16,7 +16,7 @@ public class DataSource: NSObject {
         let row: RowType
     }
     
-    private(set) var sections: [Section<Any>] = []
+    private(set) var sections: [Section] = []
     private var cellDescriptors: [String: CellDescriptorType] = [:]
     
     // MARK: Fallback UITableViewDataSource
@@ -33,7 +33,7 @@ public class DataSource: NSObject {
     
     // MARK: Init
     
-    public init(sections: [Section<Any>], cellDescriptors: [CellDescriptorType]) {
+    public init(sections: [Section], cellDescriptors: [CellDescriptorType]) {
         self.sections = sections
         
         for d in cellDescriptors {
@@ -77,11 +77,11 @@ public class DataSource: NSObject {
     
     // MARK: Updates
     
-    public func set(sections: [Section<Any>]) {
+    public func set(sections: [Section]) {
         self.sections = sections
     }
     
-    public func replace(key: String? = nil, section: Section<Any>) {
+    public func replace(key: String? = nil, section: Section) {
         if let index = sections.index(where: { $0.key == key ?? section.key }) {
             self.sections[index] = section
         }
@@ -89,7 +89,7 @@ public class DataSource: NSObject {
     
     // MARK: Diff
     
-    public func diff(sections: [Section<Any>]) -> NestedExtendedDiff {
+    public func diff(sections: [Section]) -> NestedExtendedDiff {
         let oldSections = self.sections
         
         let diff = oldSections.nestedExtendedDiff(

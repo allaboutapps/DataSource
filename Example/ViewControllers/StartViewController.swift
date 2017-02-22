@@ -26,11 +26,9 @@ class StartViewController: UITableViewController {
         
         dataSource = DataSource(
             sections: [
-                Section(
-                    key: "titles",
-                    title: "Examples",
-                    footer: "Choose an example",
-                    rows: titles.map { Row($0) })
+                Section(key: "titles", rows: titles.map { Row($0) })
+                    .header { .title("Examples") }
+                    .footer { .title("Choose an example") }
             ],
             cellDescriptors: [
                 CellDescriptor<String, TextCell>()

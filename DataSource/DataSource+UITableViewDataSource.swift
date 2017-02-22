@@ -37,10 +37,27 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
+        let index = section
+        let section = sections[index]
+        
+        switch section.headerClosure?(section, index) {
+        case .title(let title)?:
+            return title
+        default:
+            return nil
+        }
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return sections[section].footer
+        let index = section
+        let section = sections[index]
+        
+        switch section.footerClosure?(section, index) {
+        case .title(let title)?:
+            return title
+        default:
+            return nil
+        }
+
     }
 }

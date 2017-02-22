@@ -28,4 +28,28 @@ extension DataSource: UITableViewDelegate {
             fallbackDelegate?.tableView!(tableView, didSelectRowAt: indexPath)
         }
     }
+    
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let index = section
+        let section = sections[index]
+        
+        switch section.headerClosure?(section, index) {
+        case .view(let view)?:
+            return view
+        default:
+            return nil
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let index = section
+        let section = sections[index]
+        
+        switch section.footerClosure?(section, index) {
+        case .view(let view)?:
+            return view
+        default:
+            return nil
+        }
+    }
 }
