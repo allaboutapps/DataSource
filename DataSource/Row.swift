@@ -12,6 +12,7 @@ public protocol RowType {
     
     var identifier: String { get }
     var anyModel: Any { get }
+    var isHidden: Bool { get }
 }
 
 public struct Row<Model>: RowType {
@@ -21,6 +22,10 @@ public struct Row<Model>: RowType {
     
     public var anyModel: Any {
         return model
+    }
+    
+    public var isHidden: Bool {
+        return false
     }
     
     public init(_ model: Model, identifier: String? = nil) {

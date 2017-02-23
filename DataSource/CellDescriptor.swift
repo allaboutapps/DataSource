@@ -18,6 +18,7 @@ public protocol CellDescriptorType {
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
     
+    var isHiddenClosure: ((RowType, IndexPath) -> Bool)? { get }
     var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
     var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)? { get }
 }
@@ -50,13 +51,27 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
         return cell
     }
     
+    // MARK: - Closures
+    
+    // MARK: isHidden
+    
+    public private(set) var isHiddenClosure: ((RowType, IndexPath) -> Bool)?
+    
+    public func isHidden(_ closure: @escaping (Model, IndexPath) -> Bool) -> CellDescriptor {
+        self.isHiddenClosure = { (row, indexPath) in
+            closure(self.typedModel(row), indexPath)
+        }
+        
+        return self
+    }
+    
     // MARK: configure
     
     public private(set) var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
     
-    public func configure(_ configure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
+    public func configure(_ closure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
         self.configureClosure = { (row, cell, indexPath) in
-            configure(self.typedModel(row), self.typedCell(cell), indexPath)
+            closure(self.typedModel(row), self.typedCell(cell), indexPath)
         }
         
         return self

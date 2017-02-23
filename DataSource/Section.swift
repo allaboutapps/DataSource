@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class Section: Collection {
+public class Section {
     
     public enum HeaderFooter {
         case none
@@ -17,33 +17,45 @@ public class Section: Collection {
     }
     
     public let key: String
-    public let rows: [RowType]
     
-    public init(key: String, rows: [RowType]) {
+    public private(set) var rows: [RowType] = []
+    public private(set) var visibleRows: [RowType] = []
+    
+    public init(key: String, rows: [RowType], visibleRows: [RowType]? = nil) {
         self.key = key
         self.rows = rows
+        self.visibleRows = visibleRows ?? rows
     }
     
-    public typealias Index = Int
-    
-    public var startIndex: Int {
-        return rows.startIndex
+    internal var diffClone: Section {
+        return Section(key: key, rows: rows, visibleRows: visibleRows)
     }
     
-    public var endIndex: Int {
-        return rows.endIndex
+    public func update(rows: [RowType]) {
+        self.rows = rows
+        self.visibleRows = rows
     }
     
-    public subscript(i: Int) -> RowType {
-        return rows[i]
+    internal func update(visibleRows: [RowType]) {
+        self.visibleRows = visibleRows
     }
     
-    public func index(after i: Int) -> Int {
-        return rows.index(after: i)
+    // MARK: - Closures
+    
+    // MARK: isHidden
+    
+    public private(set) var isHiddenClosure: ((Section, Int) -> Bool)?
+    
+    public func isHidden(_ closure: @escaping (Section, Int) -> Bool) -> Section {
+        isHiddenClosure = closure
+        return self
     }
     
-    public static func ==(a: Section, b: Section) -> Bool {
-        return a.key == b.key
+    public func isHidden(_ closure: @escaping () -> Bool) -> Section {
+        isHiddenClosure = { (_, _) in
+            closure()
+        }
+        return self
     }
     
     // MARK: Header
@@ -76,5 +88,37 @@ public class Section: Collection {
             closure()
         }
         return self
+    }
+}
+
+// MARK: - Equatable
+
+extension Section: Equatable {
+    
+    public static func ==(lhs: Section, rhs: Section) -> Bool {
+        return lhs.key == rhs.key
+    }
+}
+
+// MARK: - Collection
+
+extension Section: Collection {
+    
+    public typealias Index = Int
+    
+    public var startIndex: Int {
+        return visibleRows.startIndex
+    }
+    
+    public var endIndex: Int {
+        return visibleRows.endIndex
+    }
+    
+    public subscript(i: Int) -> RowType {
+        return visibleRows[i]
+    }
+    
+    public func index(after i: Int) -> Int {
+        return visibleRows.index(after: i)
     }
 }

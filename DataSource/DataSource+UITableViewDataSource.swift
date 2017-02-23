@@ -12,18 +12,18 @@ import Diff
 extension DataSource: UITableViewDataSource {
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return visibleSections.count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].rows.count
+        return visibleSections[section].visibleRows.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
        
         if let closure = cellDescriptor.configureClosure ?? configure {
-            let row = self.row(at: indexPath)
+            let row = self.visibleRow(at: indexPath)
             let cell = tableView.dequeueReusableCell(withIdentifier: cellDescriptor.cellIdentifier, for: indexPath)
             
             closure(row, cell, indexPath)
@@ -38,7 +38,7 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let index = section
-        let section = sections[index]
+        let section = visibleSections[index]
         
         switch section.headerClosure?(section, index) {
         case .title(let title)?:
@@ -50,7 +50,7 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let index = section
-        let section = sections[index]
+        let section = visibleSections[index]
         
         switch section.footerClosure?(section, index) {
         case .title(let title)?:

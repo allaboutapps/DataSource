@@ -13,7 +13,7 @@ extension DataSource: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
-        let row = self.row(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
         
         if let closure = cellDescriptor.didSelectClosure ?? didSelect {
             let selectionResult = closure(row, indexPath)
