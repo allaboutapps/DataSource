@@ -11,6 +11,30 @@ import Diff
 
 extension DataSource: UITableViewDelegate {
     
+    // MARK: Selection
+    
+    public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.willSelectClosure ?? willSelect {
+            return closure(row, indexPath)
+        } else {
+            return fallbackDelegate?.tableView!(tableView, willSelectRowAt: indexPath)
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.willDeselectClosure ?? willDeselect {
+            return closure(row, indexPath)
+        } else {
+            return fallbackDelegate?.tableView!(tableView, willDeselectRowAt: indexPath)
+        }
+    }
+    
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
         let row = self.visibleRow(at: indexPath)
@@ -30,6 +54,19 @@ extension DataSource: UITableViewDelegate {
             fallbackDelegate?.tableView!(tableView, didSelectRowAt: indexPath)
         }
     }
+    
+    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.didDeselectClosure ?? didDeselect {
+            closure(row, indexPath)
+        } else {
+            fallbackDelegate?.tableView!(tableView, didDeselectRowAt: indexPath)
+        }
+    }
+    
+    // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let index = section
@@ -54,6 +91,8 @@ extension DataSource: UITableViewDelegate {
             return nil
         }
     }
+    
+    // MARK: Height
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellDescriptor = self.cellDescriptor(at: indexPath)

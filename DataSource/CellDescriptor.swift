@@ -22,7 +22,11 @@ public protocol CellDescriptorType {
     var isHiddenClosure: ((RowType, IndexPath) -> Bool)? { get }
     var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
     var heightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
+    
+    var willSelectClosure: ((RowType, IndexPath) -> IndexPath?)? { get }
+    var willDeselectClosure: ((RowType, IndexPath) -> IndexPath?)? { get }
     var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)? { get }
+    var didDeselectClosure: ((RowType, IndexPath) -> Void)? { get }
 }
 
 public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
@@ -43,7 +47,6 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
         guard let model = row.anyModel as? Model else {
             fatalError("[DataSource] could not cast to expected model type \(Model.self)")
         }
-        
         return model
     }
     
@@ -51,7 +54,6 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
         guard let cell = cell as? Cell else {
             fatalError("[DataSource] could not cast to expected cell type \(Cell.self)")
         }
-        
         return cell
     }
     
@@ -62,10 +64,9 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var isHiddenClosure: ((RowType, IndexPath) -> Bool)?
     
     public func isHidden(_ closure: @escaping (Model, IndexPath) -> Bool) -> CellDescriptor {
-        self.isHiddenClosure = { (row, indexPath) in
+        isHiddenClosure = { (row, indexPath) in
             closure(self.typedModel(row), indexPath)
         }
-        
         return self
     }
     
@@ -74,10 +75,9 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
     
     public func configure(_ closure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
-        self.configureClosure = { (row, cell, indexPath) in
+        configureClosure = { (row, cell, indexPath) in
             closure(self.typedModel(row), self.typedCell(cell), indexPath)
         }
-        
         return self
     }
     
@@ -86,10 +86,31 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var heightClosure: ((RowType, IndexPath) -> CGFloat)?
     
     public func height(_ closure: @escaping (Model, IndexPath) -> CGFloat) -> CellDescriptor {
-        self.heightClosure = { (row, indexPath) in
+        heightClosure = { (row, indexPath) in
             return closure(self.typedModel(row), indexPath)
         }
-        
+        return self
+    }
+    
+    // MARK: willSelect
+    
+    public private(set) var willSelectClosure: ((RowType, IndexPath) -> IndexPath?)?
+    
+    public func willSelect(_ closure: @escaping (Model, IndexPath) -> IndexPath?) -> CellDescriptor {
+        willSelectClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: willSelect
+    
+    public private(set) var willDeselectClosure: ((RowType, IndexPath) -> IndexPath?)?
+    
+    public func willDeselect(_ closure: @escaping (Model, IndexPath) -> IndexPath?) -> CellDescriptor {
+        willDeselectClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
         return self
     }
     
@@ -98,10 +119,20 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)?
     
     public func didSelect(_ closure: @escaping (Model, IndexPath) -> SelectionResult) -> CellDescriptor {
-        self.didSelectClosure = { (row, indexPath) in
+        didSelectClosure = { (row, indexPath) in
             return closure(self.typedModel(row), indexPath)
         }
-        
+        return self
+    }
+    
+    // MARK: didDeselect
+    
+    public private(set) var didDeselectClosure: ((RowType, IndexPath) -> Void)?
+    
+    public func didDeselect(_ closure: @escaping (Model, IndexPath) -> Void) -> CellDescriptor {
+        didDeselectClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
         return self
     }
 }

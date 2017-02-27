@@ -33,7 +33,10 @@ public class DataSource: NSObject {
     // MARK: Fallback UITableViewDelegate
     
     public var height: ((RowType, IndexPath) -> CGFloat)? = nil
+    public var willSelect: ((RowType, IndexPath) -> IndexPath?)? = nil
+    public var willDeselect: ((RowType, IndexPath) -> IndexPath?)? = nil
     public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
+    public var didDeselect: ((RowType, IndexPath) -> Void)? = nil
     
     public var fallbackDelegate: UITableViewDelegate? = nil
     

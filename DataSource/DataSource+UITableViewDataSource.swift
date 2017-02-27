@@ -11,6 +11,8 @@ import Diff
 
 extension DataSource: UITableViewDataSource {
     
+    // MARK: Counts
+    
     public func numberOfSections(in tableView: UITableView) -> Int {
         return visibleSections.count
     }
@@ -18,6 +20,8 @@ extension DataSource: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return visibleSections[section].visibleRows.count
     }
+    
+    // MARK: Configuration
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
@@ -41,6 +45,8 @@ extension DataSource: UITableViewDataSource {
             fatalError("[DataSource] no configure closure and no fallback UITableViewDataSource set")
         }
     }
+    
+    // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let index = section

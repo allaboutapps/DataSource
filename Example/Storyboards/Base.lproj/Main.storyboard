@@ -57,6 +57,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PersonCell" id="t2E-sf-irZ" customClass="PersonCell" customModule="Example" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t2E-sf-irZ" id="IRY-tD-Gec">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wUN-ek-B9H">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Dp-nD-z6F">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="43.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YbF-1B-qhc">
+                                                    <rect key="frame" x="52" y="0.0" width="293" height="43.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="wUN-ek-B9H" secondAttribute="trailing" constant="15" id="HVc-Ma-3iU"/>
+                                        <constraint firstItem="wUN-ek-B9H" firstAttribute="top" secondItem="IRY-tD-Gec" secondAttribute="top" id="Yoi-a0-74t"/>
+                                        <constraint firstItem="wUN-ek-B9H" firstAttribute="leading" secondItem="IRY-tD-Gec" secondAttribute="leading" constant="15" id="kRD-Jr-IpM"/>
+                                        <constraint firstAttribute="bottom" secondItem="wUN-ek-B9H" secondAttribute="bottom" id="tQ2-uU-a1T"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="firstNameLabel" destination="0Dp-nD-z6F" id="4y2-QM-pDe"/>
+                                    <outlet property="lastNameLabel" destination="YbF-1B-qhc" id="I72-dw-2CX"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="6py-Jf-HCI" id="1Q1-Q4-6yC"/>
                             <outlet property="delegate" destination="6py-Jf-HCI" id="vvo-Bc-rgM"/>

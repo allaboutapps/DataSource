@@ -23,7 +23,7 @@ class StartViewController: UITableViewController {
         dataSource = DataSource(
             sections: [
                 Section(key: "examples", rows: [
-                    Row(Example(title: "Persons", segue: "showExamplePersons")),
+                    Row(Example(title: "Persons (sections, animated change)", segue: "showExamplePersons")),
                 ])
             ],
             cellDescriptors: [
