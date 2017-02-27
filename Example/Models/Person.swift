@@ -27,6 +27,19 @@ extension Person: Equatable {
     }
 }
 
+extension Person: Comparable {
+    
+    static func <(lhs: Person, rhs: Person) -> Bool {
+        if lhs.lastName != rhs.lastName {
+            return lhs.lastName < rhs.lastName
+        } else if lhs.firstName != rhs.firstName {
+            return lhs.firstName < rhs.firstName
+        } else {
+            return false
+        }
+    }
+}
+
 extension Person: DataSourceDiffable {
     
     func isEqualToDiffable(_ other: DataSourceDiffable?) -> Bool {

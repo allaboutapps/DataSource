@@ -9,6 +9,11 @@
 import UIKit
 import DataSource
 
+struct Example {
+    let title: String
+    let segue: String
+}
+
 class StartViewController: UITableViewController {
     var dataSource: DataSource!
     
@@ -16,16 +21,19 @@ class StartViewController: UITableViewController {
         super.viewDidLoad()
         
         dataSource = DataSource(
-            sections: randomData(),
+            sections: [
+                Section(key: "examples", rows: [
+                    Row(Example(title: "Persons", segue: "showExamplePersons")),
+                ])
+            ],
             cellDescriptors: [
-                CellDescriptor<Person, PersonCell>()
-                    .configure { (person, cell, indexPath) in
-                        cell.configure(person: person)
+                CellDescriptor<Example, TextCell>()
+                    .configure { (example, cell, indexPath) in
+                        cell.textLabel?.text = example.title
+                        cell.accessoryType = .disclosureIndicator
                     }
-                    .didSelect { (person, indexPath) in
-                        self.dataSource.set(sections: self.randomData())
-                        self.dataSource.updateAnimated(tableView: self.tableView)
-                        
+                    .didSelect { (example, indexPath) in
+                        self.performSegue(withIdentifier: example.segue, sender: nil)
                         return .deselect
                     }
             ]
@@ -33,37 +41,5 @@ class StartViewController: UITableViewController {
         
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
-        
-        dataSource.fallbackDataSource = self
-        dataSource.fallbackDelegate = self
-    }
-    
-    private func randomData() -> [Section] {
-        let count = Int.random(5, 15)
-        
-        let persons = (0 ..< count).map { _ in
-            Person(firstName: Randoms.randomFirstName(), lastName: Randoms.randomLastName())
-        }
-        
-        let letters = Set(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"])
-        
-        let firstGroup = persons.filter {
-            $0.lastNameStartsWith(letters: letters)
-        }
-        
-        let secondGroup = persons.filter {
-            !$0.lastNameStartsWith(letters: letters)
-        }
-        
-        return [
-            Section(key: "firstGroup", rows: firstGroup.map(Row.init))
-                .header { .title("A - L") },
-            Section(key: "secondGroup", rows: secondGroup.map(Row.init))
-                .header { .title("M - Z") },
-        ]
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("fallback delegate didSelect")
     }
 }

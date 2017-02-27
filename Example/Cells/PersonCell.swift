@@ -7,8 +7,8 @@
 //
 
 import UIKit
+import DataSource
 
-// this cell is designed in the Main.storyboard
 class PersonCell: UITableViewCell {
     
     @IBOutlet weak var firstNameLabel: UILabel!
@@ -20,5 +20,12 @@ extension PersonCell {
     func configure(person: Person) {
         firstNameLabel?.text = person.firstName
         lastNameLabel?.text = person.lastName
+    }
+    
+    static var descriptor: CellDescriptor<Person, PersonCell> {
+        return CellDescriptor()
+            .configure { (person, cell, indexPath) in
+                cell.configure(person: person)
+            }
     }
 }

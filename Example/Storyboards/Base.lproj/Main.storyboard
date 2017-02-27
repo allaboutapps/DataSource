@@ -41,10 +41,38 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Examples" id="STS-jL-TFy"/>
+                    <connections>
+                        <segue destination="6py-Jf-HCI" kind="show" identifier="showExamplePersons" id="0uN-o5-w7C"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gE9-47-7MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1176" y="473"/>
+        </scene>
+        <!--Persons-->
+        <scene sceneID="S09-Cn-Mdc">
+            <objects>
+                <tableViewController storyboardIdentifier="ExamplePersonsViewController" title="Persons" id="6py-Jf-HCI" customClass="ExamplePersonsViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="35F-CF-MSq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="6py-Jf-HCI" id="1Q1-Q4-6yC"/>
+                            <outlet property="delegate" destination="6py-Jf-HCI" id="vvo-Bc-rgM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="O3S-d6-DVv">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="nuf-dd-xia">
+                            <connections>
+                                <action selector="refresh:" destination="6py-Jf-HCI" id="GVT-oT-3v5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vsi-bH-YPP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1994" y="473"/>
         </scene>
     </scenes>
 </document>

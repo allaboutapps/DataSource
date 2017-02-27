@@ -11,10 +11,3 @@ import DataSource
 
 class TextCell: UITableViewCell {
 }
-
-extension TextCell {
-    
-    func configure(text: String) {
-        textLabel?.text = text
-    }
-}

@@ -31,6 +31,7 @@
 		398248CD1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */; };
 		39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39913AB71E61BBCC00623635 /* SwiftRandom.swift */; };
 		39913ABA1E63169300623635 /* PersonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39913AB91E63169300623635 /* PersonCell.xib */; };
+		39957EE01E64727D00B430A4 /* ExamplePersonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39957EDF1E64727D00B430A4 /* ExamplePersonsViewController.swift */; };
 		39A848671E5E1D9600D7DBC2 /* DataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */; };
 		39A848691E5E1D9600D7DBC2 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; };
 		39A848721E5E2D2D00D7DBC2 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
@@ -116,6 +117,7 @@
 		398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDelegate.swift"; sourceTree = "<group>"; };
 		39913AB71E61BBCC00623635 /* SwiftRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRandom.swift; sourceTree = "<group>"; };
 		39913AB91E63169300623635 /* PersonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonCell.xib; sourceTree = "<group>"; };
+		39957EDF1E64727D00B430A4 /* ExamplePersonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamplePersonsViewController.swift; sourceTree = "<group>"; };
 		39A848641E5E1D9600D7DBC2 /* DataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceTests.swift; sourceTree = "<group>"; };
 		39A848681E5E1D9600D7DBC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				398248A11E5C6D9900F802D1 /* StartViewController.swift */,
+				39957EDF1E64727D00B430A4 /* ExamplePersonsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				398248A61E5C6DB400F802D1 /* Person.swift in Sources */,
 				398248901E5C6CA200F802D1 /* PersonCell.swift in Sources */,
 				398248BC1E5C73FC00F802D1 /* TextCell.swift in Sources */,
+				39957EE01E64727D00B430A4 /* ExamplePersonsViewController.swift in Sources */,
 				395D14801B90610A00658680 /* AppDelegate.swift in Sources */,
 				398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */,
 			);
