@@ -17,9 +17,11 @@ public protocol CellDescriptorType {
     
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
+    var cellClass: UITableViewCell.Type { get }
     
     var isHiddenClosure: ((RowType, IndexPath) -> Bool)? { get }
     var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
+    var heightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
     var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)? { get }
 }
 
@@ -27,10 +29,12 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     
     public let rowIdentifier: String
     public let cellIdentifier: String
+    public let cellClass: UITableViewCell.Type
     
     public init(rowIdentifier: String? = nil, cellIdentifier: String? = nil) {
         self.rowIdentifier = rowIdentifier ?? String(describing: Model.self)
         self.cellIdentifier = cellIdentifier ?? String(describing: Cell.self)
+        self.cellClass = Cell.self
     }
     
     // MARK: Typed Getters
@@ -72,6 +76,18 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public func configure(_ closure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
         self.configureClosure = { (row, cell, indexPath) in
             closure(self.typedModel(row), self.typedCell(cell), indexPath)
+        }
+        
+        return self
+    }
+    
+    // MARK: height
+    
+    public private(set) var heightClosure: ((RowType, IndexPath) -> CGFloat)?
+    
+    public func height(_ closure: @escaping (Model, IndexPath) -> CGFloat) -> CellDescriptor {
+        self.heightClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
         }
         
         return self

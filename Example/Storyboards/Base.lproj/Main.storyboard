@@ -9,62 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Example Table View Controller-->
-        <scene sceneID="avq-Gv-KWF">
-            <objects>
-                <tableViewController id="K0K-05-JPC" customClass="ExampleTableViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="UOz-Jt-PIS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PersonCell" rowHeight="60" id="2zx-lM-QBv" customClass="PersonCell" customModule="Example" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="56" width="375" height="60"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2zx-lM-QBv" id="TWk-Pd-haP">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Avj-TD-oUw">
-                                            <rect key="frame" x="15" y="8" width="345" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Last Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3q5-oP-Nn1">
-                                            <rect key="frame" x="15" y="26" width="345" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="3q5-oP-Nn1" firstAttribute="leading" secondItem="Avj-TD-oUw" secondAttribute="leading" id="3lS-wZ-Do1"/>
-                                        <constraint firstItem="Avj-TD-oUw" firstAttribute="top" secondItem="TWk-Pd-haP" secondAttribute="top" constant="8" id="Fda-ln-HvK"/>
-                                        <constraint firstItem="Avj-TD-oUw" firstAttribute="leading" secondItem="TWk-Pd-haP" secondAttribute="leading" constant="15" id="Tgf-V5-yNf"/>
-                                        <constraint firstItem="3q5-oP-Nn1" firstAttribute="trailing" secondItem="Avj-TD-oUw" secondAttribute="trailing" id="bt7-w3-5bw"/>
-                                        <constraint firstItem="3q5-oP-Nn1" firstAttribute="top" secondItem="Avj-TD-oUw" secondAttribute="bottom" constant="1" id="iOI-3Z-se9"/>
-                                        <constraint firstAttribute="bottom" secondItem="3q5-oP-Nn1" secondAttribute="bottom" constant="12" id="lL9-bo-kOh"/>
-                                        <constraint firstAttribute="trailing" secondItem="Avj-TD-oUw" secondAttribute="trailing" constant="15" id="lOw-yw-Dbr"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="firstNameLabel" destination="Avj-TD-oUw" id="lqO-zK-2FQ"/>
-                                    <outlet property="lastNameLabel" destination="3q5-oP-Nn1" id="9ju-xJ-yQ2"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="K0K-05-JPC" id="qBR-we-fS5"/>
-                            <outlet property="delegate" destination="K0K-05-JPC" id="v8c-bU-PzP"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="tWh-69-Q0c"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gEh-Nm-6pb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2068" y="473"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="0u7-Uh-8JQ">
             <objects>
@@ -87,10 +31,10 @@
         <scene sceneID="rcb-NP-aaj">
             <objects>
                 <tableViewController id="R2c-21-AOL" customClass="StartViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="V8F-lx-JLE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="V8F-lx-JLE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
                             <outlet property="dataSource" destination="R2c-21-AOL" id="Mvx-Pt-1eA"/>
                             <outlet property="delegate" destination="R2c-21-AOL" id="FLF-31-9Ff"/>

@@ -14,3 +14,11 @@ class PersonCell: UITableViewCell {
     @IBOutlet weak var firstNameLabel: UILabel!
     @IBOutlet weak var lastNameLabel: UILabel!
 }
+
+extension PersonCell {
+    
+    func configure(person: Person) {
+        firstNameLabel?.text = person.firstName
+        lastNameLabel?.text = person.lastName
+    }
+}

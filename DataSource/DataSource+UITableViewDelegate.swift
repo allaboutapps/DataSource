@@ -20,7 +20,9 @@ extension DataSource: UITableViewDelegate {
             
             switch selectionResult {
             case .deselect:
-                tableView.deselectRow(at: indexPath, animated: true)
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    tableView.deselectRow(at: selectedIndexPath, animated: true)
+                }
             default:
                 break
             }
@@ -50,6 +52,17 @@ extension DataSource: UITableViewDelegate {
             return view
         default:
             return nil
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.heightClosure ?? height {
+            return closure(row, indexPath)
+        } else {
+            return fallbackDelegate?.tableView!(tableView, heightForRowAt: indexPath) ?? tableView.rowHeight
         }
     }
 }

@@ -21,10 +21,16 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let cellIdentifier = cellDescriptor.cellIdentifier
+        
+        if registerNibs && !reuseIdentifiers.contains(cellIdentifier) && Bundle.main.path(forResource: cellIdentifier, ofType: "nib") != nil {
+            tableView.registerNib(cellDescriptor.cellClass)
+            reuseIdentifiers.insert(cellIdentifier)
+        }
        
         if let closure = cellDescriptor.configureClosure ?? configure {
             let row = self.visibleRow(at: indexPath)
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellDescriptor.cellIdentifier, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
             
             closure(row, cell, indexPath)
             

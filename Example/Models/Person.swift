@@ -13,6 +13,11 @@ struct Person {
     
     let firstName: String
     let lastName: String
+    
+    func lastNameStartsWith(letters: Set<String>) -> Bool {
+        let letter = lastName.substring(to: lastName.index(lastName.startIndex, offsetBy: 1))
+        return letters.contains(letter)
+    }
 }
 
 extension Person: Equatable {

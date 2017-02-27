@@ -21,6 +21,9 @@ public class DataSource: NSObject {
     
     private var cellDescriptors: [String: CellDescriptorType] = [:]
     
+    var reuseIdentifiers: Set<String> = []
+    let registerNibs: Bool
+    
     // MARK: Fallback UITableViewDataSource
     
     public var configure: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
@@ -29,20 +32,22 @@ public class DataSource: NSObject {
     
     // MARK: Fallback UITableViewDelegate
     
+    public var height: ((RowType, IndexPath) -> CGFloat)? = nil
     public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
     
     public var fallbackDelegate: UITableViewDelegate? = nil
     
     // MARK: Init
     
-    public init(sections: [Section], cellDescriptors: [CellDescriptorType]) {
-        super.init()
-        
+    public init(sections: [Section], cellDescriptors: [CellDescriptorType], registerNibs: Bool = true) {
+        self.registerNibs = registerNibs
         self.sections = sections
         
         for d in cellDescriptors {
             self.cellDescriptors[d.rowIdentifier] = d
         }
+        
+        super.init()
         
         updateVisibility()
     }
@@ -89,20 +94,17 @@ public class DataSource: NSObject {
     
     public func set(sections: [Section]) {
         self.sections = sections
-        updateVisibility()
     }
     
     public func replace(key: String? = nil, section: Section) {
         if let index = sections.index(where: { $0.key == key ?? section.key }) {
             self.sections[index] = section
         }
-        
-        updateVisibility()
     }
     
     // MARK: Visibility
     
-    public func updateVisibilityAnimated(tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .automatic, rowInsertionAnimation: UITableViewRowAnimation = .automatic, sectionDeletionAnimation: UITableViewRowAnimation = .automatic, sectionInsertionAnimation: UITableViewRowAnimation = .automatic) {
+    public func updateAnimated(tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
         
         let oldSections = visibleSections.map { $0.diffClone }
         let newSections = getVisibleSections()
@@ -113,7 +115,7 @@ public class DataSource: NSObject {
         tableView.apply(diff, rowDeletionAnimation: rowDeletionAnimation, rowInsertionAnimation: rowInsertionAnimation, sectionDeletionAnimation: sectionDeletionAnimation, sectionInsertionAnimation: sectionInsertionAnimation)
     }
     
-    public func updateVisibility(tableView: UITableView) {
+    public func update(tableView: UITableView) {
         let newVisibleSections = getVisibleSections()
         
         self.visibleSections = newVisibleSections

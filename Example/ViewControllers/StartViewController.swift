@@ -12,76 +12,55 @@ import DataSource
 class StartViewController: UITableViewController {
     var dataSource: DataSource!
     
-    var showMore = false
-    var showExample4 = false
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource = DataSource(
-            sections: [
-                Section(
-                    key: "examples",
-                    rows: [
-                        Row("Example 1"),
-                        Row("Example 2"),
-                        Row("Example 3"),
-                        Row("Example 4"),
-                    ])
-                    .header { .title("Examples") }
-                    .footer { .title("Choose an example") },
-                
-                Section(
-                    key: "more-examples",
-                    rows: [
-                        "Example a",
-                        "Example b",
-                        "Example c",
-                    ].map { Row($0) })
-                    .header { .title("More Examples") }
-                    .isHidden { !self.showMore }
-            ],
+            sections: randomData(),
             cellDescriptors: [
-                CellDescriptor<String, TextCell>()
-                    .configure { (text, cell, _) in
-                        cell.configure(text: text)
+                CellDescriptor<Person, PersonCell>()
+                    .configure { (person, cell, indexPath) in
+                        cell.configure(person: person)
                     }
-                    .isHidden { (text, indexPath) in
-                        if text == "Example 4" {
-                            return !self.showExample4
-                        } else {
-                            return false
-                        }
-                    }
-                    .didSelect { (text, indexPath) in
-                        print("selected \(text)")
-                        
-                        if indexPath == IndexPath(row: 2, section: 0) {
-                            self.showExample4 = !self.showExample4
-                        } else {
-                            self.showMore = !self.showMore
-                        }
-                        
-                        self.dataSource.updateVisibilityAnimated(tableView: self.tableView, sectionDeletionAnimation: .fade, sectionInsertionAnimation: .fade)
+                    .didSelect { (person, indexPath) in
+                        self.dataSource.set(sections: self.randomData())
+                        self.dataSource.updateAnimated(tableView: self.tableView)
                         
                         return .deselect
                     }
             ]
         )
         
-        dataSource.didSelect = { (row, indexPath) in
-            print("fallback didSelect")
-            return .deselect
-        }
-        
-        // TODO: auto register nibs for cells
-        tableView.registerNib(TextCell.self)
-        
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
         
         dataSource.fallbackDataSource = self
         dataSource.fallbackDelegate = self
+    }
+    
+    private func randomData() -> [Section] {
+        let count = Int.random(5, 15)
+        
+        let persons = (0 ..< count).map { _ in
+            Person(firstName: Randoms.randomFirstName(), lastName: Randoms.randomLastName())
+        }
+        
+        let letters = Set(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"])
+        
+        let firstGroup = persons.filter {
+            $0.lastNameStartsWith(letters: letters)
+        }
+        
+        let secondGroup = persons.filter {
+            !$0.lastNameStartsWith(letters: letters)
+        }
+        
+        return [
+            Section(key: "firstGroup", rows: firstGroup.map(Row.init))
+                .header { .title("A - L") },
+            Section(key: "secondGroup", rows: secondGroup.map(Row.init))
+                .header { .title("M - Z") },
+        ]
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

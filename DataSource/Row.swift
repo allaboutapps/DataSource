@@ -28,9 +28,14 @@ public struct Row<Model>: RowType {
         return false
     }
     
-    public init(_ model: Model, identifier: String? = nil) {
+    public init(_ model: Model) {
         self.model = model
-        self.identifier = identifier ?? String(describing: type(of: model))
+        self.identifier = String(describing: type(of: model))
+    }
+    
+    public init(_ model: Model, identifier: String) {
+        self.model = model
+        self.identifier = identifier
     }
     
     public func with(identifier: String) -> Row<Model> {
