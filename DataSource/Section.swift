@@ -27,6 +27,12 @@ public class Section {
         self.visibleRows = visibleRows ?? rows
     }
     
+    public convenience init<Model>(key: String, models: [Model], rowIdentifier: String? = nil) {
+        self.init(key: key, rows: models.map {
+            Row($0, identifier: rowIdentifier)
+        })
+    }
+    
     internal var diffClone: Section {
         return Section(key: key, rows: rows, visibleRows: visibleRows)
     }

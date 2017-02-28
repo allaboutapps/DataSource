@@ -20,7 +20,7 @@ extension DataSource: UITableViewDelegate {
         if let closure = cellDescriptor.willSelectClosure ?? willSelect {
             return closure(row, indexPath)
         } else {
-            return fallbackDelegate?.tableView!(tableView, willSelectRowAt: indexPath)
+            return fallbackDelegate?.tableView!(tableView, willSelectRowAt: indexPath) ?? indexPath
         }
     }
     
@@ -31,7 +31,7 @@ extension DataSource: UITableViewDelegate {
         if let closure = cellDescriptor.willDeselectClosure ?? willDeselect {
             return closure(row, indexPath)
         } else {
-            return fallbackDelegate?.tableView!(tableView, willDeselectRowAt: indexPath)
+            return fallbackDelegate?.tableView!(tableView, willDeselectRowAt: indexPath) ?? indexPath
         }
     }
     

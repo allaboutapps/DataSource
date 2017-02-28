@@ -16,7 +16,7 @@ public class DataSource: NSObject {
         let row: RowType
     }
     
-    public private(set) var sections: [Section] = []
+    public private(set) var allSections: [Section] = []
     public private(set) var visibleSections: [Section] = []
     
     private var cellDescriptors: [String: CellDescriptorType] = [:]
@@ -42,23 +42,30 @@ public class DataSource: NSObject {
     
     // MARK: Init
     
-    public init(sections: [Section], cellDescriptors: [CellDescriptorType], registerNibs: Bool = true) {
+    public init(_ cellDescriptors: [CellDescriptorType], registerNibs: Bool = true) {
         self.registerNibs = registerNibs
-        self.sections = sections
         
         for d in cellDescriptors {
             self.cellDescriptors[d.rowIdentifier] = d
         }
         
         super.init()
-        
-        updateVisibility()
     }
     
-    // MARK: Getters
+    // MARK: Getters & Setters
+    
+    public var sections: [Section] {
+        get {
+            return allSections
+        }
+        set {
+            allSections = newValue
+            updateVisibility()
+        }
+    }
     
     public func row(at indexPath: IndexPath) -> RowType {
-        return sections[indexPath.section].rows[indexPath.row]
+        return allSections[indexPath.section].rows[indexPath.row]
     }
     
     public func visibleRow(at indexPath: IndexPath) -> RowType {
@@ -95,10 +102,6 @@ public class DataSource: NSObject {
     
     // MARK: Updates
     
-    public func set(sections: [Section]) {
-        self.sections = sections
-    }
-    
     public func replace(key: String? = nil, section: Section) {
         if let index = sections.index(where: { $0.key == key ?? section.key }) {
             self.sections[index] = section
@@ -107,7 +110,11 @@ public class DataSource: NSObject {
     
     // MARK: Visibility
     
-    public func updateAnimated(tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
+    public func updateAnimated(sections: [Section]? = nil, tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
+        
+        if let sections = sections {
+            self.allSections = sections
+        }
         
         let oldSections = visibleSections.map { $0.diffClone }
         let newSections = getVisibleSections()
@@ -118,7 +125,11 @@ public class DataSource: NSObject {
         tableView.apply(diff, rowDeletionAnimation: rowDeletionAnimation, rowInsertionAnimation: rowInsertionAnimation, sectionDeletionAnimation: sectionDeletionAnimation, sectionInsertionAnimation: sectionInsertionAnimation)
     }
     
-    public func update(tableView: UITableView) {
+    public func update(sections: [Section]? = nil, tableView: UITableView) {
+        if let sections = sections {
+            self.allSections = sections
+        }
+        
         let newVisibleSections = getVisibleSections()
         
         self.visibleSections = newVisibleSections
@@ -132,7 +143,7 @@ public class DataSource: NSObject {
     private func getVisibleSections() -> [Section] {
         var visibleSections = [Section]()
         
-        for (sectionIndex, section) in sections.enumerated() {
+        for (sectionIndex, section) in allSections.enumerated() {
             var visibleRows = [RowType]()
             
             for (rowIndex, row) in section.rows.enumerated() {

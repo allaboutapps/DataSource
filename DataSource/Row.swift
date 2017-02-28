@@ -33,9 +33,9 @@ public struct Row<Model>: RowType {
         self.identifier = String(describing: type(of: model))
     }
     
-    public init(_ model: Model, identifier: String) {
+    public init(_ model: Model, identifier: String?) {
         self.model = model
-        self.identifier = identifier
+        self.identifier = identifier ?? String(describing: type(of: model))
     }
     
     public func with(identifier: String) -> Row<Model> {
