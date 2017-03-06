@@ -11,6 +11,41 @@ import Diff
 
 extension DataSource: UITableViewDelegate {
     
+    // MARK: Highlighting
+    
+    public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.shouldHighlightClosure ?? shouldHighlight {
+            return closure(row, indexPath)
+        } else {
+            return fallbackDelegate?.tableView?(tableView, shouldHighlightRowAt: indexPath) ?? true
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.didHighlightClosure ?? didHighlight {
+            closure(row, indexPath)
+        } else {
+            fallbackDelegate?.tableView?(tableView, didHighlightRowAt: indexPath)
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.didHighlightClosure ?? didUnhighlight {
+            closure(row, indexPath)
+        } else {
+            fallbackDelegate?.tableView?(tableView, didUnhighlightRowAt: indexPath)
+        }
+    }
+    
     // MARK: Selection
     
     public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -20,7 +55,7 @@ extension DataSource: UITableViewDelegate {
         if let closure = cellDescriptor.willSelectClosure ?? willSelect {
             return closure(row, indexPath)
         } else {
-            return fallbackDelegate?.tableView!(tableView, willSelectRowAt: indexPath) ?? indexPath
+            return fallbackDelegate?.tableView?(tableView, willSelectRowAt: indexPath) ?? indexPath
         }
     }
     
@@ -31,7 +66,7 @@ extension DataSource: UITableViewDelegate {
         if let closure = cellDescriptor.willDeselectClosure ?? willDeselect {
             return closure(row, indexPath)
         } else {
-            return fallbackDelegate?.tableView!(tableView, willDeselectRowAt: indexPath) ?? indexPath
+            return fallbackDelegate?.tableView?(tableView, willDeselectRowAt: indexPath) ?? indexPath
         }
     }
     
@@ -51,7 +86,7 @@ extension DataSource: UITableViewDelegate {
                 break
             }
         } else {
-            fallbackDelegate?.tableView!(tableView, didSelectRowAt: indexPath)
+            fallbackDelegate?.tableView?(tableView, didSelectRowAt: indexPath)
         }
     }
     
@@ -62,17 +97,17 @@ extension DataSource: UITableViewDelegate {
         if let closure = cellDescriptor.didDeselectClosure ?? didDeselect {
             closure(row, indexPath)
         } else {
-            fallbackDelegate?.tableView!(tableView, didDeselectRowAt: indexPath)
+            fallbackDelegate?.tableView?(tableView, didDeselectRowAt: indexPath)
         }
     }
     
     // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let index = section
-        let section = sections[index]
+        let sectionIndex = section
+        let section = sections[sectionIndex]
         
-        switch section.headerClosure?(section, index) {
+        switch section.headerClosure?(section, sectionIndex) {
         case .view(let view)?:
             return view
         default:
@@ -81,10 +116,10 @@ extension DataSource: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let index = section
-        let section = sections[index]
+        let sectionIndex = section
+        let section = sections[sectionIndex]
         
-        switch section.footerClosure?(section, index) {
+        switch section.footerClosure?(section, sectionIndex) {
         case .view(let view)?:
             return view
         default:
@@ -101,7 +136,7 @@ extension DataSource: UITableViewDelegate {
         if let closure = cellDescriptor.heightClosure ?? height {
             return closure(row, indexPath)
         } else {
-            return fallbackDelegate?.tableView!(tableView, heightForRowAt: indexPath) ?? tableView.rowHeight
+            return fallbackDelegate?.tableView?(tableView, heightForRowAt: indexPath) ?? tableView.rowHeight
         }
     }
 }

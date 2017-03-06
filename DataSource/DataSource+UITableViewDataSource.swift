@@ -70,6 +70,65 @@ extension DataSource: UITableViewDataSource {
         default:
             return nil
         }
-
+    }
+    
+    // MARK: Editing
+    
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.canEditClosure ?? canEdit {
+            return closure(row, indexPath)
+        } else {
+            return fallbackDataSource?.tableView?(tableView, canEditRowAt: indexPath) ?? false
+        }
+    }
+    
+    // MARK: Moving & Reordering
+    
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.canMoveClosure ?? canMove {
+            return closure(row, indexPath)
+        } else {
+            return fallbackDataSource?.tableView?(tableView, canMoveRowAt: indexPath) ?? false
+        }
+    }
+    
+    // MARK: Index
+    
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sectionIndexTitles?() ?? fallbackDataSource?.sectionIndexTitles?(for: tableView)
+    }
+    
+    public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return sectionForSectionIndex?(title, index) ?? fallbackDataSource?.tableView?(tableView, sectionForSectionIndexTitle: title, at: index) ?? index
+    }
+    
+    // MARK: Data manipulation
+    
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let row = self.visibleRow(at: indexPath)
+        
+        if let closure = cellDescriptor.commitEditingClosure ?? commitEditing {
+            closure(row, editingStyle, indexPath)
+        } else {
+            fallbackDataSource?.tableView?(tableView, commit: editingStyle, forRowAt: indexPath)
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(at: sourceIndexPath)
+        let row = self.visibleRow(at: sourceIndexPath)
+        
+        if let closure = cellDescriptor.moveRowClosure ?? moveRow {
+            closure(row, (sourceIndexPath, destinationIndexPath))
+        } else {
+            fallbackDataSource?.tableView?(tableView, moveRowAt: sourceIndexPath, to: destinationIndexPath)
+        }
     }
 }

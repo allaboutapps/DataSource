@@ -18,27 +18,47 @@ public class DataSource: NSObject {
     
     public private(set) var allSections: [Section] = []
     public private(set) var visibleSections: [Section] = []
+
+    public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
+    public var isSectionHidden: ((Section, Int) -> Bool)? = nil
     
-    private var cellDescriptors: [String: CellDescriptorType] = [:]
-    
-    var reuseIdentifiers: Set<String> = []
-    let registerNibs: Bool
-    
-    // MARK: Fallback UITableViewDataSource
+    // MARK: UITableViewDataSource
     
     public var configure: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    public var canEdit: ((RowType, IndexPath) -> Bool)? = nil
+    public var canMove: ((RowType, IndexPath) -> Bool)? = nil
+    public var sectionIndexTitles: (() -> [String]?)? = nil
+    public var sectionForSectionIndex: ((String, Int) -> Int)? = nil
+    public var commitEditing: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)? = nil
+    public var moveRow: ((RowType, (IndexPath, IndexPath)) -> Void)? = nil
     
     public var fallbackDataSource: UITableViewDataSource? = nil
     
-    // MARK: Fallback UITableViewDelegate
+    // MARK: UITableViewDelegate
     
     public var height: ((RowType, IndexPath) -> CGFloat)? = nil
+    public var shouldHighlight: ((RowType, IndexPath) -> Bool)? = nil
+    public var didHighlight: ((RowType, IndexPath) -> Void)? = nil
+    public var didUnhighlight: ((RowType, IndexPath) -> Void)? = nil
     public var willSelect: ((RowType, IndexPath) -> IndexPath?)? = nil
     public var willDeselect: ((RowType, IndexPath) -> IndexPath?)? = nil
     public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
     public var didDeselect: ((RowType, IndexPath) -> Void)? = nil
     
     public var fallbackDelegate: UITableViewDelegate? = nil
+    
+    // MARK: UITableViewDataSourcePrefetching
+    
+    public var prefetchRows: (([IndexPath]) -> Void)? = nil
+    public var cancelPrefetching: (([IndexPath]) -> Void)? = nil
+    
+    public var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
+    
+    // MARK: Internal
+    
+    var cellDescriptors: [String: CellDescriptorType] = [:]
+    var reuseIdentifiers: Set<String> = []
+    let registerNibs: Bool
     
     // MARK: Init
     
@@ -149,7 +169,7 @@ public class DataSource: NSObject {
             for (rowIndex, row) in section.rows.enumerated() {
                 let cellDescriptor = cellDescriptors[row.identifier]
                 let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-                let isHidden = cellDescriptor?.isHiddenClosure?(row, indexPath) ?? false
+                let isHidden = cellDescriptor?.isHiddenClosure?(row, indexPath) ?? isRowHidden?(row, indexPath) ?? false
                 
                 if !isHidden {
                     visibleRows.append(row)
@@ -158,7 +178,7 @@ public class DataSource: NSObject {
             
             section.update(visibleRows: visibleRows)
             
-            let isHidden = section.isHiddenClosure?(section, sectionIndex) ?? false
+            let isHidden = section.isHiddenClosure?(section, sectionIndex) ?? isSectionHidden?(section, sectionIndex) ?? false
             
             if !isHidden && visibleRows.count > 0 {
                 visibleSections.append(section)

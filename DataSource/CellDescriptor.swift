@@ -20,9 +20,21 @@ public protocol CellDescriptorType {
     var cellClass: UITableViewCell.Type { get }
     
     var isHiddenClosure: ((RowType, IndexPath) -> Bool)? { get }
-    var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
-    var heightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
     
+    // UITableViewDataSource
+    
+    var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
+    var canEditClosure: ((RowType, IndexPath) -> Bool)? { get }
+    var canMoveClosure: ((RowType, IndexPath) -> Bool)? { get }
+    var commitEditingClosure: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)? { get }
+    var moveRowClosure: ((RowType, (IndexPath, IndexPath)) -> Void)? { get }
+    
+    // UITableviewDelegate
+    
+    var heightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
+    var shouldHighlightClosure: ((RowType, IndexPath) -> Bool)? { get }
+    var didHighlightClosure: ((RowType, IndexPath) -> Void)? { get }
+    var didUnhighlightClosure: ((RowType, IndexPath) -> Void)? { get }
     var willSelectClosure: ((RowType, IndexPath) -> IndexPath?)? { get }
     var willDeselectClosure: ((RowType, IndexPath) -> IndexPath?)? { get }
     var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)? { get }
@@ -70,6 +82,8 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
         return self
     }
     
+    // MARK: - UITableViewDataSource
+    
     // MARK: configure
     
     public private(set) var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
@@ -81,12 +95,91 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
         return self
     }
     
+    // MARK: canEdit
+    
+    public private(set) var canEditClosure: ((RowType, IndexPath) -> Bool)?
+    
+    public func canEdit(_ closure: @escaping (Model, IndexPath) -> Bool) -> CellDescriptor {
+        canEditClosure = { (row, indexPath) in
+            closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: canMove
+    
+    public private(set) var canMoveClosure: ((RowType, IndexPath) -> Bool)?
+    
+    public func canMove(_ closure: @escaping (Model, IndexPath) -> Bool) -> CellDescriptor {
+        canMoveClosure = { (row, indexPath) in
+            closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
     // MARK: height
     
     public private(set) var heightClosure: ((RowType, IndexPath) -> CGFloat)?
     
     public func height(_ closure: @escaping (Model, IndexPath) -> CGFloat) -> CellDescriptor {
         heightClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: commitEditingStyle
+    
+    public private(set) var commitEditingClosure: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)?
+    
+    public func commitEditing(_ closure: @escaping (Model, UITableViewCellEditingStyle, IndexPath) -> Void?) -> CellDescriptor {
+        commitEditingClosure = { (row, editingStyle, indexPath) in
+            return closure(self.typedModel(row), editingStyle, indexPath)
+        }
+        return self
+    }
+    
+    // MARK: moveRow
+    
+    public private(set) var moveRowClosure: ((RowType, (IndexPath, IndexPath)) -> Void)?
+    
+    public func moveRow(_ closure: @escaping (Model, (IndexPath, IndexPath)) -> Void?) -> CellDescriptor {
+        moveRowClosure = { (row, indexPaths) in
+            return closure(self.typedModel(row), indexPaths)
+        }
+        return self
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    // MARK: shouldHighlight
+    
+    public private(set) var shouldHighlightClosure: ((RowType, IndexPath) -> Bool)?
+    
+    public func shouldHighlight(_ closure: @escaping (Model, IndexPath) -> Bool) -> CellDescriptor {
+        shouldHighlightClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: didHighlight
+    
+    public private(set) var didHighlightClosure: ((RowType, IndexPath) -> Void)?
+    
+    public func didHighlight(_ closure: @escaping (Model, IndexPath) -> Void) -> CellDescriptor {
+        didHighlightClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: didUnhighlight
+    
+    public private(set) var didUnhighlightClosure: ((RowType, IndexPath) -> Void)?
+    
+    public func didUnhighlight(_ closure: @escaping (Model, IndexPath) -> Void) -> CellDescriptor {
+        didUnhighlightClosure = { (row, indexPath) in
             return closure(self.typedModel(row), indexPath)
         }
         return self
