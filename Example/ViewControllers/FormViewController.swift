@@ -74,14 +74,14 @@ class FormViewController: UITableViewController {
 
 // MARK: - Form
 
-protocol FormField: DataSourceDiffable {
+protocol FormField: Diffable {
     
     var id: String { get }
 }
 
 extension FormField {
     
-    func isEqualToDiffable(_ other: DataSourceDiffable?) -> Bool {
+    func isEqualToDiffable(_ other: Diffable?) -> Bool {
         guard let other = other as? FormField else { return false }
         return self.id == other.id
     }

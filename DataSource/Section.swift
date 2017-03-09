@@ -8,13 +8,33 @@
 
 import UIKit
 
-public class Section {
+public enum HeaderFooter {
+    case none
+    case title(String)
+    case view(UIView)
+}
+
+// MARK: - SectionType
+
+public protocol SectionType {
     
-    public enum HeaderFooter {
-        case none
-        case title(String)
-        case view(UIView)
-    }
+    var key: String { get }
+    var numberOfVisibleRows: Int { get }
+    
+    func row(at index: Int) -> RowType
+    func visibleRow(at index: Int) -> RowType
+    func updateVisibility(sectionIndex: Int, dataSource: DataSource)
+    
+    var isHiddenClosure: ((SectionType, Int) -> Bool)? { get }
+    var headerClosure: ((SectionType, Int) -> HeaderFooter)? { get }
+    var footerClosure: ((SectionType, Int) -> HeaderFooter)? { get }
+    
+    var diffableSection: DiffableSection { get }
+}
+
+// MARK: - Section
+
+public class Section: SectionType {
     
     public let key: String
     
@@ -33,27 +53,62 @@ public class Section {
         })
     }
     
-    internal var diffClone: Section {
-        return Section(key: key, rows: rows, visibleRows: visibleRows)
+    public var numberOfVisibleRows: Int {
+        return visibleRows.count
     }
+    
+    public func row(at index: Int) -> RowType {
+        return rows[index]
+    }
+    
+    public func visibleRow(at index: Int) -> RowType {
+        return visibleRows[index]
+    }
+    
+    // MARK: Update & Visibility
     
     public func update(rows: [RowType]) {
         self.rows = rows
         self.visibleRows = rows
     }
     
-    internal func update(visibleRows: [RowType]) {
+    public func updateVisibility(sectionIndex: Int, dataSource: DataSource) {
+        var visibleRows = [RowType]()
+        
+        for (rowIndex, row) in rows.enumerated() {
+            let cellDescriptor = dataSource.cellDescriptors[row.identifier]
+            let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+            let isHidden = cellDescriptor?.isHiddenClosure?(row, indexPath) ?? dataSource.isRowHidden?(row, indexPath) ?? false
+            
+            if !isHidden {
+                visibleRows.append(row)
+            }
+        }
+        
         self.visibleRows = visibleRows
     }
     
-    // MARK: - Closures
+    public var diffableSection: DiffableSection {
+        return DiffableSection(key: key, rowCount: visibleRows.count, rowClosure: { self.visibleRow(at: $0) })
+    }
+    
+    // MARK: Typed Getter
+    
+    private func typedSection(_ section: SectionType) -> Section {
+        guard let section = section as? Section else {
+            fatalError("[DataSource] could not cast to expected section type \(Section.self)")
+        }
+        return section
+    }
     
     // MARK: isHidden
     
-    public private(set) var isHiddenClosure: ((Section, Int) -> Bool)?
+    public private(set) var isHiddenClosure: ((SectionType, Int) -> Bool)?
     
     public func isHidden(_ closure: @escaping (Section, Int) -> Bool) -> Section {
-        isHiddenClosure = closure
+        isHiddenClosure = { (section, index) in
+            closure(self.typedSection(section), index)
+        }
         return self
     }
     
@@ -66,10 +121,12 @@ public class Section {
     
     // MARK: Header
     
-    public private(set) var headerClosure: ((Section, Int) -> HeaderFooter)?
+    public private(set) var headerClosure: ((SectionType, Int) -> HeaderFooter)?
     
     public func header(_ closure: @escaping (Section, Int) -> HeaderFooter) -> Section {
-        headerClosure = closure
+        headerClosure = { (section, index) in
+            closure(self.typedSection(section), index)
+        }
         return self
     }
     
@@ -82,10 +139,12 @@ public class Section {
     
     // MARK: Footer
     
-    public private(set) var footerClosure: ((Section, Int) -> HeaderFooter)?
+    public private(set) var footerClosure: ((SectionType, Int) -> HeaderFooter)?
     
     public func footer(_ closure: @escaping (Section, Int) -> HeaderFooter) -> Section {
-        footerClosure = closure
+        footerClosure = { (section, index) in
+            closure(self.typedSection(section), index)
+        }
         return self
     }
     
@@ -97,34 +156,96 @@ public class Section {
     }
 }
 
-// MARK: - Equatable
+// MARK: - OnDemandSection
 
-extension Section: Equatable {
+public class OnDemandSection: SectionType {
     
-    public static func ==(lhs: Section, rhs: Section) -> Bool {
-        return lhs.key == rhs.key
+    public let key: String
+    
+    private let rowCount: () -> Int
+    private let rowClosure: (Int) -> RowType
+    private let diffableRowClosure: ((Int) -> RowType)?
+    
+    public init(key: String, rowCount: @escaping () -> Int, rowClosure: @escaping (Int) -> RowType, diffableRowClosure: ((Int) -> RowType)? = nil) {
+        self.key = key
+        self.rowCount = rowCount
+        self.rowClosure = rowClosure
+        self.diffableRowClosure = diffableRowClosure
     }
-}
+    
+    public var numberOfVisibleRows: Int {
+        return rowCount()
+    }
+    
+    // there is no difference between row and visibleRow for on-demand sections,
+    // you should only return visible rows
+    
+    public func row(at index: Int) -> RowType {
+        return rowClosure(index)
+    }
 
-// MARK: - Collection
-
-extension Section: Collection {
-    
-    public typealias Index = Int
-    
-    public var startIndex: Int {
-        return visibleRows.startIndex
+    public func visibleRow(at index: Int) -> RowType {
+        return rowClosure(index)
     }
     
-    public var endIndex: Int {
-        return visibleRows.endIndex
+    // MARK: Update & Visibility
+    
+    public func updateVisibility(sectionIndex: Int, dataSource: DataSource) {
+        // nope
     }
     
-    public subscript(i: Int) -> RowType {
-        return visibleRows[i]
+    public var diffableSection: DiffableSection {
+        return DiffableSection(key: key, rowCount: rowCount(), rowClosure: { (index) in
+            return self.diffableRowClosure?(index) ?? Row(())
+        })
     }
     
-    public func index(after i: Int) -> Int {
-        return visibleRows.index(after: i)
+    // MARK: Typed Getter
+    
+    private func typedSection(_ section: SectionType) -> OnDemandSection {
+        guard let section = section as? OnDemandSection else {
+            fatalError("[DataSource] could not cast to expected section type \(Section.self)")
+        }
+        return section
+    }
+    
+    // MARK: isHidden (not supported)
+    
+    public private(set) var isHiddenClosure: ((SectionType, Int) -> Bool)?
+    
+    // MARK: Header
+    
+    public private(set) var headerClosure: ((SectionType, Int) -> HeaderFooter)?
+    
+    public func header(_ closure: @escaping (OnDemandSection, Int) -> HeaderFooter) -> OnDemandSection {
+        headerClosure = { (section, index) in
+            closure(self.typedSection(section), index)
+        }
+        return self
+    }
+    
+    public func header(_ closure: @escaping () -> HeaderFooter) -> OnDemandSection {
+        headerClosure = { (_, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: Footer
+    
+    public private(set) var footerClosure: ((SectionType, Int) -> HeaderFooter)?
+    
+    public func footer(_ closure: @escaping (OnDemandSection, Int) -> HeaderFooter) -> OnDemandSection {
+        footerClosure = { (section, index) in
+            closure(self.typedSection(section), index)
+        }
+        return self
+    }
+    
+    public func footer(_ closure: @escaping () -> HeaderFooter) -> OnDemandSection {
+        footerClosure = { (_, _) in
+            closure()
+        }
+        return self
     }
 }

@@ -16,11 +16,11 @@ public class DataSource: NSObject {
         let row: RowType
     }
     
-    public private(set) var allSections: [Section] = []
-    public private(set) var visibleSections: [Section] = []
+    public internal(set) var allSections: [SectionType] = []
+    public internal(set) var visibleSections: [SectionType] = []
 
     public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
-    public var isSectionHidden: ((Section, Int) -> Bool)? = nil
+    public var isSectionHidden: ((SectionType, Int) -> Bool)? = nil
     
     // MARK: UITableViewDataSource
     
@@ -74,7 +74,7 @@ public class DataSource: NSObject {
     
     // MARK: Getters & Setters
     
-    public var sections: [Section] {
+    public var sections: [SectionType] {
         get {
             return allSections
         }
@@ -85,25 +85,17 @@ public class DataSource: NSObject {
     }
     
     public func row(at indexPath: IndexPath) -> RowType {
-        return allSections[indexPath.section].rows[indexPath.row]
+        return allSections[indexPath.section].row(at: indexPath.row)
     }
     
     public func visibleRow(at indexPath: IndexPath) -> RowType {
-        return visibleSections[indexPath.section].visibleRows[indexPath.row]
-    }
-    
-    public var flattenedVisibleRows: [Item] {
-        return visibleSections.enumerated().flatMap { (section) -> [Item] in
-            section.element.visibleRows.enumerated().map { (row) in
-                Item(indexPath: IndexPath(row: row.offset, section: section.offset), row: row.element as RowType)
-            }
-        }
+        return visibleSections[indexPath.section].visibleRow(at: indexPath.row)
     }
     
     // MARK: Cell Descriptors
     
     public func cellDescriptor(at indexPath: IndexPath) -> CellDescriptorType {
-        let row = visibleSections[indexPath.section][indexPath.row]
+        let row = visibleRow(at: indexPath)
         
         if let cellDescriptor = cellDescriptors[row.identifier] {
             return cellDescriptor
@@ -122,7 +114,7 @@ public class DataSource: NSObject {
     
     // MARK: Updates
     
-    public func replace(key: String? = nil, section: Section) {
+    public func replace(key: String? = nil, section: SectionType) {
         if let index = sections.index(where: { $0.key == key ?? section.key }) {
             self.sections[index] = section
         }
@@ -130,57 +122,28 @@ public class DataSource: NSObject {
     
     // MARK: Visibility
     
-    public func updateAnimated(sections: [Section]? = nil, tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
-        
+    public func update(sections: [SectionType]? = nil, tableView: UITableView) {
         if let sections = sections {
             self.allSections = sections
         }
         
-        let oldSections = visibleSections.map { $0.diffClone }
-        let newSections = getVisibleSections()
-        let diff = self.diff(oldSections: oldSections, newSections: newSections)
-        
-        self.visibleSections = newSections
-        
-        tableView.apply(diff, rowDeletionAnimation: rowDeletionAnimation, rowInsertionAnimation: rowInsertionAnimation, sectionDeletionAnimation: sectionDeletionAnimation, sectionInsertionAnimation: sectionInsertionAnimation)
-    }
-    
-    public func update(sections: [Section]? = nil, tableView: UITableView) {
-        if let sections = sections {
-            self.allSections = sections
-        }
-        
-        let newVisibleSections = getVisibleSections()
-        
-        self.visibleSections = newVisibleSections
+        self.visibleSections = updateSectionVisiblity()
         tableView.reloadData()
     }
     
-    private func updateVisibility() {
-        self.visibleSections = getVisibleSections()
+    internal func updateVisibility() {
+        self.visibleSections = updateSectionVisiblity()
     }
     
-    private func getVisibleSections() -> [Section] {
-        var visibleSections = [Section]()
+    internal func updateSectionVisiblity() -> [SectionType] {
+        var visibleSections = [SectionType]()
         
         for (sectionIndex, section) in allSections.enumerated() {
-            var visibleRows = [RowType]()
-            
-            for (rowIndex, row) in section.rows.enumerated() {
-                let cellDescriptor = cellDescriptors[row.identifier]
-                let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-                let isHidden = cellDescriptor?.isHiddenClosure?(row, indexPath) ?? isRowHidden?(row, indexPath) ?? false
-                
-                if !isHidden {
-                    visibleRows.append(row)
-                }
-            }
-            
-            section.update(visibleRows: visibleRows)
+            section.updateVisibility(sectionIndex: sectionIndex, dataSource: self)
             
             let isHidden = section.isHiddenClosure?(section, sectionIndex) ?? isSectionHidden?(section, sectionIndex) ?? false
             
-            if !isHidden && visibleRows.count > 0 {
+            if !isHidden && section.numberOfVisibleRows > 0 {
                 visibleSections.append(section)
             }
         }
@@ -190,23 +153,5 @@ public class DataSource: NSObject {
     
     // MARK: Diff
     
-    public func diff(oldSections: [Section], newSections: [Section]) -> NestedExtendedDiff {
-        let diff = oldSections.nestedExtendedDiff(
-            to: newSections,
-            isEqualSection: { (section1, section2) -> Bool in
-                section1.key == section2.key
-            },
-            isEqualElement: { (row1, row2) -> Bool in
-                guard
-                    let a = row1.anyModel as? DataSourceDiffable,
-                    let b = row2.anyModel as? DataSourceDiffable
-                else {
-                    return false
-                }
-                
-                return a.isEqualToDiffable(b)
-            })
-        
-        return diff
-    }
+    
 }

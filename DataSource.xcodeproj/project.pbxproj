@@ -21,7 +21,7 @@
 		398248C11E5C7A3500F802D1 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C01E5C7A3500F802D1 /* Row.swift */; };
 		398248C31E5C7A4000F802D1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C21E5C7A4000F802D1 /* Section.swift */; };
 		398248C51E5C7A5600F802D1 /* CellDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C41E5C7A5600F802D1 /* CellDescriptor.swift */; };
-		398248C71E5C7CCA00F802D1 /* DataSourceDiffable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */; };
+		398248C71E5C7CCA00F802D1 /* DataSource+Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */; };
 		398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */; };
 		398248CB1E5CA74A00F802D1 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */; };
 		398248CD1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */; };
@@ -39,6 +39,7 @@
 		39E9E3AA1E6566AD00A3C300 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39E9E3A71E6566AD00A3C300 /* TitleCell.xib */; };
 		39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */; };
 		39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */; };
+		39EBE0651E707DAC006B7E62 /* OnDemandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0641E707DAC006B7E62 /* OnDemandViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,7 +110,7 @@
 		398248C01E5C7A3500F802D1 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		398248C21E5C7A4000F802D1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		398248C41E5C7A5600F802D1 /* CellDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDescriptor.swift; sourceTree = "<group>"; };
-		398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceDiffable.swift; sourceTree = "<group>"; };
+		398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+Diff.swift"; sourceTree = "<group>"; };
 		398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDataSource.swift"; sourceTree = "<group>"; };
 		398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDelegate.swift"; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		39E9E3A71E6566AD00A3C300 /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
+		39EBE0641E707DAC006B7E62 /* OnDemandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnDemandViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,7 +203,7 @@
 				398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */,
 				39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */,
 				398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */,
-				398248C61E5C7CCA00F802D1 /* DataSourceDiffable.swift */,
+				398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */,
 				398248C01E5C7A3500F802D1 /* Row.swift */,
 				398248C21E5C7A4000F802D1 /* Section.swift */,
 				398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */,
@@ -215,9 +217,10 @@
 			isa = PBXGroup;
 			children = (
 				39E9E3A41E6566AD00A3C300 /* Cells */,
-				398248A11E5C6D9900F802D1 /* StartViewController.swift */,
 				39E9E3A21E65659300A3C300 /* FormViewController.swift */,
+				39EBE0641E707DAC006B7E62 /* OnDemandViewController.swift */,
 				39957EDF1E64727D00B430A4 /* RandomPersonsViewController.swift */,
+				398248A11E5C6D9900F802D1 /* StartViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 			files = (
 				39E9E3A81E6566AD00A3C300 /* PersonCell.swift in Sources */,
 				39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */,
+				39EBE0651E707DAC006B7E62 /* OnDemandViewController.swift in Sources */,
 				39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */,
 				39E9E3A31E65659300A3C300 /* FormViewController.swift in Sources */,
 				39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */,
@@ -457,7 +461,7 @@
 				398248CD1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift in Sources */,
 				398248C51E5C7A5600F802D1 /* CellDescriptor.swift in Sources */,
 				398248C31E5C7A4000F802D1 /* Section.swift in Sources */,
-				398248C71E5C7CCA00F802D1 /* DataSourceDiffable.swift in Sources */,
+				398248C71E5C7CCA00F802D1 /* DataSource+Diff.swift in Sources */,
 				398248C11E5C7A3500F802D1 /* Row.swift in Sources */,
 				398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */,
 				398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */,

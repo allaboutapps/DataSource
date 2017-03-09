@@ -18,7 +18,7 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return visibleSections[section].visibleRows.count
+        return visibleSections[section].numberOfVisibleRows
     }
     
     // MARK: Configuration

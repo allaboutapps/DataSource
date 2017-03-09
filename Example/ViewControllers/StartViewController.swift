@@ -38,6 +38,7 @@ class StartViewController: UITableViewController {
             Section(key: "examples", models: [
                 Example(title: "Random Persons", segue: "showRandomPersons"),
                 Example(title: "Form", segue: "showForm"),
+                Example(title: "On Demand", segue: "showOnDemand"),
             ])
         ]
 

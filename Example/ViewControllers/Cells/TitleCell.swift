@@ -14,14 +14,14 @@ class TitleCell: UITableViewCell {
 
 extension TitleCell {
     
-    func configure(text: String) {
-        textLabel?.text = text
+    func configure(title: String) {
+        textLabel?.text = title
     }
     
     static var descriptor: CellDescriptor<String, TitleCell> {
         return CellDescriptor()
-            .configure { (text, cell, indexPath) in
-                cell.configure(text: text)
+            .configure { (title, cell, indexPath) in
+                cell.configure(title: title)
         }
     }
 }

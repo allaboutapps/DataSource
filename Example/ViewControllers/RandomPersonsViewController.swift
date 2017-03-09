@@ -98,9 +98,9 @@ extension Person: Comparable {
     }
 }
 
-extension Person: DataSourceDiffable {
+extension Person: Diffable {
     
-    func isEqualToDiffable(_ other: DataSourceDiffable?) -> Bool {
+    func isEqualToDiffable(_ other: Diffable?) -> Bool {
         guard let other = other as? Person else { return false }
         return self == other
     }
