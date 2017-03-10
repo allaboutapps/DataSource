@@ -87,6 +87,20 @@ extension DataSource {
     }
     
     private func computeDiff(oldSections: [DiffableSection], newSections: [DiffableSection]) -> NestedExtendedDiff {
+        print("old sections")
+        for section in oldSections {
+            for row in section {
+                print(row)
+            }
+        }
+        
+        print("new sections")
+        for section in newSections {
+            for row in section {
+                print(row)
+            }
+        }
+        
         let diff = oldSections.nestedExtendedDiff(
             to: newSections,
             isEqualSection: { (section1, section2) -> Bool in

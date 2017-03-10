@@ -28,7 +28,9 @@ public protocol SectionType {
     var isHiddenClosure: ((SectionType, Int) -> Bool)? { get }
     var headerClosure: ((SectionType, Int) -> HeaderFooter)? { get }
     var footerClosure: ((SectionType, Int) -> HeaderFooter)? { get }
-    
+    var headerHeightClosure: ((SectionType, Int) -> CGFloat)? { get }
+    var footerHeightClosure: ((SectionType, Int) -> CGFloat)? { get }
+
     var diffableSection: DiffableSection { get }
 }
 
@@ -89,7 +91,8 @@ public class Section: SectionType {
     }
     
     public var diffableSection: DiffableSection {
-        return DiffableSection(key: key, rowCount: visibleRows.count, rowClosure: { self.visibleRow(at: $0) })
+        let visibleRows = self.visibleRows
+        return DiffableSection(key: key, rowCount: visibleRows.count, rowClosure: { visibleRows[$0] })
     }
     
     // MARK: Typed Getter
@@ -119,7 +122,7 @@ public class Section: SectionType {
         return self
     }
     
-    // MARK: Header
+    // MARK: header
     
     public private(set) var headerClosure: ((SectionType, Int) -> HeaderFooter)?
     
@@ -137,7 +140,7 @@ public class Section: SectionType {
         return self
     }
     
-    // MARK: Footer
+    // MARK: footer
     
     public private(set) var footerClosure: ((SectionType, Int) -> HeaderFooter)?
     
@@ -154,96 +157,38 @@ public class Section: SectionType {
         }
         return self
     }
-}
-
-// MARK: - OnDemandSection
-
-public class OnDemandSection: SectionType {
     
-    public let key: String
+    // MARK: headerHeight
     
-    private let rowCount: () -> Int
-    private let rowClosure: (Int) -> RowType
-    private let diffableRowClosure: ((Int) -> RowType)?
+    public private(set) var headerHeightClosure: ((SectionType, Int) -> CGFloat)?
     
-    public init(key: String, rowCount: @escaping () -> Int, rowClosure: @escaping (Int) -> RowType, diffableRowClosure: ((Int) -> RowType)? = nil) {
-        self.key = key
-        self.rowCount = rowCount
-        self.rowClosure = rowClosure
-        self.diffableRowClosure = diffableRowClosure
-    }
-    
-    public var numberOfVisibleRows: Int {
-        return rowCount()
-    }
-    
-    // there is no difference between row and visibleRow for on-demand sections,
-    // you should only return visible rows
-    
-    public func row(at index: Int) -> RowType {
-        return rowClosure(index)
-    }
-
-    public func visibleRow(at index: Int) -> RowType {
-        return rowClosure(index)
-    }
-    
-    // MARK: Update & Visibility
-    
-    public func updateVisibility(sectionIndex: Int, dataSource: DataSource) {
-        // nope
-    }
-    
-    public var diffableSection: DiffableSection {
-        return DiffableSection(key: key, rowCount: rowCount(), rowClosure: { (index) in
-            return self.diffableRowClosure?(index) ?? Row(())
-        })
-    }
-    
-    // MARK: Typed Getter
-    
-    private func typedSection(_ section: SectionType) -> OnDemandSection {
-        guard let section = section as? OnDemandSection else {
-            fatalError("[DataSource] could not cast to expected section type \(Section.self)")
-        }
-        return section
-    }
-    
-    // MARK: isHidden (not supported)
-    
-    public private(set) var isHiddenClosure: ((SectionType, Int) -> Bool)?
-    
-    // MARK: Header
-    
-    public private(set) var headerClosure: ((SectionType, Int) -> HeaderFooter)?
-    
-    public func header(_ closure: @escaping (OnDemandSection, Int) -> HeaderFooter) -> OnDemandSection {
-        headerClosure = { (section, index) in
+    public func headerHeight(_ closure: @escaping (Section, Int) -> CGFloat) -> Section {
+        headerHeightClosure = { (section, index) in
             closure(self.typedSection(section), index)
         }
         return self
     }
     
-    public func header(_ closure: @escaping () -> HeaderFooter) -> OnDemandSection {
-        headerClosure = { (_, _) in
+    public func headerHeight(_ closure: @escaping () -> CGFloat) -> Section {
+        headerHeightClosure = { (_, _) in
             closure()
         }
         return self
     }
     
-    // MARK: Footer
+    // MARK: footerHeight
     
-    public private(set) var footerClosure: ((SectionType, Int) -> HeaderFooter)?
+    public private(set) var footerHeightClosure: ((SectionType, Int) -> CGFloat)?
     
-    public func footer(_ closure: @escaping (OnDemandSection, Int) -> HeaderFooter) -> OnDemandSection {
-        footerClosure = { (section, index) in
+    public func footerHeight(_ closure: @escaping (Section, Int) -> CGFloat) -> Section {
+        footerHeightClosure = { (section, index) in
             closure(self.typedSection(section), index)
         }
         return self
     }
     
-    public func footer(_ closure: @escaping () -> HeaderFooter) -> OnDemandSection {
-        footerClosure = { (_, _) in
+    public func footerHeight(_ closure: @escaping () -> CGFloat) -> Section {
+        footerHeightClosure = { (_, _) in
             closure()
         }
         return self

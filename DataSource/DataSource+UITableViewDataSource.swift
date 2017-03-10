@@ -49,10 +49,13 @@ extension DataSource: UITableViewDataSource {
     // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let index = section
-        let section = visibleSections[index]
+        let sectionIndex = section
+        let section = visibleSections[sectionIndex]
         
-        switch section.headerClosure?(section, index) {
+        let header = section.headerClosure?(section, sectionIndex)
+                  ?? sectionHeader?(section, sectionIndex)
+        
+        switch header {
         case .title(let title)?:
             return title
         default:
@@ -61,10 +64,13 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let index = section
-        let section = visibleSections[index]
+        let sectionIndex = section
+        let section = visibleSections[sectionIndex]
         
-        switch section.footerClosure?(section, index) {
+        let footer = section.footerClosure?(section, sectionIndex)
+                  ?? sectionFooter?(section, sectionIndex)
+        
+        switch footer {
         case .title(let title)?:
             return title
         default:
@@ -76,59 +82,62 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
-        let row = self.visibleRow(at: indexPath)
         
         if let closure = cellDescriptor.canEditClosure ?? canEdit {
-            return closure(row, indexPath)
-        } else {
-            return fallbackDataSource?.tableView?(tableView, canEditRowAt: indexPath) ?? false
+            return closure(visibleRow(at: indexPath), indexPath)
         }
+        
+        return fallbackDataSource?.tableView?(tableView, canEditRowAt: indexPath)
+            ?? false
     }
     
     // MARK: Moving & Reordering
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
-        let row = self.visibleRow(at: indexPath)
         
         if let closure = cellDescriptor.canMoveClosure ?? canMove {
-            return closure(row, indexPath)
-        } else {
-            return fallbackDataSource?.tableView?(tableView, canMoveRowAt: indexPath) ?? false
+            return closure(visibleRow(at: indexPath), indexPath)
         }
+        
+        return fallbackDataSource?.tableView?(tableView, canMoveRowAt: indexPath)
+            ?? false
     }
     
     // MARK: Index
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sectionIndexTitles?() ?? fallbackDataSource?.sectionIndexTitles?(for: tableView)
+        return sectionIndexTitles?()
+            ?? fallbackDataSource?.sectionIndexTitles?(for: tableView)
     }
     
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return sectionForSectionIndex?(title, index) ?? fallbackDataSource?.tableView?(tableView, sectionForSectionIndexTitle: title, at: index) ?? index
+        return sectionForSectionIndex?(title, index)
+            ?? fallbackDataSource?.tableView?(tableView, sectionForSectionIndexTitle: title, at: index)
+            ?? index
     }
     
     // MARK: Data manipulation
     
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
-        let row = self.visibleRow(at: indexPath)
         
         if let closure = cellDescriptor.commitEditingClosure ?? commitEditing {
-            closure(row, editingStyle, indexPath)
-        } else {
-            fallbackDataSource?.tableView?(tableView, commit: editingStyle, forRowAt: indexPath)
+            closure(visibleRow(at: indexPath), editingStyle, indexPath)
+            return
         }
+        
+        fallbackDataSource?.tableView?(tableView, commit: editingStyle, forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(at: sourceIndexPath)
-        let row = self.visibleRow(at: sourceIndexPath)
         
         if let closure = cellDescriptor.moveRowClosure ?? moveRow {
-            closure(row, (sourceIndexPath, destinationIndexPath))
-        } else {
-            fallbackDataSource?.tableView?(tableView, moveRowAt: sourceIndexPath, to: destinationIndexPath)
+            closure(visibleRow(at: sourceIndexPath), (sourceIndexPath, destinationIndexPath))
+            return
         }
+        
+        fallbackDataSource?.tableView?(tableView, moveRowAt: sourceIndexPath, to: destinationIndexPath)
     }
 }

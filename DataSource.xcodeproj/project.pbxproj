@@ -40,6 +40,8 @@
 		39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */; };
 		39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */; };
 		39EBE0651E707DAC006B7E62 /* OnDemandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0641E707DAC006B7E62 /* OnDemandViewController.swift */; };
+		39EBE0671E717FBE006B7E62 /* UIColor+Interpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */; };
+		39EBE0691E71CB61006B7E62 /* OnDemandSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0681E71CB61006B7E62 /* OnDemandSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,8 @@
 		39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		39EBE0641E707DAC006B7E62 /* OnDemandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnDemandViewController.swift; sourceTree = "<group>"; };
+		39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Interpolation.swift"; sourceTree = "<group>"; };
+		39EBE0681E71CB61006B7E62 /* OnDemandSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnDemandSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,7 @@
 				398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */,
 				398248C01E5C7A3500F802D1 /* Row.swift */,
 				398248C21E5C7A4000F802D1 /* Section.swift */,
+				39EBE0681E71CB61006B7E62 /* OnDemandSection.swift */,
 				398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */,
 				395D14A61B90612D00658680 /* DataSource.h */,
 				395D14A81B90612D00658680 /* Info.plist */,
@@ -246,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				39913AB71E61BBCC00623635 /* SwiftRandom.swift */,
+				39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -449,6 +455,7 @@
 				39957EE01E64727D00B430A4 /* RandomPersonsViewController.swift in Sources */,
 				395D14801B90610A00658680 /* AppDelegate.swift in Sources */,
 				398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */,
+				39EBE0671E717FBE006B7E62 /* UIColor+Interpolation.swift in Sources */,
 				39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,6 +469,7 @@
 				398248C51E5C7A5600F802D1 /* CellDescriptor.swift in Sources */,
 				398248C31E5C7A4000F802D1 /* Section.swift in Sources */,
 				398248C71E5C7CCA00F802D1 /* DataSource+Diff.swift in Sources */,
+				39EBE0691E71CB61006B7E62 /* OnDemandSection.swift in Sources */,
 				398248C11E5C7A3500F802D1 /* Row.swift in Sources */,
 				398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */,
 				398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */,

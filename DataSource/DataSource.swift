@@ -37,6 +37,7 @@ public class DataSource: NSObject {
     // MARK: UITableViewDelegate
     
     public var height: ((RowType, IndexPath) -> CGFloat)? = nil
+    public var estimatedHeight: ((RowType, IndexPath) -> CGFloat)? = nil
     public var shouldHighlight: ((RowType, IndexPath) -> Bool)? = nil
     public var didHighlight: ((RowType, IndexPath) -> Void)? = nil
     public var didUnhighlight: ((RowType, IndexPath) -> Void)? = nil
@@ -44,6 +45,11 @@ public class DataSource: NSObject {
     public var willDeselect: ((RowType, IndexPath) -> IndexPath?)? = nil
     public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
     public var didDeselect: ((RowType, IndexPath) -> Void)? = nil
+    
+    public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
+    public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil
+    public var sectionHeaderHeight: ((SectionType, Int) -> CGFloat)? = nil
+    public var sectionFooterHeight: ((SectionType, Int) -> CGFloat)? = nil
     
     public var fallbackDelegate: UITableViewDelegate? = nil
     
@@ -149,9 +155,5 @@ public class DataSource: NSObject {
         }
         
         return visibleSections
-    }
-    
-    // MARK: Diff
-    
-    
+    }    
 }

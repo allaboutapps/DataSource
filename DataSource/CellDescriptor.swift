@@ -32,6 +32,7 @@ public protocol CellDescriptorType {
     // UITableviewDelegate
     
     var heightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
+    var estimatedHeightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
     var shouldHighlightClosure: ((RowType, IndexPath) -> Bool)? { get }
     var didHighlightClosure: ((RowType, IndexPath) -> Void)? { get }
     var didUnhighlightClosure: ((RowType, IndexPath) -> Void)? { get }
@@ -123,6 +124,17 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     
     public func height(_ closure: @escaping (Model, IndexPath) -> CGFloat) -> CellDescriptor {
         heightClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: estimatedHeight
+    
+    public private(set) var estimatedHeightClosure: ((RowType, IndexPath) -> CGFloat)?
+    
+    public func estimatedHeight(_ closure: @escaping (Model, IndexPath) -> CGFloat) -> CellDescriptor {
+        estimatedHeightClosure = { (row, indexPath) in
             return closure(self.typedModel(row), indexPath)
         }
         return self
