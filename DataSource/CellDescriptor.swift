@@ -33,13 +33,25 @@ public protocol CellDescriptorType {
     
     var heightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
     var estimatedHeightClosure: ((RowType, IndexPath) -> CGFloat)? { get }
+    
     var shouldHighlightClosure: ((RowType, IndexPath) -> Bool)? { get }
     var didHighlightClosure: ((RowType, IndexPath) -> Void)? { get }
     var didUnhighlightClosure: ((RowType, IndexPath) -> Void)? { get }
+    
     var willSelectClosure: ((RowType, IndexPath) -> IndexPath?)? { get }
     var willDeselectClosure: ((RowType, IndexPath) -> IndexPath?)? { get }
     var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)? { get }
     var didDeselectClosure: ((RowType, IndexPath) -> Void)? { get }
+    
+    var willDisplayClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
+    var didEndDisplayingClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
+    
+    var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCellEditingStyle)? { get }
+    var titleForDeleteConfirmationButtonClosure: ((RowType, IndexPath) -> String?)? { get }
+    var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)? { get }
+    var shouldIndentWhileEditingClosure: ((RowType, IndexPath) -> Bool)? { get }
+    var willBeginEditingClosure: ((RowType, IndexPath) -> Void)? { get }
+    var didEndEditingClosure: ((RowType, IndexPath) -> Void)? { get }
 }
 
 public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
@@ -237,6 +249,94 @@ public class CellDescriptor<Model, Cell: UITableViewCell>: CellDescriptorType {
     public func didDeselect(_ closure: @escaping (Model, IndexPath) -> Void) -> CellDescriptor {
         didDeselectClosure = { (row, indexPath) in
             return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: willDisplay
+    
+    public private(set) var willDisplayClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
+    
+    public func willDisplay(_ closure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
+        willDisplayClosure = { (row, cell, indexPath) in
+            return closure(self.typedModel(row), self.typedCell(cell), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: didEndDisplaying
+    
+    public private(set) var didEndDisplayingClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
+    
+    public func didEndDisplaying(_ closure: @escaping (Model, Cell, IndexPath) -> Void) -> CellDescriptor {
+        didEndDisplayingClosure = { (row, cell, indexPath) in
+            return closure(self.typedModel(row), self.typedCell(cell), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: editingStyle
+    
+    public private(set) var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCellEditingStyle)?
+    
+    public func editingStyle(_ closure: @escaping (Model, IndexPath) -> UITableViewCellEditingStyle) -> CellDescriptor {
+        editingStyleClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: titleForDeleteConfirmationButton
+    
+    public private(set) var titleForDeleteConfirmationButtonClosure: ((RowType, IndexPath) -> String?)?
+    
+    public func titleForDeleteConfirmationButton(_ closure: @escaping (Model, IndexPath) -> String?) -> CellDescriptor {
+        titleForDeleteConfirmationButtonClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: editActions
+    
+    public private(set) var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)?
+    
+    public func editActions(_ closure: @escaping (Model, IndexPath) -> [UITableViewRowAction]?) -> CellDescriptor {
+        editActionsClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: shouldIndentWhileEditing
+    
+    public private(set) var shouldIndentWhileEditingClosure: ((RowType, IndexPath) -> Bool)?
+    
+    public func shouldIndentWhileEditing(_ closure: @escaping (Model, IndexPath) -> Bool) -> CellDescriptor {
+        shouldIndentWhileEditingClosure = { (row, indexPath) in
+            return closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: willBeginEditing
+    
+    public private(set) var willBeginEditingClosure: ((RowType, IndexPath) -> Void)?
+    
+    public func willBeginEditing(_ closure: @escaping (Model, IndexPath) -> Void) -> CellDescriptor {
+        willBeginEditingClosure = { (row, indexPath) in
+            closure(self.typedModel(row), indexPath)
+        }
+        return self
+    }
+    
+    // MARK: didEndEditing
+    
+    public private(set) var didEndEditingClosure: ((RowType, IndexPath) -> Void)?
+
+    public func didEndEditing(_ closure: @escaping (Model, IndexPath) -> Void) -> CellDescriptor {
+        didEndEditingClosure = { (row, indexPath) in
+            closure(self.typedModel(row), indexPath)
         }
         return self
     }

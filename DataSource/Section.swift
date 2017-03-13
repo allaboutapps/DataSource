@@ -30,6 +30,10 @@ public protocol SectionType {
     var footerClosure: ((SectionType, Int) -> HeaderFooter)? { get }
     var headerHeightClosure: ((SectionType, Int) -> CGFloat)? { get }
     var footerHeightClosure: ((SectionType, Int) -> CGFloat)? { get }
+    var willDisplayHeaderClosure: ((SectionType, UIView, Int) -> Void)? { get }
+    var willDisplayFooterClosure: ((SectionType, UIView, Int) -> Void)? { get }
+    var didEndDisplayingHeaderClosure: ((SectionType, UIView, Int) -> Void)? { get }
+    var didEndDisplayingFooterClosure: ((SectionType, UIView, Int) -> Void)? { get }
 
     var diffableSection: DiffableSection { get }
 }
@@ -189,6 +193,78 @@ public class Section: SectionType {
     
     public func footerHeight(_ closure: @escaping () -> CGFloat) -> Section {
         footerHeightClosure = { (_, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: willDisplayHeader
+    
+    public private(set) var willDisplayHeaderClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func willDisplayHeader(_ closure: @escaping (Section, UIView, Int) -> Void) -> Section {
+        willDisplayHeaderClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func willDisplayHeader(_ closure: @escaping () -> Void) -> Section {
+        willDisplayHeaderClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: willDisplayFooter
+    
+    public private(set) var willDisplayFooterClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func willDisplayFooter(_ closure: @escaping (Section, UIView, Int) -> Void) -> Section {
+        willDisplayFooterClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func willDisplayFooter(_ closure: @escaping () -> Void) -> Section {
+        willDisplayFooterClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: didEndDisplayingHeader
+    
+    public private(set) var didEndDisplayingHeaderClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func didEndDisplayingHeader(_ closure: @escaping (Section, UIView, Int) -> Void) -> Section {
+        didEndDisplayingHeaderClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func didEndDisplayingHeader(_ closure: @escaping () -> Void) -> Section {
+        didEndDisplayingHeaderClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: didEndDisplayingFooter
+    
+    public private(set) var didEndDisplayingFooterClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func didEndDisplayingFooter(_ closure: @escaping (Section, UIView, Int) -> Void) -> Section {
+        didEndDisplayingFooterClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func didEndDisplayingFooter(_ closure: @escaping () -> Void) -> Section {
+        didEndDisplayingFooterClosure = { (_, _, _) in
             closure()
         }
         return self

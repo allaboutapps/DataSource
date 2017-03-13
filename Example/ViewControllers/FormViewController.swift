@@ -52,7 +52,9 @@ class FormViewController: UITableViewController {
             
             Section(key: "additional", models: [emailField, "some random text"])
                 .header { .title("Additional Fields") }
-                .isHidden { !self.switchField.isOn }
+                .isHidden {
+                    !self.switchField.isOn
+                }
         ]
 
         tableView.dataSource = dataSource

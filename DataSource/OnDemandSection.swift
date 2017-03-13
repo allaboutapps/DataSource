@@ -166,4 +166,76 @@ public class OnDemandSection: SectionType {
         }
         return self
     }
+    
+    // MARK: willDisplayHeader
+    
+    public private(set) var willDisplayHeaderClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func willDisplayHeader(_ closure: @escaping (OnDemandSection, UIView, Int) -> Void) -> OnDemandSection {
+        willDisplayHeaderClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func willDisplayHeader(_ closure: @escaping () -> Void) -> OnDemandSection {
+        willDisplayHeaderClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: willDisplayFooter
+    
+    public private(set) var willDisplayFooterClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func willDisplayFooter(_ closure: @escaping (OnDemandSection, UIView, Int) -> Void) -> OnDemandSection {
+        willDisplayFooterClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func willDisplayFooter(_ closure: @escaping () -> Void) -> OnDemandSection {
+        willDisplayFooterClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: didEndDisplayingHeader
+    
+    public private(set) var didEndDisplayingHeaderClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func didEndDisplayingHeader(_ closure: @escaping (OnDemandSection, UIView, Int) -> Void) -> OnDemandSection {
+        didEndDisplayingHeaderClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func didEndDisplayingHeader(_ closure: @escaping () -> Void) -> OnDemandSection {
+        didEndDisplayingHeaderClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: didEndDisplayingFooter
+    
+    public private(set) var didEndDisplayingFooterClosure: ((SectionType, UIView, Int) -> Void)?
+    
+    public func didEndDisplayingFooter(_ closure: @escaping (OnDemandSection, UIView, Int) -> Void) -> OnDemandSection {
+        didEndDisplayingFooterClosure = { (section, view, index) in
+            closure(self.typedSection(section), view, index)
+        }
+        return self
+    }
+    
+    public func didEndDisplayingFooter(_ closure: @escaping () -> Void) -> OnDemandSection {
+        didEndDisplayingFooterClosure = { (_, _, _) in
+            closure()
+        }
+        return self
+    }
 }
