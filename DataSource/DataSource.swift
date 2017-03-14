@@ -37,7 +37,10 @@ public class DataSource: NSObject {
     // MARK: UITableViewDelegate
     
     public var height: ((RowType, IndexPath) -> CGFloat)? = nil
-    public var estimatedHeight: ((RowType, IndexPath) -> CGFloat)? = nil
+    
+    // no RowType parameter for estimatedHeight because we do not want to potentially instantiate
+    // a LazyRow just to get the height estimate
+    public var estimatedHeight: ((IndexPath) -> CGFloat)? = nil
     
     public var shouldHighlight: ((RowType, IndexPath) -> Bool)? = nil
     public var didHighlight: ((RowType, IndexPath) -> Void)? = nil
@@ -49,7 +52,7 @@ public class DataSource: NSObject {
     public var didDeselect: ((RowType, IndexPath) -> Void)? = nil
     
     public var willDisplay: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
-    public var didEndDisplaying: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    public var didEndDisplaying: ((UITableViewCell, IndexPath) -> Void)? = nil
     
     public var editingStyle: ((RowType, IndexPath) -> UITableViewCellEditingStyle)? = nil
     public var titleForDeleteConfirmationButton: ((RowType, IndexPath) -> String?)? = nil
@@ -61,14 +64,21 @@ public class DataSource: NSObject {
     public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
     public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil
     
-    public var sectionHeaderHeight: ((SectionType, Int) -> CGFloat)? = nil
-    public var sectionFooterHeight: ((SectionType, Int) -> CGFloat)? = nil
+    public var sectionHeaderHeight: ((SectionType, Int) -> SectionHeight)? = nil
+    public var sectionFooterHeight: ((SectionType, Int) -> SectionHeight)? = nil
     
     public var willDisplaySectionHeader: ((SectionType, UIView, Int) -> Void)? = nil
     public var willDisplaySectionFooter: ((SectionType, UIView, Int) -> Void)? = nil
     
-    public var didEndDisplayingSectionHeader: ((SectionType, UIView, Int) -> Void)? = nil
-    public var didEndDisplayingSectionFooter: ((SectionType, UIView, Int) -> Void)? = nil
+    public var didEndDisplayingSectionHeader: ((UIView, Int) -> Void)? = nil
+    public var didEndDisplayingSectionFooter: ((UIView, Int) -> Void)? = nil
+    
+    public var targetIndexPathForMove: ((RowType, (IndexPath, IndexPath)) -> IndexPath)? = nil
+    public var indentationLevel: ((RowType, IndexPath) -> Int)? = nil
+    public var shouldShowMenu: ((RowType, IndexPath) -> Bool)? = nil
+    public var canPerformAction: ((RowType, Selector, Any?, IndexPath) -> Bool)? = nil
+    public var performAction: ((RowType, Selector, Any?, IndexPath) -> Void)? = nil
+    public var canFocus: ((RowType, IndexPath) -> Bool)? = nil
     
     public var fallbackDelegate: UITableViewDelegate? = nil
     
@@ -109,8 +119,16 @@ public class DataSource: NSObject {
         }
     }
     
+    public func section(at index: Int) -> SectionType {
+        return allSections[index]
+    }
+    
     public func row(at indexPath: IndexPath) -> RowType {
         return allSections[indexPath.section].row(at: indexPath.row)
+    }
+    
+    public func visibleSection(at index: Int) -> SectionType {
+        return visibleSections[index]
     }
     
     public func visibleRow(at indexPath: IndexPath) -> RowType {

@@ -108,8 +108,8 @@ extension DataSource {
             },
             isEqualElement: { (row1, row2) -> Bool in
                 guard
-                    let a = row1.anyModel as? Diffable,
-                    let b = row2.anyModel as? Diffable
+                    let a = row1.diffableItem,
+                    let b = row2.diffableItem
                 else {
                     return false
                 }

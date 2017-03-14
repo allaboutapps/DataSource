@@ -35,10 +35,10 @@ class StartViewController: UITableViewController {
         super.viewDidLoad()
         
         dataSource.sections = [
-            Section(key: "examples", models: [
+            Section(key: "examples", items: [
                 Example(title: "Random Persons", segue: "showRandomPersons"),
                 Example(title: "Form", segue: "showForm"),
-                Example(title: "On Demand", segue: "showOnDemand"),
+                Example(title: "Lazy Rows", segue: "showLazyRows"),
             ])
         ]
 

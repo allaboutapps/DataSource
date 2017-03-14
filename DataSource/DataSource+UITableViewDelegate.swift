@@ -104,10 +104,10 @@ extension DataSource: UITableViewDelegate {
     // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
-        let header = section.headerClosure?(section, sectionIndex) ?? sectionHeader?(section, sectionIndex)
+        let header = section.headerClosure?(section, index) ?? sectionHeader?(section, index)
         
         switch header {
         case .view(let view)?:
@@ -118,10 +118,10 @@ extension DataSource: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
-        let footer = section.footerClosure?(section, sectionIndex) ?? sectionFooter?(section, sectionIndex)
+        let footer = section.footerClosure?(section, index) ?? sectionFooter?(section, index)
         
         switch footer {
         case .view(let view)?:
@@ -147,10 +147,23 @@ extension DataSource: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        let index = indexPath.section
+        let section = visibleSection(at: index)
         
-        if let closure = cellDescriptor.estimatedHeightClosure ?? estimatedHeight {
-            return closure(visibleRow(at: indexPath), indexPath)
+        // Do not get the CellDescriptor if we are dealing with a LazySection because it would instaniate all the rows,
+        // i.e. estimatedHeightClosure will not be called for LazySections. Instead, use the estimatedHeight on the 
+        // DataSource, the fallback delegate or a constant.
+        
+        if !(section is LazySection) {
+            let cellDescriptor = self.cellDescriptor(at: indexPath)
+            
+            if let closure = cellDescriptor.estimatedHeightClosure {
+                return closure(visibleRow(at: indexPath), indexPath)
+            }
+        }
+        
+        if let closure = estimatedHeight {
+            return closure(indexPath)
         }
         
         if let result = fallbackDelegate?.tableView?(tableView, estimatedHeightForRowAt: indexPath) {
@@ -165,27 +178,41 @@ extension DataSource: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
         if let closure = section.headerHeightClosure ?? sectionHeaderHeight {
-            return closure(section, sectionIndex)
+            return closure(section, index).floatValue(for: tableView.style)
         }
         
-        return fallbackDelegate?.tableView?(tableView, heightForHeaderInSection: sectionIndex)
-            ?? UITableViewAutomaticDimension
+        if let result =  fallbackDelegate?.tableView?(tableView, heightForHeaderInSection: index) {
+            return result
+        }
+        
+        if tableView.style == .plain {
+            return tableView.sectionHeaderHeight
+        } else {
+            return UITableViewAutomaticDimension
+        }
     }
     
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
         if let closure = section.footerHeightClosure ?? sectionFooterHeight {
-            return closure(section, sectionIndex)
+            return closure(section, index).floatValue(for: tableView.style)
         }
         
-        return fallbackDelegate?.tableView?(tableView, heightForFooterInSection: sectionIndex)
-            ?? UITableViewAutomaticDimension
+        if let result =  fallbackDelegate?.tableView?(tableView, heightForFooterInSection: index) {
+            return result
+        }
+        
+        if tableView.style == .plain {
+            return tableView.sectionFooterHeight
+        } else {
+            return UITableViewAutomaticDimension
+        }
     }
     
     // MARK: Display customization
@@ -202,32 +229,33 @@ extension DataSource: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
         if let closure = section.willDisplayHeaderClosure ?? willDisplaySectionHeader {
-            closure(section, view, sectionIndex)
+            closure(section, view, index)
         }
         
-        fallbackDelegate?.tableView?(tableView, willDisplayHeaderView:view, forSection:sectionIndex)
+        fallbackDelegate?.tableView?(tableView, willDisplayHeaderView:view, forSection:index)
     }
     
     public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
         if let closure = section.willDisplayFooterClosure ?? willDisplaySectionFooter {
-            closure(section, view, sectionIndex)
+            closure(section, view, index)
         }
         
-        fallbackDelegate?.tableView?(tableView, willDisplayFooterView:view, forSection:sectionIndex)
+        fallbackDelegate?.tableView?(tableView, willDisplayFooterView:view, forSection:index)
     }
     
+    // the didEnd delegate methods are only supported on a "fallback" level as we may not have the row or section
+    // available at this point anymore and we don't want to keep a reference to old data
+    
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cellDescriptor = self.cellDescriptor(at: indexPath)
-        
-        if let closure = cellDescriptor.didEndDisplayingClosure ?? didEndDisplaying {
-            closure(visibleRow(at: indexPath), cell, indexPath)
+        if let closure = didEndDisplaying {
+            closure(cell, indexPath)
             return
         }
         
@@ -235,25 +263,19 @@ extension DataSource: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
-        
-        if let closure = section.didEndDisplayingHeaderClosure ?? didEndDisplayingSectionHeader {
-            closure(section, view, sectionIndex)
+        if let closure = didEndDisplayingSectionHeader {
+            closure(view, section)
         }
         
-        fallbackDelegate?.tableView?(tableView, didEndDisplayingHeaderView:view, forSection:sectionIndex)
+        fallbackDelegate?.tableView?(tableView, didEndDisplayingHeaderView:view, forSection:section)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
-        let sectionIndex = section
-        let section = sections[sectionIndex]
-        
-        if let closure = section.didEndDisplayingFooterClosure ?? didEndDisplayingSectionFooter {
-            closure(section, view, sectionIndex)
+        if let closure = didEndDisplayingSectionFooter {
+            closure(view, section)
         }
         
-        fallbackDelegate?.tableView?(tableView, didEndDisplayingFooterView:view, forSection:sectionIndex)
+        fallbackDelegate?.tableView?(tableView, didEndDisplayingFooterView:view, forSection:section)
     }
     
     // MARK: Editing
@@ -327,6 +349,12 @@ extension DataSource: UITableViewDelegate {
     // MARK: Moving & Reordering
     
     public func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        let cellDescriptor = self.cellDescriptor(at: sourceIndexPath)
+        
+        if let closure = cellDescriptor.targetIndexPathForMoveClosure ?? targetIndexPathForMove {
+            return closure(visibleRow(at: sourceIndexPath), (sourceIndexPath, proposedDestinationIndexPath))
+        }
+        
         return fallbackDelegate?.tableView?(tableView, targetIndexPathForMoveFromRowAt:sourceIndexPath, toProposedIndexPath: proposedDestinationIndexPath)
             ?? proposedDestinationIndexPath
     }
@@ -335,6 +363,12 @@ extension DataSource: UITableViewDelegate {
     // MARK: Indentation
     
     public func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        
+        if let closure = cellDescriptor.indentationLevelClosure ?? indentationLevel {
+            return closure(visibleRow(at: indexPath), indexPath)
+        }
+        
         return fallbackDelegate?.tableView?(tableView, indentationLevelForRowAt: indexPath)
             ?? 0
     }
@@ -342,16 +376,35 @@ extension DataSource: UITableViewDelegate {
     // MARK: Copy & Paste
     
     public func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        
+        if let closure = cellDescriptor.shouldShowMenuClosure ?? shouldShowMenu {
+            return closure(visibleRow(at: indexPath), indexPath)
+        }
+        
         return fallbackDelegate?.tableView?(tableView, shouldShowMenuForRowAt: indexPath)
             ?? false
     }
     
     public func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        
+        if let closure = cellDescriptor.canPerformActionClosure ?? canPerformAction {
+            return closure(visibleRow(at: indexPath), action, sender, indexPath)
+        }
+        
         return fallbackDelegate?.tableView?(tableView, canPerformAction: action, forRowAt: indexPath, withSender: sender)
             ?? false
     }
     
     public func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
+        let cellDescriptor = self.cellDescriptor(at: indexPath)
+        
+        if let closure = cellDescriptor.performActionClosure ?? performAction {
+            closure(visibleRow(at: indexPath), action, sender, indexPath)
+            return
+        }
+        
         fallbackDelegate?.tableView?(tableView, performAction: action, forRowAt: indexPath, withSender: sender)
     }
     
@@ -359,12 +412,12 @@ extension DataSource: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
         return fallbackDelegate?.tableView?(tableView, canFocusRowAt:indexPath)
-            ?? false
+            ?? true
     }
     
     public func tableView(_ tableView: UITableView, shouldUpdateFocusIn context: UITableViewFocusUpdateContext) -> Bool {
         return fallbackDelegate?.tableView?(tableView, shouldUpdateFocusIn:context)
-            ?? false
+            ?? true
     }
     
     public func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {

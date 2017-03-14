@@ -44,17 +44,17 @@
                     <connections>
                         <segue destination="6py-Jf-HCI" kind="show" identifier="showRandomPersons" id="0uN-o5-w7C"/>
                         <segue destination="EI4-XU-2Fk" kind="show" identifier="showForm" id="B4p-Ty-6ZZ"/>
-                        <segue destination="2Pn-bi-ojc" kind="show" identifier="showOnDemand" id="jsk-Ec-GQo"/>
+                        <segue destination="2Pn-bi-ojc" kind="show" identifier="showLazyRows" id="jsk-Ec-GQo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gE9-47-7MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1176" y="473"/>
         </scene>
-        <!--On Demand View Controller-->
+        <!--Lazy Rows View Controller-->
         <scene sceneID="mUY-i7-Ck0">
             <objects>
-                <tableViewController id="2Pn-bi-ojc" customClass="OnDemandViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="2Pn-bi-ojc" customClass="LazyRowsViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QqB-oa-g8I">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -82,7 +82,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t2E-sf-irZ" id="IRY-tD-Gec">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wUN-ek-B9H">
@@ -154,7 +154,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ypn-SH-S6c">
-                                            <rect key="frame" x="15" y="10.5" width="345" height="21"/>
+                                            <rect key="frame" x="15" y="14.5" width="345" height="21"/>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -181,13 +181,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12z-U6-A6m">
-                                            <rect key="frame" x="15" y="11" width="33.5" height="21"/>
+                                            <rect key="frame" x="15" y="14.5" width="33.5" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GWJ-cl-KFL">
-                                            <rect key="frame" x="311" y="6" width="51" height="31"/>
+                                            <rect key="frame" x="311" y="9.5" width="51" height="31"/>
                                             <connections>
                                                 <action selector="valueChanged:" destination="FoZ-nk-RDK" eventType="valueChanged" id="6zu-ED-PKx"/>
                                             </connections>

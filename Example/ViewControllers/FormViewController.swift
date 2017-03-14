@@ -48,9 +48,10 @@ class FormViewController: UITableViewController {
         super.viewDidLoad()
         
         dataSource.sections = [
-            Section(key: "name", models: [firstNameField, lastNameField, switchField]),
+            Section(key: "name", items: [firstNameField, lastNameField, switchField])
+                .headerHeight { .zero },
             
-            Section(key: "additional", models: [emailField, "some random text"])
+            Section(key: "additional", items: [emailField, "some random text"])
                 .header { .title("Additional Fields") }
                 .isHidden {
                     !self.switchField.isOn

@@ -49,11 +49,11 @@ extension DataSource: UITableViewDataSource {
     // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionIndex = section
-        let section = visibleSections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
-        let header = section.headerClosure?(section, sectionIndex)
-                  ?? sectionHeader?(section, sectionIndex)
+        let header = section.headerClosure?(section, index)
+                  ?? sectionHeader?(section, index)
         
         switch header {
         case .title(let title)?:
@@ -64,11 +64,11 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let sectionIndex = section
-        let section = visibleSections[sectionIndex]
+        let index = section
+        let section = visibleSection(at: index)
         
-        let footer = section.footerClosure?(section, sectionIndex)
-                  ?? sectionFooter?(section, sectionIndex)
+        let footer = section.footerClosure?(section, index)
+                  ?? sectionFooter?(section, index)
         
         switch footer {
         case .title(let title)?:

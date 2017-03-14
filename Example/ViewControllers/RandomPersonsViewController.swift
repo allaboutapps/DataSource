@@ -53,9 +53,9 @@ class RandomPersonsViewController: UITableViewController {
         }
         
         return [
-            Section(key: "firstGroup", models: firstGroup)
+            Section(key: "firstGroup", items: firstGroup)
                 .header { .title("A - L") },
-            Section(key: "secondGroup", models: secondGroup)
+            Section(key: "secondGroup", items: secondGroup)
                 .header { .title("M - Z") },
         ]
     }
