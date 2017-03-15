@@ -92,16 +92,34 @@ public class DataSource: NSObject {
     // MARK: Internal
     
     var cellDescriptors: [String: CellDescriptorType] = [:]
+    var sectionDescriptors: [String: SectionDescriptorType] = [:]
+    
     var reuseIdentifiers: Set<String> = []
     let registerNibs: Bool
     
     // MARK: Init
     
-    public init(_ cellDescriptors: [CellDescriptorType], registerNibs: Bool = true) {
+    public init(cellDescriptors: [CellDescriptorType], sectionDescriptors: [SectionDescriptorType] = [], registerNibs: Bool = true) {
         self.registerNibs = registerNibs
         
         for d in cellDescriptors {
             self.cellDescriptors[d.rowIdentifier] = d
+        }
+        
+        let defaultSectionDescriptors: [SectionDescriptorType] = [
+            SectionDescriptor<Void>(),
+            SectionDescriptor<String>()
+                .header { (title, _) in
+                    .title(title)
+            }
+        ]
+        
+        for d in defaultSectionDescriptors {
+            self.sectionDescriptors[d.identifier] = d
+        }
+        
+        for d in sectionDescriptors {
+            self.sectionDescriptors[d.identifier] = d
         }
         
         super.init()
@@ -155,14 +173,28 @@ public class DataSource: NSObject {
         }
     }
     
-    // MARK: Updates
+    // MARK: Section Descriptors
     
-    public func replace(key: String? = nil, section: SectionType) {
-        if let index = sections.index(where: { $0.key == key ?? section.key }) {
-            self.sections[index] = section
+    public func sectionDescriptor(at index: Int) -> SectionDescriptorType? {
+        let section = visibleSection(at: index)
+        
+        if let sectionDescriptor = sectionDescriptors[section.identifier] {
+            return sectionDescriptor
+        } else {
+            print("[DataSource] no sectionDescriptor found for section \(index)")
+            return nil
         }
     }
     
+    public func sectionDescriptor(for identifier: String) -> SectionDescriptorType? {
+        if let sectionDescriptor = sectionDescriptors[identifier] {
+            return sectionDescriptor
+        } else {
+            print("[DataSource] no sectionDescriptor found for sectionIdentifier \(identifier)")
+            return nil
+        }
+    }
+
     // MARK: Visibility
     
     public func update(sections: [SectionType]? = nil, tableView: UITableView) {
@@ -181,12 +213,19 @@ public class DataSource: NSObject {
     internal func updateSectionVisiblity() -> [SectionType] {
         var visibleSections = [SectionType]()
         
-        for (sectionIndex, section) in allSections.enumerated() {
-            section.updateVisibility(sectionIndex: sectionIndex, dataSource: self)
+        for (index, section) in allSections.enumerated() {
+            section.updateVisibility(sectionIndex: index, dataSource: self)
             
-            let isHidden = section.isHiddenClosure?(section, sectionIndex) ?? isSectionHidden?(section, sectionIndex) ?? false
+            let sectionDescriptor = self.sectionDescriptor(for: section.identifier)
+            let isHidden: Bool
             
-            if !isHidden && section.numberOfVisibleRows > 0 {
+            if let closure = sectionDescriptor?.isHiddenClosure ?? isSectionHidden {
+                isHidden = closure(section, index)
+            } else {
+                isHidden = false
+            }
+            
+            if isHidden == false && section.numberOfVisibleRows > 0 {
                 visibleSections.append(section)
             }
         }

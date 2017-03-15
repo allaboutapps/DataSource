@@ -30,32 +30,50 @@ class FormViewController: UITableViewController {
     }()
     
     lazy var dataSource: DataSource = {
-        DataSource([
-            TextFieldCell.descriptor
-                .isHidden { (field, indexPath) in
-                    if field.id == self.lastNameField.id {
-                        return self.firstNameField.text?.isEmpty ?? true
-                    } else {
-                        return false
+        DataSource(
+            cellDescriptors: [
+                TextFieldCell.descriptor
+                    .isHidden { (field, indexPath) in
+                        if field.id == self.lastNameField.id {
+                            return self.firstNameField.text?.isEmpty ?? true
+                        } else {
+                            return false
+                        }
+                    },
+                SwitchCell.descriptor,
+                TitleCell.descriptor,
+            ],
+            sectionDescriptors: [
+                SectionDescriptor<Void>("section-name")
+                    .headerHeight { .zero },
+                
+                SectionDescriptor<Void>("section-additional")
+                    .header {
+                        .title("Additional Fields")
                     }
-                },
-            SwitchCell.descriptor,
-            TitleCell.descriptor,
-        ])
+                    .footer {
+                        .title("Here are some additional fields")
+                    }
+                    .isHidden {
+                        !self.switchField.isOn
+                    }
+            ])
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource.sections = [
-            Section(key: "name", items: [firstNameField, lastNameField, switchField])
-                .headerHeight { .zero },
+            Section(items: [
+                firstNameField,
+                lastNameField,
+                switchField
+            ]).with(identifier: "section-name"),
             
-            Section(key: "additional", items: [emailField, "some random text"])
-                .header { .title("Additional Fields") }
-                .isHidden {
-                    !self.switchField.isOn
-                }
+            Section(items: [
+                emailField,
+                "some random text"
+            ]).with(identifier: "section-additional")
         ]
 
         tableView.dataSource = dataSource

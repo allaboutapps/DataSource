@@ -17,32 +17,36 @@ class LazyRowsViewController: UITableViewController {
     var cachedRows = [Int: LazyRowType]()
     
     lazy var dataSource: DataSource = {
-        DataSource([
-            CellDescriptor<String, TitleCell>()
-                .configure { (title, cell, indexPath) in
-                    let fraction = Double(indexPath.row) / Double(self.count)
-                    
-                    cell.textLabel?.text = title
-                    cell.backgroundColor = UIColor.interpolate(from: UIColor.white, to: UIColor.red, fraction: fraction)
+        DataSource(
+            cellDescriptors: [
+                CellDescriptor<String, TitleCell>()
+                    .configure { (title, cell, indexPath) in
+                        let fraction = Double(indexPath.row) / Double(self.count)
+                        
+                        cell.textLabel?.text = title
+                        cell.backgroundColor = UIColor.interpolate(from: UIColor.white, to: UIColor.red, fraction: fraction)
+                    }
+                    .didSelect { (title, indexPath) in
+                        print("selected: \(title)")
+                        return .deselect
                 }
-                .didSelect { (title, indexPath) in
-                    print("selected: \(title)")
-                    return .deselect
-            }
-        ])
+            ],
+            sectionDescriptors: [
+                SectionDescriptor<String>()
+                    .header { (title, _) in
+                        let view = self.createSectionHeaderView(title: title)
+                        return .view(view)
+                    }
+            ])
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource.sections = [
-            LazySection(key: "lazy", count: { self.count }) { (index) in
+            LazySection("Lazy Rows", count: { self.count }, row: { (index) in
                 return self.cachedRow(at: index)
-            }
-            .header {
-                let view = self.createSectionHeaderView()
-                return .view(view)
-            }
+            })
         ]
         
         tableView.estimatedRowHeight = 44.0
@@ -66,11 +70,11 @@ class LazyRowsViewController: UITableViewController {
         }
     }
     
-    func createSectionHeaderView() -> UIView {
+    func createSectionHeaderView(title: String) -> UIView {
         let label = UILabel()
         label.backgroundColor = UIColor.darkGray
         label.textAlignment = .center
-        label.text = "Lazy Rows"
+        label.text = title
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         return label

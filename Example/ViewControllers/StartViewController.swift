@@ -18,24 +18,25 @@ struct Example {
 class StartViewController: UITableViewController {
     
     lazy var dataSource: DataSource = {
-        DataSource([
-            CellDescriptor<Example, TitleCell>()
-                .configure { (example, cell, indexPath) in
-                    cell.textLabel?.text = example.title
-                    cell.accessoryType = .disclosureIndicator
-                }
-                .didSelect { (example, indexPath) in
-                    self.performSegue(withIdentifier: example.segue, sender: nil)
-                    return .deselect
-                }
-        ])
+        DataSource(
+            cellDescriptors: [
+                CellDescriptor<Example, TitleCell>()
+                    .configure { (example, cell, indexPath) in
+                        cell.textLabel?.text = example.title
+                        cell.accessoryType = .disclosureIndicator
+                    }
+                    .didSelect { (example, indexPath) in
+                        self.performSegue(withIdentifier: example.segue, sender: nil)
+                        return .deselect
+                    }
+            ])
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource.sections = [
-            Section(key: "examples", items: [
+            Section(items: [
                 Example(title: "Random Persons", segue: "showRandomPersons"),
                 Example(title: "Form", segue: "showForm"),
                 Example(title: "Lazy Rows", segue: "showLazyRows"),

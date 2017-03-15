@@ -49,33 +49,37 @@ extension DataSource: UITableViewDataSource {
     // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let index = section
-        let section = visibleSection(at: index)
+        let sectionDescriptor = self.sectionDescriptor(at: section)
         
-        let header = section.headerClosure?(section, index)
-                  ?? sectionHeader?(section, index)
-        
-        switch header {
-        case .title(let title)?:
-            return title
-        default:
-            return nil
+        if let closure = sectionDescriptor?.headerClosure ?? sectionHeader {
+            let header = closure(visibleSection(at: section), section)
+            
+            switch header {
+            case .title(let title):
+                return title
+            default:
+                return nil
+            }
         }
+        
+        return nil
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let index = section
-        let section = visibleSection(at: index)
+        let sectionDescriptor = self.sectionDescriptor(at: section)
         
-        let footer = section.footerClosure?(section, index)
-                  ?? sectionFooter?(section, index)
-        
-        switch footer {
-        case .title(let title)?:
-            return title
-        default:
-            return nil
+        if let closure = sectionDescriptor?.footerClosure ?? sectionFooter {
+            let footer = closure(visibleSection(at: section), section)
+            
+            switch footer {
+            case .title(let title):
+                return title
+            default:
+                return nil
+            }
         }
+        
+        return nil
     }
     
     // MARK: Editing

@@ -8,54 +8,51 @@
 
 import Foundation
 
+// MARK: - RowType
+
 public protocol RowType {
     
     var identifier: String { get }
-    var anyItem: Any { get }
+    var item: Any { get }
     var diffableItem: Diffable? { get }
 }
 
-public struct Row<Item>: RowType {
+// MARK: - Row
+
+public struct Row: RowType {
     
     public let identifier: String
-    public let item: Item
-    
-    public var anyItem: Any {
-        return item
-    }
+    public let item: Any
     
     public var diffableItem: Diffable? {
         return item as? Diffable
     }
     
-    public init(_ item: Item) {
-        self.item = item
-        self.identifier = String(describing: type(of: item))
-    }
-    
-    public init(_ item: Item, identifier: String?) {
-        self.item = item
+    public init(_ item: Any, identifier: String? = nil) {
         self.identifier = identifier ?? String(describing: type(of: item))
+        self.item = item
     }
     
-    public func with(identifier: String) -> Row<Item> {
+    public func with(identifier: String) -> Row {
         return Row(item, identifier: identifier)
     }
 }
 
+// MARK: - LazyRowType
+
 public protocol LazyRowType: RowType {
     
     var anyItemClosure: () -> Any { get }
-    var diffableItemClosure: (() -> Diffable)? { get }
 }
+
+// MARK: - LazyRow
 
 public struct LazyRow<Item>: LazyRowType {
     
     public let identifier: String
     public let itemClosure: () -> Item
-    public let diffableItemClosure: (() -> Diffable)?
-    
-    public var anyItem: Any {
+
+    public var item: Any {
         return itemClosure()
     }
     
@@ -64,22 +61,24 @@ public struct LazyRow<Item>: LazyRowType {
     }
     
     public var diffableItem: Diffable? {
-        return diffableItemClosure?()
+        return nil
     }
     
-    public init(_ item: @escaping () -> Item, diffableItem: (() -> Diffable)? = nil) {
-        self.itemClosure = item
-        self.diffableItemClosure = diffableItem
-        self.identifier = String(describing: Item.self)
-    }
-    
-    public init(_ item: @escaping () -> Item, diffableItem: (() -> Diffable)? = nil, identifier: String?) {
-        self.itemClosure = item
-        self.diffableItemClosure = diffableItem
+    public init(_ item: @escaping () -> Item, identifier: String? = nil) {
         self.identifier = identifier ?? String(describing: Item.self)
+        self.itemClosure = item
     }
     
     public func with(identifier: String) -> LazyRow<Item> {
-        return LazyRow(itemClosure, diffableItem: diffableItemClosure, identifier: identifier)
+        return LazyRow(itemClosure, identifier: identifier)
+    }
+}
+
+// MARK: - Extensions
+
+extension Array {
+    
+    public func rows(_ identifier: String? = nil) -> [Row]  {
+        return self.map { Row($0, identifier: identifier) }
     }
 }

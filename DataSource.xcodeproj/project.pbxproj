@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		390CAF1C1E79AA560024E3E6 /* SectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */; };
 		395D14801B90610A00658680 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D147F1B90610A00658680 /* AppDelegate.swift */; };
 		395D14871B90610A00658680 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 395D14861B90610A00658680 /* Assets.xcassets */; };
 		395D14A71B90612D00658680 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 395D14A61B90612D00658680 /* DataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -94,6 +95,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionDescriptor.swift; sourceTree = "<group>"; };
 		395D147C1B90610A00658680 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		395D147F1B90610A00658680 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		395D14861B90610A00658680 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -200,7 +202,6 @@
 		395D14A51B90612D00658680 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
-				398248C41E5C7A5600F802D1 /* CellDescriptor.swift */,
 				398248AE1E5C6EFB00F802D1 /* DataSource.swift */,
 				398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */,
 				39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */,
@@ -208,6 +209,8 @@
 				398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */,
 				398248C01E5C7A3500F802D1 /* Row.swift */,
 				398248C21E5C7A4000F802D1 /* Section.swift */,
+				398248C41E5C7A5600F802D1 /* CellDescriptor.swift */,
+				390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */,
 				398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */,
 				395D14A61B90612D00658680 /* DataSource.h */,
 				395D14A81B90612D00658680 /* Info.plist */,
@@ -467,6 +470,7 @@
 				398248C31E5C7A4000F802D1 /* Section.swift in Sources */,
 				398248C71E5C7CCA00F802D1 /* DataSource+Diff.swift in Sources */,
 				398248C11E5C7A3500F802D1 /* Row.swift in Sources */,
+				390CAF1C1E79AA560024E3E6 /* SectionDescriptor.swift in Sources */,
 				398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */,
 				398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */,
 				39B621801E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift in Sources */,

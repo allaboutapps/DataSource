@@ -28,15 +28,36 @@ extension String: Diffable {
 
 public struct DiffableSection {
     
-    let key: String
+    let identifier: String
+    let content: Any?
     let rowCount: Int
     let rowClosure: (Int) -> RowType
+}
+
+extension DiffableSection: Diffable {
+    
+    public func isEqualToDiffable(_ other: Diffable?) -> Bool {
+        guard let other = other as? DiffableSection else { return false }
+        return self == other
+    }
 }
 
 extension DiffableSection: Equatable {
     
     public static func ==(lhs: DiffableSection, rhs: DiffableSection) -> Bool {
-        return lhs.key == rhs.key
+        guard lhs.identifier == rhs.identifier else {
+            return false
+        }
+        
+        if lhs.content == nil && rhs.content == nil {
+            return true
+        }
+        
+        if let a = lhs.content as? Diffable,  let b = rhs.content as? Diffable {
+            return a.isEqualToDiffable(b)
+        }
+        
+        return false
     }
 }
 
@@ -104,7 +125,7 @@ extension DataSource {
         let diff = oldSections.nestedExtendedDiff(
             to: newSections,
             isEqualSection: { (section1, section2) -> Bool in
-                section1.key == section2.key
+                section1 == section2
             },
             isEqualElement: { (row1, row2) -> Bool in
                 guard

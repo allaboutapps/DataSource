@@ -14,16 +14,17 @@ import DataSource
 class RandomPersonsViewController: UITableViewController {
     
     lazy var dataSource: DataSource = {
-        DataSource([
-            CellDescriptor<Person, PersonCell>()
-                .configure { (person, cell, indexPath) in
-                    cell.configure(person: person)
-                }
-                .didSelect { (person, indexPath) in
-                    print("selected: \(person)")
-                    return .deselect
-                }
-        ])
+        DataSource(
+            cellDescriptors: [
+                CellDescriptor<Person, PersonCell>()
+                    .configure { (person, cell, indexPath) in
+                        cell.configure(person: person)
+                    }
+                    .didSelect { (person, indexPath) in
+                        print("selected: \(person)")
+                        return .deselect
+                    }
+            ])
     }()
     
     override func viewDidLoad() {
@@ -35,7 +36,7 @@ class RandomPersonsViewController: UITableViewController {
         tableView.delegate = dataSource
     }
     
-    private func randomData() -> [Section] {
+    private func randomData() -> [SectionType] {
         let count = Int.random(5, 15)
         
         let persons = (0 ..< count).map { _ in
@@ -53,10 +54,8 @@ class RandomPersonsViewController: UITableViewController {
         }
         
         return [
-            Section(key: "firstGroup", items: firstGroup)
-                .header { .title("A - L") },
-            Section(key: "secondGroup", items: secondGroup)
-                .header { .title("M - Z") },
+            Section("A - L", items: firstGroup),
+            Section("M - Z", items: secondGroup),
         ]
     }
     
