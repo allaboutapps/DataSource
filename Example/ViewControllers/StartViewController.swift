@@ -9,11 +9,7 @@
 import UIKit
 import DataSource
 
-struct Example {
-    
-    let title: String
-    let segue: String
-}
+// MARK: - View Controller
 
 class StartViewController: UITableViewController {
     
@@ -43,9 +39,18 @@ class StartViewController: UITableViewController {
                 Example(title: "Random Persons", segue: "showRandomPersons"),
                 Example(title: "Form", segue: "showForm"),
                 Example(title: "Lazy Rows", segue: "showLazyRows"),
+                Example(title: "Diff", segue: "showDiff"),
             ])
         ]
         
         dataSource.reloadData(tableView, animated: false)
     }
+}
+
+// MARK: - Example
+
+struct Example {
+    
+    let title: String
+    let segue: String
 }

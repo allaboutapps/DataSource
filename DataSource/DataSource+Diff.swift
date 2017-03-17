@@ -9,122 +9,27 @@
 import Foundation
 import Diff
 
-// MARK: - Diffable
-
-public protocol Diffable {
-    
-    func isEqualToDiffable(_ other: Diffable?) -> Bool
-}
-
-extension String: Diffable {
-    
-    public func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? String else { return false }
-        return self == other
-    }
-}
-
-// MARK: - DiffableSection
-
-public struct DiffableSection {
-    
-    let identifier: String
-    let content: Any?
-    let rowCount: Int
-    let rowClosure: (Int) -> RowType
-}
-
-extension DiffableSection: Diffable {
-    
-    public func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? DiffableSection else { return false }
-        return self == other
-    }
-}
-
-extension DiffableSection: Equatable {
-    
-    public static func ==(lhs: DiffableSection, rhs: DiffableSection) -> Bool {
-        guard lhs.identifier == rhs.identifier else {
-            return false
-        }
-        
-        if lhs.content == nil && rhs.content == nil {
-            return true
-        }
-        
-        if let a = lhs.content as? Diffable,  let b = rhs.content as? Diffable {
-            return a.isEqualToDiffable(b)
-        }
-        
-        return false
-    }
-}
-
-extension DiffableSection: Collection {
-    
-    public typealias Index = Int
-    
-    public var startIndex: Int {
-        return 0
-    }
-    
-    public var endIndex: Int {
-        return rowCount
-    }
-    
-    public subscript(i: Int) -> RowType {
-        return rowClosure(i)
-    }
-    
-    public func index(after i: Int) -> Int {
-        return i + 1
-    }
-}
-
-// MARK: - DataSource Extensions
-
 extension DataSource {
     
-    public func reloadDataAnimated(_ tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
-        let oldSections = visibleSections.map { $0.diffableSection }
-        let newSections = updateSectionVisiblity()
-        let diffableNewSections = newSections.map { $0.diffableSection }
+    public struct Item {
         
-        let diff = computeDiff(oldSections: oldSections, newSections: diffableNewSections)
-        
-        self.visibleSections = newSections
-        
-        tableView.apply(
-            diff,
-            rowDeletionAnimation: rowDeletionAnimation,
-            rowInsertionAnimation: rowInsertionAnimation,
-            sectionDeletionAnimation: sectionDeletionAnimation,
-            sectionInsertionAnimation: sectionInsertionAnimation,
-            indexPathTransform: { $0 },
-            sectionTransform: { $0 }
-        )
+        let indexPath: IndexPath
+        let row: RowType
     }
     
-    public func computeDiff(oldSections: [SectionType], newSections: [SectionType]) -> NestedExtendedDiff {
+    struct ItemUpdate {
+        
+        let from: Item
+        let to: Item
+    }
+    
+    // MARK: Diff
+    
+    func computeDiff(oldSections: [SectionType], newSections: [SectionType]) -> NestedExtendedDiff {
         return computeDiff(oldSections: oldSections.map { $0.diffableSection }, newSections: newSections.map { $0.diffableSection })
     }
     
-    private func computeDiff(oldSections: [DiffableSection], newSections: [DiffableSection]) -> NestedExtendedDiff {
-        print("old sections")
-        for section in oldSections {
-            for row in section {
-                print(row)
-            }
-        }
-        
-        print("new sections")
-        for section in newSections {
-            for row in section {
-                print(row)
-            }
-        }
-        
+    func computeDiff(oldSections: [DiffableSection], newSections: [DiffableSection]) -> NestedExtendedDiff {
         let diff = oldSections.nestedExtendedDiff(
             to: newSections,
             isEqualSection: { (section1, section2) -> Bool in
@@ -135,9 +40,68 @@ extension DataSource {
                     return false
                 }
                 
-                return a.isEqualToDiffable(b)
+                return a.diffIdentifier == b.diffIdentifier
             })
         
         return diff
+    }
+    
+    // MARK: Update
+    
+    func computeUpdate(oldSections: [DiffableSection], newSections: [DiffableSection]) -> [ItemUpdate] {
+        let oldItems = flattenedItems(oldSections)
+        let newItems = flattenedItems(newSections)
+        
+        return computeUpdate(oldItems: oldItems, newItems: newItems)
+    }
+    
+    func computeUpdate(oldItems: [Item], newItems: [Item]) -> [ItemUpdate] {
+        let oldSet = itemsByDiffIdentifier(oldItems)
+        let newSet = itemsByDiffIdentifier(newItems)
+        
+        var result = [ItemUpdate]()
+        
+        for kvp in oldSet {
+            let oldItem = kvp.value
+            
+            guard
+                let newItem = newSet[kvp.key],
+                let oldDiffable = oldItem.row.diffableItem,
+                let newDiffable = newItem.row.diffableItem
+                else {
+                    continue
+            }
+            
+            if oldDiffable.diffIdentifier == newDiffable.diffIdentifier, !oldDiffable.isEqualToDiffable(newDiffable) {
+                result.append(ItemUpdate(from: oldItem, to: newItem))
+            }
+        }
+        
+        return result
+    }
+
+    
+    func flattenedItems(_ sections: [DiffableSection]) -> [Item] {
+        var result = [Item]()
+        
+        for (sectionIndex, section) in sections.enumerated() {
+            for (rowIndex, row) in section.enumerated() {
+                result.append(Item(indexPath: IndexPath(row: rowIndex, section: sectionIndex), row: row))
+            }
+        }
+        
+        return result
+    }
+    
+    func itemsByDiffIdentifier(_ items: [Item]) -> [String: Item] {
+        var result = [String: Item]()
+        
+        for item in items {
+            if let diffIdentifier = item.row.diffableItem?.diffIdentifier, result[diffIdentifier] == nil {
+                result[diffIdentifier] = item
+            }
+        }
+        
+        return result
     }
 }

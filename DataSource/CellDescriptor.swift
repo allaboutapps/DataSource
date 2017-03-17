@@ -21,12 +21,11 @@ public protocol CellDescriptorType {
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
     var cellClass: UITableViewCell.Type { get }
-    
-    var isHiddenClosure: ((RowType, IndexPath) -> Bool)? { get }
-    
+
     // UITableViewDataSource
     
     var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
+
     var canEditClosure: ((RowType, IndexPath) -> Bool)? { get }
     var canMoveClosure: ((RowType, IndexPath) -> Bool)? { get }
     var commitEditingClosure: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)? { get }
@@ -61,6 +60,11 @@ public protocol CellDescriptorType {
     var canPerformActionClosure: ((RowType, Selector, Any?, IndexPath) -> Bool)? { get }
     var performActionClosure: ((RowType, Selector, Any?, IndexPath) -> Void)? { get }
     var canFocusClosure: ((RowType, IndexPath) -> Bool)? { get }
+    
+    // Additional
+    
+    var isHiddenClosure: ((RowType, IndexPath) -> Bool)? { get }
+    var updateClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
 }
 
 // MARK - CellDescriptor
@@ -92,27 +96,7 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
         }
         return cell
     }
-    
-    // MARK: - Closures
-    
-    // MARK: isHidden
-    
-    public private(set) var isHiddenClosure: ((RowType, IndexPath) -> Bool)?
-    
-    public func isHidden(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        isHiddenClosure = { (row, indexPath) in
-            closure(self.typedItem(row), indexPath)
-        }
-        return self
-    }
-    
-    public func isHidden(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        isHiddenClosure = { (_, _) in
-            closure()
-        }
-        return self
-    }
-    
+
     // MARK: - UITableViewDataSource
     
     // MARK: configure
@@ -575,6 +559,37 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public func canFocus(_ closure: @escaping () -> Bool) -> CellDescriptor {
         canFocusClosure = { (_, _) in
             closure()
+        }
+        return self
+    }
+    
+    // MARK: - Closures
+    
+    // MARK: isHidden
+    
+    public private(set) var isHiddenClosure: ((RowType, IndexPath) -> Bool)?
+    
+    public func isHidden(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
+        isHiddenClosure = { (row, indexPath) in
+            closure(self.typedItem(row), indexPath)
+        }
+        return self
+    }
+    
+    public func isHidden(_ closure: @escaping () -> Bool) -> CellDescriptor {
+        isHiddenClosure = { (_, _) in
+            closure()
+        }
+        return self
+    }
+    
+    // MARK: update
+    
+    public private(set) var updateClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
+    
+    public func update(_ closure: @escaping (Item, Cell, IndexPath) -> Void) -> CellDescriptor {
+        updateClosure = { (row, cell, indexPath) in
+            closure(self.typedItem(row), self.typedCell(cell), indexPath)
         }
         return self
     }

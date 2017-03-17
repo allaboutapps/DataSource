@@ -11,16 +11,8 @@ import Diff
 
 public class DataSource: NSObject {
     
-    public struct Item {
-        let indexPath: IndexPath
-        let row: RowType
-    }
-    
     public var sections: [SectionType] = []
     public internal(set) var visibleSections: [SectionType] = []
-
-    public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
-    public var isSectionHidden: ((SectionType, Int) -> Bool)? = nil
     
     // MARK: UITableViewDataSource
     
@@ -88,6 +80,12 @@ public class DataSource: NSObject {
     public var cancelPrefetching: (([IndexPath]) -> Void)? = nil
     
     public var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
+    
+    // MARK: Additional
+    
+    public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
+    public var isSectionHidden: ((SectionType, Int) -> Bool)? = nil
+    public var update: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
     
     // MARK: Internal
     
@@ -222,6 +220,53 @@ public class DataSource: NSObject {
         } else {
             visibleSections = updateSectionVisiblity()
             tableView.reloadData()
+        }
+    }
+    
+    public func reloadDataAnimated(
+        _ tableView: UITableView,
+        rowDeletionAnimation: UITableViewRowAnimation = .fade,
+        rowInsertionAnimation: UITableViewRowAnimation = .fade,
+        rowReloadAnimation: UITableViewRowAnimation = .none,
+        sectionDeletionAnimation: UITableViewRowAnimation = .fade,
+        sectionInsertionAnimation: UITableViewRowAnimation = .fade
+        ) {
+        
+        let oldSections = visibleSections.map { $0.diffableSection }
+        let newSections = updateSectionVisiblity()
+        let diffableNewSections = newSections.map { $0.diffableSection }
+        
+        let diff = computeDiff(oldSections: oldSections, newSections: diffableNewSections)
+        let updates = computeUpdate(oldSections: oldSections, newSections: diffableNewSections)
+        
+        self.visibleSections = newSections
+        
+        if rowReloadAnimation == .none {
+            for update in updates {
+                updateRow(tableView, row: update.to.row, at: update.from.indexPath)
+            }
+        }
+        
+        tableView.apply(
+            batch: Batch(diff: diff, updates: updates),
+            rowDeletionAnimation: rowDeletionAnimation,
+            rowInsertionAnimation: rowInsertionAnimation,
+            rowReloadAnimation: rowReloadAnimation,
+            sectionDeletionAnimation: sectionDeletionAnimation,
+            sectionInsertionAnimation: sectionInsertionAnimation)
+    }
+    
+    public func updateRow(_ tableView: UITableView, row: RowType, at indexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(for: row.identifier)
+        
+        let closure =
+            cellDescriptor.updateClosure
+            ?? update
+            ?? cellDescriptor.configureClosure
+            ?? configure
+        
+        if let cell = tableView.cellForRow(at: indexPath), let closure = closure {
+            closure(row, cell, indexPath)
         }
     }
 }

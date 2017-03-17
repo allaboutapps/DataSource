@@ -15,54 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        test()
         return true
-    }
-    
-    // MARK: test
-    
-    func test() {
-        /*
-        let cellDescriptors: [CellDescriptorType] = [
-            CellDescriptor(
-                configure: { (person: Person, cell: PersonCell, indexPath: IndexPath) in
-                    cell.textLabel?.text = person.firstName
-                }),
-            CellDescriptor(
-                configure: { (text: String, cell: TextCell, indexPath: IndexPath) in
-                    cell.textLabel?.text = text
-                })
-        ]
-        
-        let dataSource = DataSource(
-            sections: [
-                Section(key: "names", rows: [
-                    Row(Person(firstName: "Matthias", lastName: "Buchetics")),
-                    Row(Person(firstName: "Hugo", lastName: "Maier"))
-                ]),
-                Section(key: "strings", rows: [
-                    Row("ABC"),
-                    Row("XYZ")
-                ])
-            ],
-            cellDescriptors: cellDescriptors
-        )
-        
-        let newSections: [Section<Any>] = [
-            Section(key: "strings", rows: [
-                Row("ABC"),
-                Row("XYZ"),
-                Row("AAA"),
-            ]),
-            Section(key: "names‚", rows: [
-                Row(Person(firstName: "Matthias", lastName: "Buchetics")),
-            ])
-        ]
-        
-        let diff = dataSource.diff(sections: newSections)
-        
-        print(diff.elements)
- */
     }
 }
 

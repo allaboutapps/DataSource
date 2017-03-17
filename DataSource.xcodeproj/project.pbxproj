@@ -13,6 +13,12 @@
 		395D14A71B90612D00658680 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 395D14A61B90612D00658680 /* DataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		395D14B91B90612D00658680 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; };
 		395D14BA1B90612D00658680 /* DataSource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3968B9091E7BFDF800EE876F /* Diffable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B9081E7BFDF800EE876F /* Diffable.swift */; };
+		3968B9111E7C103400EE876F /* RandomPersonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B90D1E7C103400EE876F /* RandomPersonsViewController.swift */; };
+		3968B9121E7C103400EE876F /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B90E1E7C103400EE876F /* FormViewController.swift */; };
+		3968B9131E7C103400EE876F /* DiffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B90F1E7C103400EE876F /* DiffViewController.swift */; };
+		3968B9141E7C103400EE876F /* LazyRowsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B9101E7C103400EE876F /* LazyRowsViewController.swift */; };
+		3968B9161E7C261600EE876F /* UILabel+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B9151E7C261600EE876F /* UILabel+Animation.swift */; };
 		398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248A11E5C6D9900F802D1 /* StartViewController.swift */; };
 		398248AC1E5C6DDC00F802D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398248A81E5C6DDC00F802D1 /* LaunchScreen.storyboard */; };
 		398248AD1E5C6DDC00F802D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398248AA1E5C6DDC00F802D1 /* Main.storyboard */; };
@@ -27,20 +33,17 @@
 		398248CB1E5CA74A00F802D1 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */; };
 		398248CD1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */; };
 		39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39913AB71E61BBCC00623635 /* SwiftRandom.swift */; };
-		39957EE01E64727D00B430A4 /* RandomPersonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39957EDF1E64727D00B430A4 /* RandomPersonsViewController.swift */; };
 		39A848671E5E1D9600D7DBC2 /* DataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */; };
 		39A848691E5E1D9600D7DBC2 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; };
 		39A848721E5E2D2D00D7DBC2 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
 		39A848741E5E2DD800D7DBC2 /* Diff.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39A848751E5E2DEC00D7DBC2 /* DataSource.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39B621801E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */; };
-		39E9E3A31E65659300A3C300 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3A21E65659300A3C300 /* FormViewController.swift */; };
 		39E9E3A81E6566AD00A3C300 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3A51E6566AD00A3C300 /* PersonCell.swift */; };
 		39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3A61E6566AD00A3C300 /* TitleCell.swift */; };
 		39E9E3AA1E6566AD00A3C300 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39E9E3A71E6566AD00A3C300 /* TitleCell.xib */; };
 		39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */; };
 		39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */; };
-		39EBE0651E707DAC006B7E62 /* LazyRowsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0641E707DAC006B7E62 /* LazyRowsViewController.swift */; };
 		39EBE0671E717FBE006B7E62 /* UIColor+Interpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +106,12 @@
 		395D14A41B90612D00658680 /* DataSource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataSource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		395D14A61B90612D00658680 /* DataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		395D14A81B90612D00658680 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3968B9081E7BFDF800EE876F /* Diffable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diffable.swift; sourceTree = "<group>"; };
+		3968B90D1E7C103400EE876F /* RandomPersonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomPersonsViewController.swift; path = Examples/RandomPersonsViewController.swift; sourceTree = "<group>"; };
+		3968B90E1E7C103400EE876F /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = Examples/FormViewController.swift; sourceTree = "<group>"; };
+		3968B90F1E7C103400EE876F /* DiffViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiffViewController.swift; path = Examples/DiffViewController.swift; sourceTree = "<group>"; };
+		3968B9101E7C103400EE876F /* LazyRowsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LazyRowsViewController.swift; path = Examples/LazyRowsViewController.swift; sourceTree = "<group>"; };
+		3968B9151E7C261600EE876F /* UILabel+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Animation.swift"; sourceTree = "<group>"; };
 		398248A11E5C6D9900F802D1 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		398248A91E5C6DDC00F802D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		398248AB1E5C6DDC00F802D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -118,18 +127,15 @@
 		398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDelegate.swift"; sourceTree = "<group>"; };
 		39913AB71E61BBCC00623635 /* SwiftRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRandom.swift; sourceTree = "<group>"; };
-		39957EDF1E64727D00B430A4 /* RandomPersonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomPersonsViewController.swift; sourceTree = "<group>"; };
 		39A848641E5E1D9600D7DBC2 /* DataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceTests.swift; sourceTree = "<group>"; };
 		39A848681E5E1D9600D7DBC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDataSourcePrefetching.swift"; sourceTree = "<group>"; };
-		39E9E3A21E65659300A3C300 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		39E9E3A51E6566AD00A3C300 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		39E9E3A61E6566AD00A3C300 /* TitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		39E9E3A71E6566AD00A3C300 /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
-		39EBE0641E707DAC006B7E62 /* LazyRowsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyRowsViewController.swift; sourceTree = "<group>"; };
 		39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Interpolation.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,15 +208,16 @@
 		395D14A51B90612D00658680 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
+				3968B9081E7BFDF800EE876F /* Diffable.swift */,
+				398248C01E5C7A3500F802D1 /* Row.swift */,
+				398248C21E5C7A4000F802D1 /* Section.swift */,
+				398248C41E5C7A5600F802D1 /* CellDescriptor.swift */,
+				390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */,
 				398248AE1E5C6EFB00F802D1 /* DataSource.swift */,
 				398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */,
 				39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */,
 				398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */,
 				398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */,
-				398248C01E5C7A3500F802D1 /* Row.swift */,
-				398248C21E5C7A4000F802D1 /* Section.swift */,
-				398248C41E5C7A5600F802D1 /* CellDescriptor.swift */,
-				390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */,
 				398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */,
 				395D14A61B90612D00658680 /* DataSource.h */,
 				395D14A81B90612D00658680 /* Info.plist */,
@@ -218,13 +225,22 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
+		3968B90C1E7C101200EE876F /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				3968B90F1E7C103400EE876F /* DiffViewController.swift */,
+				3968B90E1E7C103400EE876F /* FormViewController.swift */,
+				3968B9101E7C103400EE876F /* LazyRowsViewController.swift */,
+				3968B90D1E7C103400EE876F /* RandomPersonsViewController.swift */,
+			);
+			name = Examples;
+			sourceTree = "<group>";
+		};
 		3982489F1E5C6D9900F802D1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3968B90C1E7C101200EE876F /* Examples */,
 				39E9E3A41E6566AD00A3C300 /* Cells */,
-				39E9E3A21E65659300A3C300 /* FormViewController.swift */,
-				39EBE0641E707DAC006B7E62 /* LazyRowsViewController.swift */,
-				39957EDF1E64727D00B430A4 /* RandomPersonsViewController.swift */,
 				398248A11E5C6D9900F802D1 /* StartViewController.swift */,
 			);
 			path = ViewControllers;
@@ -252,6 +268,7 @@
 			children = (
 				39913AB71E61BBCC00623635 /* SwiftRandom.swift */,
 				39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */,
+				3968B9151E7C261600EE876F /* UILabel+Animation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -447,15 +464,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				39E9E3A81E6566AD00A3C300 /* PersonCell.swift in Sources */,
+				3968B9141E7C103400EE876F /* LazyRowsViewController.swift in Sources */,
 				39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */,
-				39EBE0651E707DAC006B7E62 /* LazyRowsViewController.swift in Sources */,
+				3968B9161E7C261600EE876F /* UILabel+Animation.swift in Sources */,
 				39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */,
-				39E9E3A31E65659300A3C300 /* FormViewController.swift in Sources */,
 				39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */,
-				39957EE01E64727D00B430A4 /* RandomPersonsViewController.swift in Sources */,
+				3968B9111E7C103400EE876F /* RandomPersonsViewController.swift in Sources */,
 				395D14801B90610A00658680 /* AppDelegate.swift in Sources */,
 				398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */,
 				39EBE0671E717FBE006B7E62 /* UIColor+Interpolation.swift in Sources */,
+				3968B9121E7C103400EE876F /* FormViewController.swift in Sources */,
+				3968B9131E7C103400EE876F /* DiffViewController.swift in Sources */,
 				39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +490,7 @@
 				398248C71E5C7CCA00F802D1 /* DataSource+Diff.swift in Sources */,
 				398248C11E5C7A3500F802D1 /* Row.swift in Sources */,
 				390CAF1C1E79AA560024E3E6 /* SectionDescriptor.swift in Sources */,
+				3968B9091E7BFDF800EE876F /* Diffable.swift in Sources */,
 				398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */,
 				398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */,
 				39B621801E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift in Sources */,

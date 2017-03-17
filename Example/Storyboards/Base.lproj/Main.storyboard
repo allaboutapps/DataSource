@@ -45,13 +45,14 @@
                         <segue destination="6py-Jf-HCI" kind="show" identifier="showRandomPersons" id="0uN-o5-w7C"/>
                         <segue destination="EI4-XU-2Fk" kind="show" identifier="showForm" id="B4p-Ty-6ZZ"/>
                         <segue destination="2Pn-bi-ojc" kind="show" identifier="showLazyRows" id="jsk-Ec-GQo"/>
+                        <segue destination="Gg3-41-pJm" kind="show" identifier="showDiff" id="UGB-s7-Swz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gE9-47-7MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1176" y="473"/>
         </scene>
-        <!--Lazy Rows View Controller-->
+        <!--Lazy Rows-->
         <scene sceneID="mUY-i7-Ck0">
             <objects>
                 <tableViewController id="2Pn-bi-ojc" customClass="LazyRowsViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -64,16 +65,42 @@
                             <outlet property="delegate" destination="2Pn-bi-ojc" id="YLS-7c-HeA"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Lazy Rows" id="lRy-sj-JrA"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ann-pT-kRO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1993" y="-304"/>
         </scene>
+        <!--Diff-->
+        <scene sceneID="19X-JY-yow">
+            <objects>
+                <tableViewController id="Gg3-41-pJm" customClass="DiffViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3Df-xf-eWJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Gg3-41-pJm" id="cFV-V1-JoJ"/>
+                            <outlet property="delegate" destination="Gg3-41-pJm" id="kKh-rh-U2D"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Diff" id="Uvo-80-DWH">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="QEl-Nt-cTE">
+                            <connections>
+                                <action selector="refresh:" destination="Gg3-41-pJm" id="Khp-XJ-tMV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fNt-Cf-KHl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2895" y="-304"/>
+        </scene>
         <!--Persons-->
         <scene sceneID="S09-Cn-Mdc">
             <objects>
                 <tableViewController storyboardIdentifier="RandomPersonsViewController" title="Persons" id="6py-Jf-HCI" customClass="RandomPersonsViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="35F-CF-MSq">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="35F-CF-MSq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,7 +181,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ypn-SH-S6c">
-                                            <rect key="frame" x="15" y="14.5" width="345" height="21"/>
+                                            <rect key="frame" x="15" y="15" width="345" height="21"/>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -181,13 +208,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12z-U6-A6m">
-                                            <rect key="frame" x="15" y="14.5" width="33.5" height="21"/>
+                                            <rect key="frame" x="15" y="15" width="34" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GWJ-cl-KFL">
-                                            <rect key="frame" x="311" y="9.5" width="51" height="31"/>
+                                            <rect key="frame" x="311" y="10" width="51" height="31"/>
                                             <connections>
                                                 <action selector="valueChanged:" destination="FoZ-nk-RDK" eventType="valueChanged" id="6zu-ED-PKx"/>
                                             </connections>

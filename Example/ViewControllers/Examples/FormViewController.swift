@@ -104,9 +104,8 @@ protocol FormField: Diffable {
 
 extension FormField {
     
-    func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? FormField else { return false }
-        return self.id == other.id
+    var diffIdentifier: String {
+        return id
     }
 }
 
@@ -127,6 +126,15 @@ struct Form {
             self.keyboardType = keyboardType
             self.changed = changed
         }
+        
+        func isEqualToDiffable(_ other: Diffable?) -> Bool {
+            guard let other = other as? TextField else { return false }
+            
+            return self.id == other.id
+                && self.text == other.text
+                && self.placeholder == other.placeholder
+                && self.keyboardType == other.keyboardType
+        }
     }
 
     class SwitchField: FormField {
@@ -141,6 +149,14 @@ struct Form {
             self.title = title
             self.isOn = isOn
             self.changed = changed
+        }
+        
+        func isEqualToDiffable(_ other: Diffable?) -> Bool {
+            guard let other = other as? SwitchField else { return false }
+            
+            return self.id == other.id
+                && self.title == other.title
+                && self.isOn == other.isOn
         }
     }
 }

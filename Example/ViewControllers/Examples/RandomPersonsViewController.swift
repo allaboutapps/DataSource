@@ -76,12 +76,16 @@ struct Person {
         let letter = lastName.substring(to: lastName.index(lastName.startIndex, offsetBy: 1))
         return letters.contains(letter)
     }
+    
+    var fullName: String {
+        return "\(firstName) \(lastName)"
+    }
 }
 
 extension Person: Equatable {
     
     static func ==(lhs: Person, rhs: Person) -> Bool {
-        return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName
+        return lhs.fullName == rhs.fullName
     }
 }
 
@@ -100,6 +104,10 @@ extension Person: Comparable {
 
 extension Person: Diffable {
     
+    public var diffIdentifier: String {
+        return fullName
+    }
+    
     func isEqualToDiffable(_ other: Diffable?) -> Bool {
         guard let other = other as? Person else { return false }
         return self == other
@@ -109,6 +117,6 @@ extension Person: Diffable {
 extension Person: CustomStringConvertible {
     
     var description: String {
-        return "\(firstName) \(lastName)"
+        return fullName
     }
 }
