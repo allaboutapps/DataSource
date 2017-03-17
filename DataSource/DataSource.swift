@@ -16,7 +16,7 @@ public class DataSource: NSObject {
         let row: RowType
     }
     
-    public internal(set) var allSections: [SectionType] = []
+    public var sections: [SectionType] = []
     public internal(set) var visibleSections: [SectionType] = []
 
     public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
@@ -127,22 +127,12 @@ public class DataSource: NSObject {
     
     // MARK: Getters & Setters
     
-    public var sections: [SectionType] {
-        get {
-            return allSections
-        }
-        set {
-            allSections = newValue
-            updateVisibility()
-        }
-    }
-    
     public func section(at index: Int) -> SectionType {
-        return allSections[index]
+        return sections[index]
     }
     
     public func row(at indexPath: IndexPath) -> RowType {
-        return allSections[indexPath.section].row(at: indexPath.row)
+        return sections[indexPath.section].row(at: indexPath.row)
     }
     
     public func visibleSection(at index: Int) -> SectionType {
@@ -197,23 +187,14 @@ public class DataSource: NSObject {
 
     // MARK: Visibility
     
-    public func update(sections: [SectionType]? = nil, tableView: UITableView) {
-        if let sections = sections {
-            self.allSections = sections
-        }
-        
-        self.visibleSections = updateSectionVisiblity()
-        tableView.reloadData()
-    }
-    
     internal func updateVisibility() {
-        self.visibleSections = updateSectionVisiblity()
+        visibleSections = updateSectionVisiblity()
     }
     
     internal func updateSectionVisiblity() -> [SectionType] {
         var visibleSections = [SectionType]()
         
-        for (index, section) in allSections.enumerated() {
+        for (index, section) in sections.enumerated() {
             section.updateVisibility(sectionIndex: index, dataSource: self)
             
             let sectionDescriptor = self.sectionDescriptor(for: section.identifier)
@@ -231,5 +212,16 @@ public class DataSource: NSObject {
         }
         
         return visibleSections
-    }    
+    }
+    
+    // MARK: Reload Data
+    
+    public func reloadData(_ tableView: UITableView, animated: Bool) {
+        if animated {
+            reloadDataAnimated(tableView)
+        } else {
+            visibleSections = updateSectionVisiblity()
+            tableView.reloadData()
+        }
+    }
 }

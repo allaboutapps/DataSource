@@ -63,6 +63,9 @@ class FormViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
+        
         dataSource.sections = [
             Section(items: [
                 firstNameField,
@@ -75,21 +78,20 @@ class FormViewController: UITableViewController {
                 "some random text"
             ]).with(identifier: "section-additional")
         ]
-
-        tableView.dataSource = dataSource
-        tableView.delegate = dataSource
+        
+        dataSource.reloadData(tableView, animated: false)
     }
     
     func textFieldChanged(id: String, text: String) {
         print("changed field \(id): \(text)")
         
-        dataSource.updateAnimated(tableView: tableView)
+        dataSource.reloadData(tableView, animated: true)
     }
     
     func switchFieldChanged(id: String, isOn: Bool) {
         print("changed field \(id): \(isOn)")
         
-        dataSource.updateAnimated(tableView: tableView)
+        dataSource.reloadData(tableView, animated: true)
     }
 }
 

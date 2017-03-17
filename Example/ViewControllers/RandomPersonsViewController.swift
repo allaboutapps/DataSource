@@ -16,13 +16,12 @@ class RandomPersonsViewController: UITableViewController {
     lazy var dataSource: DataSource = {
         DataSource(
             cellDescriptors: [
-                CellDescriptor<Person, PersonCell>()
-                    .configure { (person, cell, indexPath) in
-                        cell.configure(person: person)
-                    }
-                    .didSelect { (person, indexPath) in
-                        print("selected: \(person)")
-                        return .deselect
+                PersonCell.descriptor
+            ],
+            sectionDescriptors: [
+                SectionDescriptor<String>()
+                    .header { (title, _) in
+                        .title("test: " + title)
                     }
             ])
     }()
@@ -30,10 +29,11 @@ class RandomPersonsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource.sections = randomData()
-        
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
+        
+        dataSource.sections = randomData()
+        dataSource.reloadData(tableView, animated: false)
     }
     
     private func randomData() -> [SectionType] {
@@ -60,7 +60,8 @@ class RandomPersonsViewController: UITableViewController {
     }
     
     @IBAction func refresh(_ sender: Any) {
-        dataSource.updateAnimated(sections: randomData(), tableView: self.tableView)
+        dataSource.sections = randomData()
+        dataSource.reloadData(tableView, animated: true)
     }
 }
 

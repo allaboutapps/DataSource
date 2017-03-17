@@ -35,6 +35,9 @@ class StartViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
+        
         dataSource.sections = [
             Section(items: [
                 Example(title: "Random Persons", segue: "showRandomPersons"),
@@ -42,8 +45,7 @@ class StartViewController: UITableViewController {
                 Example(title: "Lazy Rows", segue: "showLazyRows"),
             ])
         ]
-
-        tableView.dataSource = dataSource
-        tableView.delegate = dataSource
+        
+        dataSource.reloadData(tableView, animated: false)
     }
 }

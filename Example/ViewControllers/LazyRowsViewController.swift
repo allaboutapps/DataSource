@@ -43,17 +43,19 @@ class LazyRowsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.estimatedRowHeight = 44.0
+        tableView.sectionHeaderHeight = 40.0
+        
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
+        
         dataSource.sections = [
             LazySection("Lazy Rows", count: { self.count }, row: { (index) in
                 return self.cachedRow(at: index)
             })
         ]
         
-        tableView.estimatedRowHeight = 44.0
-        tableView.sectionHeaderHeight = 40.0
-        
-        tableView.dataSource = dataSource
-        tableView.delegate = dataSource
+        dataSource.reloadData(tableView, animated: false)
     }
     
     func cachedRow(at index: Int) -> LazyRowType {

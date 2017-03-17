@@ -86,12 +86,7 @@ extension DiffableSection: Collection {
 
 extension DataSource {
     
-    public func updateAnimated(sections: [SectionType]? = nil, tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
-        
-        if let sections = sections {
-            self.allSections = sections
-        }
-        
+    public func reloadDataAnimated(_ tableView: UITableView, rowDeletionAnimation: UITableViewRowAnimation = .fade, rowInsertionAnimation: UITableViewRowAnimation = .fade, sectionDeletionAnimation: UITableViewRowAnimation = .fade, sectionInsertionAnimation: UITableViewRowAnimation = .fade) {
         let oldSections = visibleSections.map { $0.diffableSection }
         let newSections = updateSectionVisiblity()
         let diffableNewSections = newSections.map { $0.diffableSection }
@@ -100,7 +95,15 @@ extension DataSource {
         
         self.visibleSections = newSections
         
-        tableView.apply(diff, rowDeletionAnimation: rowDeletionAnimation, rowInsertionAnimation: rowInsertionAnimation, sectionDeletionAnimation: sectionDeletionAnimation, sectionInsertionAnimation: sectionInsertionAnimation)
+        tableView.apply(
+            diff,
+            rowDeletionAnimation: rowDeletionAnimation,
+            rowInsertionAnimation: rowInsertionAnimation,
+            sectionDeletionAnimation: sectionDeletionAnimation,
+            sectionInsertionAnimation: sectionInsertionAnimation,
+            indexPathTransform: { $0 },
+            sectionTransform: { $0 }
+        )
     }
     
     public func computeDiff(oldSections: [SectionType], newSections: [SectionType]) -> NestedExtendedDiff {
@@ -128,10 +131,7 @@ extension DataSource {
                 section1 == section2
             },
             isEqualElement: { (row1, row2) -> Bool in
-                guard
-                    let a = row1.diffableItem,
-                    let b = row2.diffableItem
-                else {
+                guard let a = row1.diffableItem, let b = row2.diffableItem else {
                     return false
                 }
                 
