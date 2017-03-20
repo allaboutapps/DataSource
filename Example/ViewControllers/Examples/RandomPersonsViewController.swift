@@ -21,7 +21,7 @@ class RandomPersonsViewController: UITableViewController {
             sectionDescriptors: [
                 SectionDescriptor<String>()
                     .header { (title, _) in
-                        .title("test: " + title)
+                        .title(title)
                     }
             ])
     }()
@@ -39,9 +39,7 @@ class RandomPersonsViewController: UITableViewController {
     private func randomData() -> [SectionType] {
         let count = Int.random(5, 15)
         
-        let persons = (0 ..< count).map { _ in
-            Person(firstName: Randoms.randomFirstName(), lastName: Randoms.randomLastName())
-        }.sorted()
+        let persons = (0 ..< count).map { _ in Person.random()  }.sorted()
         
         let letters = Set(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"])
         
@@ -79,6 +77,13 @@ struct Person {
     
     var fullName: String {
         return "\(firstName) \(lastName)"
+    }
+    
+    static func random() -> Person {
+        return Person(
+            firstName: Randoms.randomFirstName(),
+            lastName: Randoms.randomLastName()
+        )
     }
 }
 

@@ -39,7 +39,7 @@ class StartViewController: UITableViewController {
                 Example(title: "Random Persons", segue: "showRandomPersons"),
                 Example(title: "Form", segue: "showForm"),
                 Example(title: "Lazy Rows", segue: "showLazyRows"),
-                Example(title: "Diff", segue: "showDiff"),
+                Example(title: "Diff & Update", segue: "showDiff"),
             ])
         ]
         
