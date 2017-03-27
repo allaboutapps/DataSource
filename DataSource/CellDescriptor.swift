@@ -52,8 +52,7 @@ public protocol CellDescriptorType {
     var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)? { get }
     var shouldIndentWhileEditingClosure: ((RowType, IndexPath) -> Bool)? { get }
     var willBeginEditingClosure: ((RowType, IndexPath) -> Void)? { get }
-    var didEndEditingClosure: ((RowType, IndexPath) -> Void)? { get }
-    
+
     var targetIndexPathForMoveClosure: ((RowType, (IndexPath, IndexPath)) -> IndexPath)? { get }
     var indentationLevelClosure: ((RowType, IndexPath) -> Int)? { get }
     var shouldShowMenuClosure: ((RowType, IndexPath) -> Bool)? { get }
@@ -343,17 +342,6 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
         return self
     }
     
-    // MARK: didEndDisplaying
-    
-    public private(set) var didEndDisplayingClosure: ((UITableViewCell, IndexPath) -> Void)?
-    
-    public func didEndDisplaying(_ closure: @escaping (Cell, IndexPath) -> Void) -> CellDescriptor {
-        didEndDisplayingClosure = { (cell, indexPath) in
-            return closure(self.typedCell(cell), indexPath)
-        }
-        return self
-    }
-    
     // MARK: editingStyle
     
     public private(set) var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCellEditingStyle)?
@@ -439,24 +427,6 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     
     public func willBeginEditing(_ closure: @escaping () -> Void) -> CellDescriptor {
         willBeginEditingClosure = { (_, _) in
-            closure()
-        }
-        return self
-    }
-    
-    // MARK: didEndEditing
-    
-    public private(set) var didEndEditingClosure: ((RowType, IndexPath) -> Void)?
-
-    public func didEndEditing(_ closure: @escaping (Item, IndexPath) -> Void) -> CellDescriptor {
-        didEndEditingClosure = { (row, indexPath) in
-            closure(self.typedItem(row), indexPath)
-        }
-        return self
-    }
-    
-    public func didEndEditing(_ closure: @escaping () -> Void) -> CellDescriptor {
-        didEndEditingClosure = { (_, _) in
             closure()
         }
         return self

@@ -51,7 +51,7 @@ public class DataSource: NSObject {
     public var editActions: ((RowType, IndexPath) -> [UITableViewRowAction]?)? = nil
     public var shouldIndentWhileEditing: ((RowType, IndexPath) -> Bool)? = nil
     public var willBeginEditing: ((RowType, IndexPath) -> Void)? = nil
-    public var didEndEditing: ((RowType?, IndexPath?) -> Void)? = nil
+    public var didEndEditing: ((IndexPath?) -> Void)? = nil
     
     public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
     public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil

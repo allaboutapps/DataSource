@@ -347,13 +347,9 @@ extension DataSource: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        if let indexPath = indexPath {
-            let cellDescriptor = self.cellDescriptor(at: indexPath)
-            
-            if let closure = cellDescriptor.didEndEditingClosure ?? didEndEditing {
-                closure(visibleRow(at: indexPath), indexPath)
-                return
-            }
+        if let closure = didEndEditing {
+            closure(indexPath)
+            return
         }
         
         fallbackDelegate?.tableView?(tableView, didEndEditingRowAt:indexPath)
