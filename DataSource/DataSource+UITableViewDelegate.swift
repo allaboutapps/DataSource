@@ -208,7 +208,7 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleSection(at: section), section).floatValue(for: tableView.style)
         }
         
-        if let result =  fallbackDelegate?.tableView?(tableView, heightForFooterInSection: section) {
+        if let result = fallbackDelegate?.tableView?(tableView, heightForFooterInSection: section) {
             return result
         }
         
@@ -293,8 +293,15 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleRow(at: indexPath), indexPath)
         }
         
-        return fallbackDelegate?.tableView?(tableView, editingStyleForRowAt:indexPath)
-            ?? .none
+        if let result = fallbackDelegate?.tableView?(tableView, editingStyleForRowAt:indexPath) {
+            return result
+        }
+        
+        if self.tableView(tableView, canEditRowAt: indexPath) {
+            return .delete
+        }
+        
+        return .none
     }
     
     public func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
