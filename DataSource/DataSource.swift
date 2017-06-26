@@ -2,273 +2,271 @@
 //  DataSource.swift
 //  DataSource
 //
-//  Created by Matthias Buchetics on 24/11/15.
-//  Copyright © 2015 aaa - all about apps GmbH. All rights reserved.
+//  Created by Matthias Buchetics on 21/02/2017.
+//  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
 import Foundation
+import Diff
 
-// MARK: - Protocols
-
-public protocol RowType {
-    var identifier: String { get }
-    var anyData: Any { get }
-}
-
-public protocol SectionType {
-    var title: String? { get }
-    var hasTitle: Bool { get }
-    var numberOfRows: Int { get }
+public class DataSource: NSObject {
     
-    subscript(index: Int) -> RowType { get }
-}
-
-public protocol DataSourceType {
-    var numberOfSections: Int { get }
-    var firstSection: SectionType? { get }
-    var lastSection: SectionType? { get }
+    public var sections: [SectionType] = []
+    public internal(set) var visibleSections: [SectionType] = []
     
-    func sectionAtIndexPath<T>(indexPath: NSIndexPath) -> Section<T>
-    func sectionAtIndexPath(indexPath: NSIndexPath) -> SectionType
-    func sectionAtIndex<T>(index: Int) -> Section<T>
-    func sectionAtIndex(index: Int) -> SectionType
+    // MARK: UITableViewDataSource
     
-    func numberOfRowsInSection(section: Int) -> Int
-    func rowAtIndexPath(indexPath: NSIndexPath) -> RowType
-    func rowAtIndexPath<T>(indexPath: NSIndexPath) -> Row<T>
-}
-
-// MARK: - Row
-
-/**
-    Representation of a table row which encapsulates your data (e.g. view model) and an identifier for the row.
-    The identifier is used to find a matching cell configurator to configure the specific row, i.e. multiple rows
-    of the same type usually share the same identifier.
-*/
-public struct Row<T>: RowType {
-    public let identifier: String
-    public let data: T
+    public var configure: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    public var canEdit: ((RowType, IndexPath) -> Bool)? = nil
+    public var canMove: ((RowType, IndexPath) -> Bool)? = nil
+    public var sectionIndexTitles: (() -> [String]?)? = nil
+    public var sectionForSectionIndex: ((String, Int) -> Int)? = nil
+    public var commitEditing: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)? = nil
+    public var moveRow: ((RowType, (IndexPath, IndexPath)) -> Void)? = nil
     
-    public init(identifier: String, data: T) {
-        self.identifier = identifier
-        self.data = data
-    }
+    public var fallbackDataSource: UITableViewDataSource? = nil
     
-    public var anyData: Any {
-        return data
-    }
-}
-
-// MARK: - Section
-
-/**
-    Representation of a table section containing multiple rows with an optional title.
-*/
-public struct Section<T>: SectionType {
-    /// Array of typed rows
-    public let rows: [Row<T>]
+    // MARK: UITableViewDelegate
     
-    /// Title of the section
-    public let title: String?
+    public var height: ((RowType, IndexPath) -> CGFloat)? = nil
     
-    /// Closure which returns a row given its index
-    public let rowCreatorClosure: ((rowIndex: Int) -> Row<T>)?
+    // no RowType parameter for estimatedHeight because we do not want to potentially instantiate
+    // a LazyRow just to get the height estimate
+    public var estimatedHeight: ((IndexPath) -> CGFloat)? = nil
     
-    /// Closure which returns the total number of rows
-    public let rowCountClosure: (() -> Int)?
+    public var shouldHighlight: ((RowType, IndexPath) -> Bool)? = nil
+    public var didHighlight: ((RowType, IndexPath) -> Void)? = nil
+    public var didUnhighlight: ((RowType, IndexPath) -> Void)? = nil
     
-    /// Initializes an empty section
-    public init() {
-        self.rows = []
-        self.title = nil
-        self.rowCreatorClosure = nil
-        self.rowCountClosure = nil
-    }
+    public var willSelect: ((RowType, IndexPath) -> IndexPath?)? = nil
+    public var willDeselect: ((RowType, IndexPath) -> IndexPath?)? = nil
+    public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
+    public var didDeselect: ((RowType, IndexPath) -> Void)? = nil
     
-    /// Initializes a section with an array of rows and an optional title
-    public init(title: String? = nil, rows: [Row<T>]) {
-        self.rows = rows
-        self.title = title
-        self.rowCreatorClosure = nil
-        self.rowCountClosure = nil
-    }
+    public var willDisplay: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    public var didEndDisplaying: ((UITableViewCell, IndexPath) -> Void)? = nil
     
-    /// Initializes a section with an array of models (or view models) which are encapsulated in rows using the specified row identifier
-    public init(title: String? = nil, rowIdentifier: String, rows: [T]) {
-        self.init(title: title, rows: rows.toDataSourceRows(rowIdentifier))
-    }
+    public var editingStyle: ((RowType, IndexPath) -> UITableViewCellEditingStyle)? = nil
+    public var titleForDeleteConfirmationButton: ((RowType, IndexPath) -> String?)? = nil
+    public var editActions: ((RowType, IndexPath) -> [UITableViewRowAction]?)? = nil
+    public var shouldIndentWhileEditing: ((RowType, IndexPath) -> Bool)? = nil
+    public var willBeginEditing: ((RowType, IndexPath) -> Void)? = nil
+    public var didEndEditing: ((IndexPath?) -> Void)? = nil
     
-    /// Initializes a section with a row creator closure
-    public init(title: String? = nil, rowCountClosure: (() -> Int), rowCreatorClosure: (rowIndex: Int) -> Row<T>) {
-        self.rows = []
-        self.title = title
-        self.rowCountClosure = rowCountClosure
-        self.rowCreatorClosure = rowCreatorClosure
-    }
+    public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
+    public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil
     
-    public func rowAtIndex(index: Int) -> Row<T> {
-        if let creator = rowCreatorClosure {
-            return creator(rowIndex: index)
-        }
-        else {
-            return rows[index]
-        }
-    }
+    public var sectionHeaderHeight: ((SectionType, Int) -> SectionHeight)? = nil
+    public var sectionFooterHeight: ((SectionType, Int) -> SectionHeight)? = nil
     
-    public subscript(index: Int) -> Row<T> {
-        return rowAtIndex(index)
-    }
+    public var willDisplaySectionHeader: ((SectionType, UIView, Int) -> Void)? = nil
+    public var willDisplaySectionFooter: ((SectionType, UIView, Int) -> Void)? = nil
     
-    public subscript(index: Int) -> RowType {
-        return rowAtIndex(index)
-    }
+    public var didEndDisplayingSectionHeader: ((UIView, Int) -> Void)? = nil
+    public var didEndDisplayingSectionFooter: ((UIView, Int) -> Void)? = nil
     
-    public var numberOfRows: Int {
-        if let count = rowCountClosure {
-            return count()
-        }
-        else {
-            return rows.count
-        }
-    }
+    public var targetIndexPathForMove: ((RowType, (IndexPath, IndexPath)) -> IndexPath)? = nil
+    public var indentationLevel: ((RowType, IndexPath) -> Int)? = nil
+    public var shouldShowMenu: ((RowType, IndexPath) -> Bool)? = nil
+    public var canPerformAction: ((RowType, Selector, Any?, IndexPath) -> Bool)? = nil
+    public var performAction: ((RowType, Selector, Any?, IndexPath) -> Void)? = nil
+    public var canFocus: ((RowType, IndexPath) -> Bool)? = nil
     
-    public var hasTitle: Bool {
-        if let title = title where !title.isEmpty {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-}
-
-// MARK: - Data Source
-
-/**
-    Representation of a data source containing multiple sections.
-*/
-public struct DataSource: DataSourceType {
-    /// Array of sections
-    var sections: [SectionType]
+    public var fallbackDelegate: UITableViewDelegate? = nil
     
-    /// Initializes an empty data source (no sections)
-    public init() {
-        self.sections = []
-    }
+    // MARK: UITableViewDataSourcePrefetching
     
-    /// Initializes a data source with a single section
-    public init(_ section: SectionType) {
-        self.sections = [section]
-    }
+    public var prefetchRows: (([IndexPath]) -> Void)? = nil
+    public var cancelPrefetching: (([IndexPath]) -> Void)? = nil
     
-    /// Initializes a data source with multiple sections
-    public init(_ sections: [SectionType]) {
-        self.sections = sections
-    }
+    public var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
     
-    /// Initializes a data source with multiple other data sources by concatinating their sections
-    public init(dataSources: [DataSource]) {
-        self.init()
+    // MARK: Additional
+    
+    public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
+    public var isSectionHidden: ((SectionType, Int) -> Bool)? = nil
+    public var update: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    
+    // MARK: Internal
+    
+    var cellDescriptors: [String: CellDescriptorType] = [:]
+    var sectionDescriptors: [String: SectionDescriptorType] = [:]
+    
+    var reuseIdentifiers: Set<String> = []
+    let registerNibs: Bool
+    
+    // MARK: Init
+    
+    public init(cellDescriptors: [CellDescriptorType], sectionDescriptors: [SectionDescriptorType] = [], registerNibs: Bool = true) {
+        self.registerNibs = registerNibs
         
-        for dataSource in dataSources {
-            appendDataSource(dataSource)
+        for d in cellDescriptors {
+            self.cellDescriptors[d.rowIdentifier] = d
         }
+        
+        let defaultSectionDescriptors: [SectionDescriptorType] = [
+            SectionDescriptor<Void>(),
+            SectionDescriptor<String>()
+                .header { (title, _) in
+                    .title(title)
+            }
+        ]
+        
+        for d in defaultSectionDescriptors {
+            self.sectionDescriptors[d.identifier] = d
+        }
+        
+        for d in sectionDescriptors {
+            self.sectionDescriptors[d.identifier] = d
+        }
+        
+        super.init()
     }
     
-    // MARK: Rows
+    // MARK: Getters & Setters
     
-    public func numberOfRowsInSection(section: Int) -> Int {
-        return sections[section].numberOfRows
-    }
-    
-    public func rowAtIndexPath(indexPath: NSIndexPath) -> RowType {
-        return sections[indexPath.section][indexPath.row]
-    }
-    
-    public func rowAtIndexPath<T>(indexPath: NSIndexPath) -> Row<T> {
-        let section = sections[indexPath.section] as! Section<T>
-        let row: Row<T> = section[indexPath.row]
-        return row
-    }
-    
-    // MARK: Sections
-    
-    public var numberOfSections: Int {
-        return sections.count
-    }
-    
-    public var firstSection: SectionType? {
-        return sections.first
-    }
-    
-    public var lastSection: SectionType? {
-        return sections.last
-    }
-    
-    public func sectionAtIndexPath<T>(indexPath: NSIndexPath) -> Section<T> {
-        return sectionAtIndex(indexPath.section)
-    }
-    
-    public func sectionAtIndexPath(indexPath: NSIndexPath) -> SectionType {
-        return sectionAtIndex(indexPath.section)
-    }
-    
-    public func sectionAtIndex<T>(index: Int) -> Section<T> {
-        return sections[index] as! Section<T>
-    }
-    
-    public func sectionAtIndex(index: Int) -> SectionType {
+    public func section(at index: Int) -> SectionType {
         return sections[index]
     }
     
-    // MARK: Mutating
-    
-    public mutating func appendSection(section: SectionType) {
-        sections.append(section)
+    public func row(at indexPath: IndexPath) -> RowType {
+        return sections[indexPath.section].row(at: indexPath.row)
     }
     
-    public mutating func appendDataSource(dataSource: DataSource) {
-        sections.appendContentsOf(dataSource.sections)
+    public func visibleSection(at index: Int) -> SectionType {
+        return visibleSections[index]
     }
     
-    public mutating func insertSection(section: SectionType, index: Int) {
-        sections.insert(section, atIndex: index)
+    public func visibleRow(at indexPath: IndexPath) -> RowType {
+        return visibleSections[indexPath.section].visibleRow(at: indexPath.row)
     }
     
-    public mutating func setSection(section: SectionType, index: Int) {
-        sections[index] = section
-    }
+    // MARK: Cell Descriptors
     
-    public mutating func removeSectionAtIndex(index: Int) {
-        sections.removeAtIndex(index)
-    }
-}
-
-// MARK: - Debugging
-
-extension DataSource: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        var text = ""
+    public func cellDescriptor(at indexPath: IndexPath) -> CellDescriptorType {
+        let row = visibleRow(at: indexPath)
         
-        for section in sections {
-            let title = section.title ?? "(unnamed section)"
-            text += "\n\(title)"
+        if let cellDescriptor = cellDescriptors[row.identifier] {
+            return cellDescriptor
+        } else {
+            fatalError("[DataSource] no cellDescriptor found for indexPath \(indexPath)")
+        }
+    }
+    
+    public func cellDescriptor(for rowIdentifier: String) -> CellDescriptorType {
+        if let cellDescriptor = cellDescriptors[rowIdentifier] {
+            return cellDescriptor
+        } else {
+            fatalError("[DataSource] no cellDescriptor found for rowIdentifier \(rowIdentifier)")
+        }
+    }
+    
+    // MARK: Section Descriptors
+    
+    public func sectionDescriptor(at index: Int) -> SectionDescriptorType? {
+        let section = visibleSection(at: index)
+        
+        if let sectionDescriptor = sectionDescriptors[section.identifier] {
+            return sectionDescriptor
+        } else {
+            print("[DataSource] no sectionDescriptor found for section \(index)")
+            return nil
+        }
+    }
+    
+    public func sectionDescriptor(for identifier: String) -> SectionDescriptorType? {
+        if let sectionDescriptor = sectionDescriptors[identifier] {
+            return sectionDescriptor
+        } else {
+            print("[DataSource] no sectionDescriptor found for sectionIdentifier \(identifier)")
+            return nil
+        }
+    }
+
+    // MARK: Visibility
+    
+    internal func updateVisibility() {
+        visibleSections = updateSectionVisiblity()
+    }
+    
+    internal func updateSectionVisiblity() -> [SectionType] {
+        var visibleSections = [SectionType]()
+        
+        for (index, section) in sections.enumerated() {
+            section.updateVisibility(sectionIndex: index, dataSource: self)
             
-            for index in 0..<section.numberOfRows {
-                let row = section[index]
-                text += "\n  \(row)"
+            let sectionDescriptor = self.sectionDescriptor(for: section.identifier)
+            let isHidden: Bool
+            
+            if let closure = sectionDescriptor?.isHiddenClosure ?? isSectionHidden {
+                isHidden = closure(section, index)
+            } else {
+                isHidden = false
+            }
+            
+            if isHidden == false && section.numberOfVisibleRows > 0 {
+                visibleSections.append(section)
             }
         }
         
-        return text
+        return visibleSections
     }
-}
-
-// MARK: - Convenience
-
-extension Section {
-    /// Converts a section into a data source (with a single section)
-    public func toDataSource() -> DataSource {
-        return DataSource(self)
+    
+    // MARK: Reload Data
+    
+    public func reloadData(_ tableView: UITableView, animated: Bool) {
+        if animated {
+            reloadDataAnimated(tableView)
+        } else {
+            visibleSections = updateSectionVisiblity()
+            tableView.reloadData()
+        }
+    }
+    
+    public func reloadDataAnimated(
+        _ tableView: UITableView,
+        rowDeletionAnimation: UITableViewRowAnimation = .fade,
+        rowInsertionAnimation: UITableViewRowAnimation = .fade,
+        rowReloadAnimation: UITableViewRowAnimation = .none,
+        sectionDeletionAnimation: UITableViewRowAnimation = .fade,
+        sectionInsertionAnimation: UITableViewRowAnimation = .fade
+        ) {
+        
+        let oldSections = visibleSections.map { $0.diffableSection }
+        let newSections = updateSectionVisiblity()
+        let diffableNewSections = newSections.map { $0.diffableSection }
+        
+        let diff = computeDiff(oldSections: oldSections, newSections: diffableNewSections)
+        let updates = computeUpdate(oldSections: oldSections, newSections: diffableNewSections)
+        
+        self.visibleSections = newSections
+        
+        if rowReloadAnimation == .none {
+            for update in updates {
+                updateRow(tableView, row: update.to.row, at: update.from.indexPath)
+            }
+        }
+        
+        tableView.apply(
+            batch: Batch(diff: diff, updates: updates),
+            rowDeletionAnimation: rowDeletionAnimation,
+            rowInsertionAnimation: rowInsertionAnimation,
+            rowReloadAnimation: rowReloadAnimation,
+            sectionDeletionAnimation: sectionDeletionAnimation,
+            sectionInsertionAnimation: sectionInsertionAnimation)
+    }
+    
+    public func updateRow(_ tableView: UITableView, row: RowType, at indexPath: IndexPath) {
+        let cellDescriptor = self.cellDescriptor(for: row.identifier)
+        
+        let closure =
+            cellDescriptor.updateClosure
+            ?? update
+            ?? cellDescriptor.configureClosure
+            ?? configure
+        
+        if let cell = tableView.cellForRow(at: indexPath), let closure = closure {
+            closure(row, cell, indexPath)
+        }
     }
 }

@@ -1,39 +1,103 @@
 //
 //  UITableViewExtensions.swift
-//  Example
+//  DataSource
 //
-//  Created by Matthias Buchetics on 25/11/15.
-//  Copyright © 2015 aaa - all about apps GmbH. All rights reserved.
+//  Created by Matthias Buchetics on 21/02/2017.
+//  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Diff
+
+// MARK: - Batch
+
+struct Batch {
+    
+    let itemDeletions: [IndexPath]
+    let itemInsertions: [IndexPath]
+    let itemMoves: [(from: IndexPath, to: IndexPath)]
+    let itemUpdates: [IndexPath]
+    let sectionDeletions: IndexSet
+    let sectionInsertions: IndexSet
+    let sectionMoves: [(from: Int, to: Int)]
+    
+    init(diff: NestedExtendedDiff, updates: [DataSource.ItemUpdate]) {
+        var itemDeletions: [IndexPath] = []
+        var itemInsertions: [IndexPath] = []
+        var itemMoves: [(IndexPath, IndexPath)] = []
+        var sectionDeletions: IndexSet = []
+        var sectionInsertions: IndexSet = []
+        var sectionMoves: [(from: Int, to: Int)] = []
+        
+        diff.forEach { element in
+            switch element {
+            case let .deleteElement(at, section):
+                itemDeletions.append((IndexPath(item: at, section: section)))
+            case let .insertElement(at, section):
+                itemInsertions.append((IndexPath(item: at, section: section)))
+            case let .moveElement(from, to):
+                itemMoves.append(((IndexPath(item: from.item, section: from.section)), (IndexPath(item: to.item, section: to.section))))
+            case let .deleteSection(at):
+                sectionDeletions.insert(at)
+            case let .insertSection(at):
+                sectionInsertions.insert(at)
+            case let .moveSection(move):
+                sectionMoves.append((move.from, move.to))
+            }
+        }
+        
+        self.itemInsertions = itemInsertions
+        self.itemDeletions = itemDeletions
+        self.itemMoves = itemMoves
+        self.sectionMoves = sectionMoves
+        self.sectionInsertions = sectionInsertions
+        self.sectionDeletions = sectionDeletions
+        
+        self.itemUpdates = updates.map { $0.from.indexPath }
+    }
+}
+
+// MARK: - UITableView
 
 extension UITableView {
-    public func registerNib(identifier: String) {
-        registerNib(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
+    
+    public func registerNib(_ cellType: UITableViewCell.Type) {
+        let cellIdentifier = String(describing: cellType)
+        register(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
     }
     
-    public func heightForHeaderInSection(section: SectionType) -> CGFloat {
-        return heightForHeaderFooterInSection(section, defaultHeight: sectionHeaderHeight)
-    }
-    
-    public func heightForFooterInSection(section: SectionType) -> CGFloat {
-        let footerHeight = style == .Grouped ? sectionFooterHeight : 0
-        return heightForHeaderFooterInSection(section, defaultHeight: footerHeight)
-    }
-    
-    /**
-        Returns the height for section headers and footers.
-        We only want to show a section if it has any rows and we only want to show a section header if it has a title.
-        Used to fix an issue where the section header height of empty sections in a grouped table view is calculated wrong by iOS.
-    */
-    func heightForHeaderFooterInSection(section: SectionType, defaultHeight: CGFloat) -> CGFloat {
-        if style == .Grouped {
-            return section.numberOfRows > 0 ? defaultHeight : CGFloat.min
+    func apply(
+        batch: Batch,
+        rowDeletionAnimation: UITableViewRowAnimation,
+        rowInsertionAnimation: UITableViewRowAnimation,
+        rowReloadAnimation: UITableViewRowAnimation,
+        sectionDeletionAnimation: UITableViewRowAnimation,
+        sectionInsertionAnimation: UITableViewRowAnimation
+        ) {
+        
+        beginUpdates()
+        
+        if rowReloadAnimation != .none {
+            reloadRows(at: batch.itemUpdates, with: rowReloadAnimation)
         }
-        else {
-            return (section.numberOfRows > 0 && section.hasTitle) ? defaultHeight : 0
-        }
+        
+        deleteRows(at: batch.itemDeletions, with: rowDeletionAnimation)
+        insertRows(at: batch.itemInsertions, with: rowInsertionAnimation)
+        batch.itemMoves.forEach { moveRow(at: $0.from, to: $0.to) }
+        
+        deleteSections(batch.sectionDeletions, with: sectionDeletionAnimation)
+        insertSections(batch.sectionInsertions, with: sectionInsertionAnimation)
+        batch.sectionMoves.forEach { moveSection($0.from, toSection: $0.to) }
+        
+        endUpdates()
+    }
+    
+    
+}
+
+extension UITableViewCell {
+    
+    static var cellIdentifier: String {
+        return String(describing: self)
     }
 }

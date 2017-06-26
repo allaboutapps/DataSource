@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7048B535CAD5C653376D6396338726BC5E038603",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "7048B535CAD5C653376D6396338726BC5E038603" : 9223372036854775807,
+    "2B2142DB4245499795F3758C14E32CDC0ABA1E0B" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9075F986-8222-45C1-9E56-021C4F09EEC6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "7048B535CAD5C653376D6396338726BC5E038603" : "DataSource\/",
+    "2B2142DB4245499795F3758C14E32CDC0ABA1E0B" : "..\/iOS\/Swift\/ReactiveMapper"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "DataSource",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "DataSource.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/aschuch\/ReactiveMapper.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2B2142DB4245499795F3758C14E32CDC0ABA1E0B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/bitbucket-prod.allaboutapps.at:2222\/aaaios\/datasource.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7048B535CAD5C653376D6396338726BC5E038603"
+    }
+  ]
+}

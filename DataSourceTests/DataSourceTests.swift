@@ -2,11 +2,13 @@
 //  DataSourceTests.swift
 //  DataSourceTests
 //
-//  Created by Matthias Buchetics on 28/08/15.
-//  Copyright © 2015 aaa - all about apps GmbH. All rights reserved.
+//  Created by Matthias Buchetics on 22/02/2017.
+//  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
 import XCTest
+import Diff
+
 @testable import DataSource
 
 class DataSourceTests: XCTestCase {
@@ -28,7 +30,7 @@ class DataSourceTests: XCTestCase {
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock {
+        self.measure {
             // Put the code you want to measure the time of here.
         }
     }
