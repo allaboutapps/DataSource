@@ -11,7 +11,7 @@ Framework to simplify the setup and configuration of `UITableView` data sources 
 
 An example app is included demonstrating DataSource's functionality. The example demonstrates various uses cases ranging from a simple list of strings to more complex uses cases such as setting up a dynamic form.
 
-### Gettings Started
+### Getting Started
 
 Create a `DataSource` with a `CellDescriptor` that describes how the `UITableViewCell` (in this case a `TitleCell`) is configured using a data model (`Example`).
 Additionally, we also add a handler for `didSelect` which handles the `didSelectRowAtIndexPath` method of `UITableViewDelegate`.
