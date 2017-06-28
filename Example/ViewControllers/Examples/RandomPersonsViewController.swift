@@ -34,6 +34,9 @@ class RandomPersonsViewController: UITableViewController {
         
         dataSource.sections = randomData()
         dataSource.reloadData(tableView, animated: false)
+        dataSource.didScroll = { scrollView in
+            print("Scrolled: \(scrollView.contentOffset.y)")
+        }
     }
     
     private func randomData() -> [SectionType] {
