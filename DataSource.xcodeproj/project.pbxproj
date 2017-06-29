@@ -45,7 +45,6 @@
 		39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */; };
 		39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */; };
 		39EBE0671E717FBE006B7E62 /* UIColor+Interpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */; };
-		BCFBAF5D1F03EC820091DD62 /* DataSource+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBAF5C1F03EC820091DD62 /* DataSource+UIScrollViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,7 +137,6 @@
 		39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Interpolation.swift"; sourceTree = "<group>"; };
-		BCFBAF5C1F03EC820091DD62 /* DataSource+UIScrollViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UIScrollViewDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,7 +217,6 @@
 				398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */,
 				39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */,
 				398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */,
-				BCFBAF5C1F03EC820091DD62 /* DataSource+UIScrollViewDelegate.swift */,
 				398248C61E5C7CCA00F802D1 /* DataSource+Diff.swift */,
 				398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */,
 				395D14A61B90612D00658680 /* DataSource.h */,
@@ -381,7 +378,6 @@
 				TargetAttributes = {
 					395D147B1B90610A00658680 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = M8F9QH57A6;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -391,7 +387,7 @@
 					};
 					39A848631E5E1D9600D7DBC2 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = M8F9QH57A6;
+						DevelopmentTeam = PRXJBCN9SJ;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -496,7 +492,6 @@
 				390CAF1C1E79AA560024E3E6 /* SectionDescriptor.swift in Sources */,
 				3968B9091E7BFDF800EE876F /* Diffable.swift in Sources */,
 				398248C91E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift in Sources */,
-				BCFBAF5D1F03EC820091DD62 /* DataSource+UIScrollViewDelegate.swift in Sources */,
 				398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */,
 				39B621801E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift in Sources */,
 			);
@@ -641,7 +636,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = M8F9QH57A6;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -660,7 +655,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = M8F9QH57A6;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -736,7 +731,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DEVELOPMENT_TEAM = M8F9QH57A6;
+				DEVELOPMENT_TEAM = PRXJBCN9SJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -757,7 +752,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DEVELOPMENT_TEAM = M8F9QH57A6;
+				DEVELOPMENT_TEAM = PRXJBCN9SJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

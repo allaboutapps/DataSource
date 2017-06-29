@@ -81,10 +81,6 @@ public class DataSource: NSObject {
     
     public var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
     
-    // MARK: UIScrollViewDelegate
-    
-    public var didScroll: ((UIScrollView) -> Void)? = nil
-    
     // MARK: Additional
     
     public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
