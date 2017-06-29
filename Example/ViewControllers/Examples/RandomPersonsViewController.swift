@@ -17,17 +17,23 @@ class RandomPersonsViewController: UITableViewController {
         DataSource(
             cellDescriptors: [
                 PersonCell.descriptor
+                    .didSelect { (item, indexPath) in
+                        print("\(item.firstName) \(item.lastName) selected")
+                        return .deselect
+                }
             ],
             sectionDescriptors: [
                 SectionDescriptor<String>()
                     .header { (title, _) in
                         .title(title)
-                    }
+                }
             ])
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dataSource.fallbackDelegate = self
         
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
@@ -61,6 +67,16 @@ class RandomPersonsViewController: UITableViewController {
         dataSource.sections = randomData()
         dataSource.reloadData(tableView, animated: true)
     }
+}
+
+// MARK: - Scroll view delegate
+
+extension RandomPersonsViewController {
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("Scrolled: \(scrollView.contentOffset.y)")
+    }
+    
 }
 
 // MARK: - Person

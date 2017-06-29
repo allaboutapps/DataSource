@@ -210,6 +210,17 @@ dataSource.fallbackDataSource = self
 
 Using these fallback mechanisms you can choose which parts of `DataSource` you want to use in your specific use case. For example, you could use it to setup and configure all your cells, animate changes between datasets but keep your existing `UITableViewDelegate` code.
 
+The `fallbackDelegate` can be used to implement methods that don't belong to `DataSource`, like e.g. `UIScrollViewDelegate` methods. You should take extra care that the fallback delegate  needs to be set *before* setting the table view delegate, otherwise certain delegate methods will never be called by `UIKit`.
+
+```swift
+// Always set the fallback before setting the table view delegate
+dataSource.fallbackDelegate = self
+tableView.dataSource = dataSource
+tableView.delegate = dataSource
+```
+
+
+
 ## Version Compatibility
 
 Current Swift compatibility breakdown:
