@@ -1,9 +1,9 @@
 # DataSource
 
-<img src="https://img.shields.io/badge/Platform-iOS%2010%2B-blue.svg" alt="Platform iOS10+">
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Language-Swift%203-orange.svg" alt="Language: Swift 3" /></a>
-<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg" alt="Carthage compatible" /></a>
-<a href="https://travis-ci.org/mbuchetics/DataSource"><img src="https://travis-ci.org/mbuchetics/DataSource.svg?branch=master" alt="Build status" /></a>
+[![Swift 3](https://img.shields.io/badge/Language-Swift%203-orange.svg)](https://developer.apple.com/swift)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/Carthage/Carthage)
+[![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBDataSource.svg)](https://cocoapods.org/pods/MBDataSource)
+[![CBuild status](https://travis-ci.org/mbuchetics/DataSource.svg?branch=master)](https://travis-ci.org/mbuchetics/DataSource)
 
 Framework to simplify the setup and configuration of `UITableView` data sources and cells. It allows a type-safe setup of `UITableViewDataSource` and (optionally) `UITableViewDelegate`. `DataSource` also provides out-of-the-box diffing and animated deletions, inserts, moves and changes.
 
