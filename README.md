@@ -219,8 +219,6 @@ tableView.dataSource = dataSource
 tableView.delegate = dataSource
 ```
 
-
-
 ## Version Compatibility
 
 Current Swift compatibility breakdown:
@@ -242,6 +240,18 @@ github "mbuchetics/DataSource", ~> 4.0
 ```
 
 Then run `carthage update`.
+
+### CocoaPods
+
+For DataSource, use the following entry in your Podfile:
+
+```rb
+pod 'MBDataSource'
+```
+
+Then run `pod install`.
+
+In any file you'd like to use DataSource in, don't forget to import the framework with `import DataSource`.
 
 ### Manually
 
