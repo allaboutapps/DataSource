@@ -20,7 +20,7 @@ Additionally, we also add a handler for `didSelect` which handles the `didSelect
 let dataSource: DataSource = {
     DataSource(
         cellDescriptors: [
-            CellDescriptor<String, TitleCell>()
+            CellDescriptor<Example, TitleCell>()
                 .configure { (example, cell, indexPath) in
                     cell.textLabel?.text = example.title
                     cell.accessoryType = .disclosureIndicator
