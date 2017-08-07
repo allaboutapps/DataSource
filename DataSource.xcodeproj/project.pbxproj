@@ -126,6 +126,7 @@
 		398248C81E5CA06600F802D1 /* DataSource+UITableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDataSource.swift"; sourceTree = "<group>"; };
 		398248CA1E5CA74A00F802D1 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		398248CC1E5CA9C600F802D1 /* DataSource+UITableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDelegate.swift"; sourceTree = "<group>"; };
+		398987531F386B0700C96BF9 /* Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Example.entitlements; sourceTree = "<group>"; };
 		39913AB71E61BBCC00623635 /* SwiftRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRandom.swift; sourceTree = "<group>"; };
 		39A848641E5E1D9600D7DBC2 /* DataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceTests.swift; sourceTree = "<group>"; };
@@ -195,6 +196,7 @@
 		395D147E1B90610A00658680 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				398987531F386B0700C96BF9 /* Example.entitlements */,
 				395D147F1B90610A00658680 /* AppDelegate.swift */,
 				395D14861B90610A00658680 /* Assets.xcassets */,
 				395D148B1B90610A00658680 /* Info.plist */,
@@ -381,6 +383,14 @@
 						DevelopmentTeam = PRXJBCN9SJ;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					395D14A31B90612D00658680 = {
 						CreatedOnToolsVersion = 7.0;
@@ -647,6 +657,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buchetics.DataSourceExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -666,6 +678,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buchetics.DataSourceExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 			};
