@@ -231,6 +231,14 @@ public class DataSource: NSObject {
     // MARK: Reload Data
     
     public func reloadData(_ tableView: UITableView, animated: Bool) {
+        if tableView.dataSource == nil {
+            tableView.dataSource = self
+        }
+        
+        if tableView.delegate == nil {
+            tableView.delegate = self
+        }
+        
         if animated {
             reloadDataAnimated(tableView)
         } else {
