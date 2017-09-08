@@ -77,13 +77,13 @@ public class DataSource: NSObject {
     public var prefetchRows: (([IndexPath]) -> Void)? = nil
     public var cancelPrefetching: (([IndexPath]) -> Void)? = nil
     
-    public var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
+    public weak var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
     
     // MARK: Fallback delegate
     
     /// Fallback used when DataSource doesn't handle delegate method itself.
     /// - Note: The fallback delegate needs to be set *before* setting the table view's delegate, otherwise certain delegate methods will never be called.
-    public var fallbackDelegate: UITableViewDelegate? = nil
+    public weak var fallbackDelegate: UITableViewDelegate? = nil
     
     public override func forwardingTarget(for aSelector: Selector!) -> Any? {
         return fallbackDelegate
