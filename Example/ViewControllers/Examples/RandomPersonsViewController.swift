@@ -74,7 +74,7 @@ class RandomPersonsViewController: UITableViewController {
 extension RandomPersonsViewController {
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("Scrolled: \(scrollView.contentOffset.y)")
+        print("scrolled: \(scrollView.contentOffset.y)")
     }
     
 }
@@ -87,7 +87,7 @@ struct Person {
     let lastName: String
     
     func lastNameStartsWith(letters: Set<String>) -> Bool {
-        let letter = lastName.substring(to: lastName.index(lastName.startIndex, offsetBy: 1))
+        let letter = String(lastName[lastName.startIndex])
         return letters.contains(letter)
     }
     

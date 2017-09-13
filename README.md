@@ -1,6 +1,6 @@
 # DataSource
 
-[![Swift 3](https://img.shields.io/badge/Language-Swift%203-orange.svg)](https://developer.apple.com/swift)
+[![Swift 4](https://img.shields.io/badge/Language-Swift%204-orange.svg)](https://developer.apple.com/swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/Carthage/Carthage)
 [![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBDataSource.svg)](https://cocoapods.org/pods/MBDataSource)
 [![CBuild status](https://travis-ci.org/mbuchetics/DataSource.svg?branch=master)](https://travis-ci.org/mbuchetics/DataSource)
@@ -225,6 +225,7 @@ Current Swift compatibility breakdown:
 
 | Swift Version | Framework Version |
 | ------------- | ----------------- |
+| 4.x           | 5.x                 |
 | 3.x           | 3.x, 4.x          |
 
 [all releases]: https://github.com/mbuchetics/DataSource/releases
@@ -236,7 +237,7 @@ Current Swift compatibility breakdown:
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "mbuchetics/DataSource", ~> 4.0
+github "mbuchetics/DataSource", ~> 5.0
 ```
 
 Then run `carthage update`.
