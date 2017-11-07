@@ -44,7 +44,7 @@ class LazyRowsViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.estimatedRowHeight = 44.0
-        tableView.sectionHeaderHeight = 40.0
+        tableView.sectionHeaderHeight = 60.0
         
         tableView.dataSource = dataSource
         tableView.delegate = dataSource

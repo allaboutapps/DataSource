@@ -202,7 +202,12 @@ extension DataSource: UITableViewDelegate {
                 return UITableViewAutomaticDimension
             case .view(let view):
                 let height = view.bounds.height
-                return height == 0 ? UITableViewAutomaticDimension : height
+                
+                if height == 0 {
+                    return tableView.sectionHeaderHeight > 0 ? tableView.sectionHeaderHeight : UITableViewAutomaticDimension
+                } else {
+                    return height
+                }
             default:
                 return 0.0
             }
@@ -230,7 +235,12 @@ extension DataSource: UITableViewDelegate {
                 return UITableViewAutomaticDimension
             case .view(let view):
                 let height = view.bounds.height
-                return height == 0 ? UITableViewAutomaticDimension : height
+                
+                if height == 0 {
+                    return tableView.sectionFooterHeight > 0 ? tableView.sectionFooterHeight : UITableViewAutomaticDimension
+                } else {
+                    return height
+                }
             default:
                 return 0.0
             }
