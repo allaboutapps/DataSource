@@ -62,7 +62,10 @@ struct Batch {
 extension UITableView {
     
     public func registerNib(_ cellType: UITableViewCell.Type) {
-        let cellIdentifier = String(describing: cellType)
+        registerNib(String(describing: cellType))
+    }
+    
+    public func registerNib(_ cellIdentifier: String) {
         register(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
     }
     
