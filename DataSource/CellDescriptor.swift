@@ -20,6 +20,7 @@ public protocol CellDescriptorType {
     
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
+    var bundle: Bundle? { get }
     var cellClass: UITableViewCell.Type { get }
 
     // UITableViewDataSource
@@ -72,11 +73,13 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     
     public let rowIdentifier: String
     public let cellIdentifier: String
+    public let bundle: Bundle?
     public let cellClass: UITableViewCell.Type
     
-    public init(_ rowIdentifier: String? = nil, cellIdentifier: String? = nil) {
+    public init(_ rowIdentifier: String? = nil, cellIdentifier: String? = nil, bundle: Bundle? = nil) {
         self.rowIdentifier = rowIdentifier ?? String(describing: Item.self)
         self.cellIdentifier = cellIdentifier ?? String(describing: Cell.self)
+        self.bundle = bundle
         self.cellClass = Cell.self
     }
     
