@@ -72,14 +72,30 @@ public class DataSource: NSObject {
     public var performAction: ((RowType, Selector, Any?, IndexPath) -> Void)? = nil
     public var canFocus: ((RowType, IndexPath) -> Bool)? = nil
     
-    public var fallbackDelegate: UITableViewDelegate? = nil
-    
     // MARK: UITableViewDataSourcePrefetching
     
     public var prefetchRows: (([IndexPath]) -> Void)? = nil
     public var cancelPrefetching: (([IndexPath]) -> Void)? = nil
     
-    public var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
+    public weak var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
+    
+    // MARK: Fallback delegate
+    
+    /// Fallback used when DataSource doesn't handle delegate method itself.
+    /// - Note: The fallback delegate needs to be set *before* setting the table view's delegate, otherwise certain delegate methods will never be called.
+    public weak var fallbackDelegate: UITableViewDelegate? = nil
+    
+    public override func forwardingTarget(for aSelector: Selector!) -> Any? {
+        return fallbackDelegate
+    }
+    
+    public override func responds(to aSelector: Selector!) -> Bool {
+        if super.responds(to: aSelector) {
+            return true
+        } else {
+            return fallbackDelegate?.responds(to: aSelector) ?? false
+        }
+    }
     
     // MARK: Additional
     
@@ -215,6 +231,14 @@ public class DataSource: NSObject {
     // MARK: Reload Data
     
     public func reloadData(_ tableView: UITableView, animated: Bool) {
+        if tableView.dataSource == nil {
+            tableView.dataSource = self
+        }
+        
+        if tableView.delegate == nil {
+            tableView.delegate = self
+        }
+        
         if animated {
             reloadDataAnimated(tableView)
         } else {

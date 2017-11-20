@@ -17,17 +17,23 @@ class RandomPersonsViewController: UITableViewController {
         DataSource(
             cellDescriptors: [
                 PersonCell.descriptor
+                    .didSelect { (item, indexPath) in
+                        print("\(item.firstName) \(item.lastName) selected")
+                        return .deselect
+                }
             ],
             sectionDescriptors: [
                 SectionDescriptor<String>()
                     .header { (title, _) in
                         .title(title)
-                    }
+                }
             ])
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dataSource.fallbackDelegate = self
         
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
@@ -63,6 +69,16 @@ class RandomPersonsViewController: UITableViewController {
     }
 }
 
+// MARK: - Scroll view delegate
+
+extension RandomPersonsViewController {
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrolled: \(scrollView.contentOffset.y)")
+    }
+    
+}
+
 // MARK: - Person
 
 struct Person {
@@ -71,7 +87,7 @@ struct Person {
     let lastName: String
     
     func lastNameStartsWith(letters: Set<String>) -> Bool {
-        let letter = lastName.substring(to: lastName.index(lastName.startIndex, offsetBy: 1))
+        let letter = String(lastName[lastName.startIndex])
         return letters.contains(letter)
     }
     

@@ -1,9 +1,8 @@
 # DataSource
 
-<img src="https://img.shields.io/badge/Platform-iOS%2010%2B-blue.svg" alt="Platform iOS10+">
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Language-Swift%203-orange.svg" alt="Language: Swift 3" /></a>
-<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg" alt="Carthage compatible" /></a>
-<a href="https://travis-ci.org/mbuchetics/DataSource"><img src="https://travis-ci.org/mbuchetics/DataSource.svg?branch=master" alt="Build status" /></a>
+[![Swift 4](https://img.shields.io/badge/Language-Swift%204-orange.svg)](https://developer.apple.com/swift)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/Carthage/Carthage)
+[![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBDataSource.svg)](https://cocoapods.org/pods/MBDataSource)
 
 Framework to simplify the setup and configuration of `UITableView` data sources and cells. It allows a type-safe setup of `UITableViewDataSource` and (optionally) `UITableViewDelegate`. `DataSource` also provides out-of-the-box diffing and animated deletions, inserts, moves and changes.
 
@@ -20,7 +19,7 @@ Additionally, we also add a handler for `didSelect` which handles the `didSelect
 let dataSource: DataSource = {
     DataSource(
         cellDescriptors: [
-            CellDescriptor<String, TitleCell>()
+            CellDescriptor<Example, TitleCell>()
                 .configure { (example, cell, indexPath) in
                     cell.textLabel?.text = example.title
                     cell.accessoryType = .disclosureIndicator
@@ -210,12 +209,22 @@ dataSource.fallbackDataSource = self
 
 Using these fallback mechanisms you can choose which parts of `DataSource` you want to use in your specific use case. For example, you could use it to setup and configure all your cells, animate changes between datasets but keep your existing `UITableViewDelegate` code.
 
+The `fallbackDelegate` can be used to implement methods that don't belong to `DataSource`, like e.g. `UIScrollViewDelegate` methods. You should take extra care that the fallback delegate  needs to be set *before* setting the table view delegate, otherwise certain delegate methods will never be called by `UIKit`.
+
+```swift
+// Always set the fallback before setting the table view delegate
+dataSource.fallbackDelegate = self
+tableView.dataSource = dataSource
+tableView.delegate = dataSource
+```
+
 ## Version Compatibility
 
 Current Swift compatibility breakdown:
 
 | Swift Version | Framework Version |
 | ------------- | ----------------- |
+| 4.x           | 5.x                 |
 | 3.x           | 3.x, 4.x          |
 
 [all releases]: https://github.com/mbuchetics/DataSource/releases
@@ -227,10 +236,22 @@ Current Swift compatibility breakdown:
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "mbuchetics/DataSource", ~> 4.0
+github "mbuchetics/DataSource", ~> 5.0
 ```
 
 Then run `carthage update`.
+
+### CocoaPods
+
+For DataSource, use the following entry in your Podfile:
+
+```rb
+pod 'MBDataSource'
+```
+
+Then run `pod install`.
+
+In any file you'd like to use DataSource in, don't forget to import the framework with `import DataSource`.
 
 ### Manually
 

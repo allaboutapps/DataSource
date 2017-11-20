@@ -185,7 +185,7 @@ extension DataSource: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sectionDescriptor = self.sectionDescriptor(at: section)
-        
+
         if let closure = sectionDescriptor?.headerHeightClosure ?? sectionHeaderHeight {
             return closure(visibleSection(at: section), section).floatValue(for: tableView.style)
         }
@@ -194,11 +194,26 @@ extension DataSource: UITableViewDelegate {
             return result
         }
         
-        if tableView.style == .plain {
-            return tableView.sectionHeaderHeight
-        } else {
-            return UITableViewAutomaticDimension
+        if let headerClosure = sectionDescriptor?.headerClosure ?? sectionHeader {
+            let header = headerClosure(visibleSection(at: section), section)
+            
+            switch header {
+            case .title:
+                return UITableViewAutomaticDimension
+            case .view(let view):
+                let height = view.bounds.height
+                
+                if height == 0 {
+                    return tableView.sectionHeaderHeight > 0 ? tableView.sectionHeaderHeight : UITableViewAutomaticDimension
+                } else {
+                    return height
+                }
+            default:
+                return 0.0
+            }
         }
+        
+        return 0.0
     }
     
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -212,11 +227,26 @@ extension DataSource: UITableViewDelegate {
             return result
         }
         
-        if tableView.style == .plain {
-            return tableView.sectionFooterHeight
-        } else {
-            return UITableViewAutomaticDimension
+        if let footerClosure = sectionDescriptor?.footerClosure ?? sectionFooter {
+            let footer = footerClosure(visibleSection(at: section), section)
+            
+            switch footer {
+            case .title:
+                return UITableViewAutomaticDimension
+            case .view(let view):
+                let height = view.bounds.height
+                
+                if height == 0 {
+                    return tableView.sectionFooterHeight > 0 ? tableView.sectionFooterHeight : UITableViewAutomaticDimension
+                } else {
+                    return height
+                }
+            default:
+                return 0.0
+            }
         }
+        
+        return 0.0
     }
     
     // MARK: Display customization
