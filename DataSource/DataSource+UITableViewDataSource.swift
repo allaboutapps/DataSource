@@ -29,7 +29,7 @@ extension DataSource: UITableViewDataSource {
         let bundle = cellDescriptor.bundle ?? Bundle.main
         
         if registerNibs && !reuseIdentifiers.contains(cellIdentifier) && bundle.path(forResource: cellIdentifier, ofType: "nib") != nil {
-            tableView.registerNib(cellIdentifier)
+            tableView.registerNib(cellIdentifier, bundle: bundle)
             reuseIdentifiers.insert(cellIdentifier)
         }
        
