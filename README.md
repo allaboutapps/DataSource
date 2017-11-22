@@ -51,7 +51,7 @@ dataSource.sections = [
         Example(title: "Diff & Update", segue: "showDiff"),
     ])
 ]
-        
+
 dataSource.reloadData(tableView, animated: false)
 ```
 
@@ -99,19 +99,19 @@ Diffing is demonstrated by two examples:
 ```swift
 private func randomData() -> [SectionType] {
     let count = Int.random(5, 15)
-    
+
     let persons = (0 ..< count).map { _ in Person.random()  }.sorted()
-    
+
     let letters = Set(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"])
-    
+
     let firstGroup = persons.filter {
         $0.lastNameStartsWith(letters: letters)
     }
-    
+
     let secondGroup = persons.filter {
         !$0.lastNameStartsWith(letters: letters)
     }
-    
+
     return [
         Section("A - L", items: firstGroup),
         Section("M - Z", items: secondGroup),
@@ -131,7 +131,7 @@ struct DiffItem {
     let value: Int
     let text: String
     let diffIdentifier: String
-    
+
     init(_ value: Int, text: String) {
         self.value = value
         self.text = text
@@ -151,7 +151,7 @@ Please refer to the examples for the full code.
 
 ### Hiding Rows and Sections
 
-Both, `CellDescriptor` and `SectionDescriptor` provide an `isHidden` closure, which allow to simply hide and show rows based on any custom criteria. 
+Both, `CellDescriptor` and `SectionDescriptor` provide an `isHidden` closure, which allow to simply hide and show rows based on any custom criteria.
 
 The `FormViewController` example uses this to only show the last name field whenever the first name is not empty, and also shows an "additional fields" section whenever a switch is enabled:
 
@@ -173,7 +173,7 @@ lazy var dataSource: DataSource = {
         sectionDescriptors: [
             SectionDescriptor<Void>("section-name")
                 .headerHeight { .zero },
-            
+
             SectionDescriptor<Void>("section-additional")
                 .header {
                     .title("Additional Fields")
@@ -218,13 +218,21 @@ tableView.dataSource = dataSource
 tableView.delegate = dataSource
 ```
 
+### Custom bundles
+
+Cells can be registered from custom bundles. You can specify in the cell descriptor from which bundle the cell should be loaded. The bundle defaults to the main bundle.
+
+```swift
+let descriptor = CellDescriptor(bundle: customBundle)
+```
+
 ## Version Compatibility
 
 Current Swift compatibility breakdown:
 
 | Swift Version | Framework Version |
 | ------------- | ----------------- |
-| 4.x           | 5.x                 |
+| 4.x           | 5.x               |
 | 3.x           | 3.x, 4.x          |
 
 [all releases]: https://github.com/mbuchetics/DataSource/releases

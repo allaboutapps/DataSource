@@ -165,7 +165,7 @@ public class DataSource: NSObject {
         if let cellDescriptor = cellDescriptors[row.identifier] {
             return cellDescriptor
         } else {
-            fatalError("[DataSource] no cellDescriptor found for indexPath \(indexPath)")
+            fatalError("[DataSource] no cellDescriptor found for indexPath \(indexPath) with identifier \(row.identifier)")
         }
     }
     

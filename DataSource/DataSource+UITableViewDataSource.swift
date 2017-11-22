@@ -26,9 +26,10 @@ extension DataSource: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
         let cellIdentifier = cellDescriptor.cellIdentifier
+        let bundle = cellDescriptor.bundle ?? Bundle.main
         
-        if registerNibs && !reuseIdentifiers.contains(cellIdentifier) && Bundle.main.path(forResource: cellIdentifier, ofType: "nib") != nil {
-            tableView.registerNib(cellIdentifier)
+        if registerNibs && !reuseIdentifiers.contains(cellIdentifier) && bundle.path(forResource: cellIdentifier, ofType: "nib") != nil {
+            tableView.registerNib(cellIdentifier, bundle: bundle)
             reuseIdentifiers.insert(cellIdentifier)
         }
        
@@ -45,7 +46,7 @@ extension DataSource: UITableViewDataSource {
             fatalError("[DataSource] no configure closure and no fallback UITableViewDataSource set")
         }
     }
-    
+
     // MARK: Header & Footer
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

@@ -65,8 +65,8 @@ extension UITableView {
         registerNib(String(describing: cellType))
     }
     
-    public func registerNib(_ cellIdentifier: String) {
-        register(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+    public func registerNib(_ cellIdentifier: String, bundle: Bundle? = nil) {
+        register(UINib(nibName: cellIdentifier, bundle: bundle), forCellReuseIdentifier: cellIdentifier)
     }
     
     func apply(
