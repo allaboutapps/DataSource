@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.name        = "MBDataSource"
-  s.version     = "5.0.4"
+  s.version     = "5.1.0"
   s.summary     = "Simplifies the setup of UITableView data sources and cells using type-safe cell configurators."
   s.description = <<-DESC
                     Framework to simplify the setup of UITableView data sources and cells.
