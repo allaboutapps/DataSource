@@ -103,7 +103,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var headerClosure: ((SectionType, Int) -> HeaderFooter)?
     
     public func header(_ closure: @escaping (HeaderFooterContent, Int) -> HeaderFooter) -> SectionDescriptor {
-        headerClosure = { (section, index) in
+        headerClosure = { [unowned self] (section, index) in
             closure(self.typedContent(section), index)
         }
         return self
@@ -121,7 +121,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var footerClosure: ((SectionType, Int) -> HeaderFooter)?
     
     public func footer(_ closure: @escaping (HeaderFooterContent, Int) -> HeaderFooter) -> SectionDescriptor {
-        footerClosure = { (section, index) in
+        footerClosure = { [unowned self] (section, index) in
             closure(self.typedContent(section), index)
         }
         return self
@@ -139,7 +139,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var headerHeightClosure: ((SectionType, Int) -> SectionHeight)?
     
     public func headerHeight(_ closure: @escaping (HeaderFooterContent, Int) -> SectionHeight) -> SectionDescriptor {
-        headerHeightClosure = { (section, index) in
+        headerHeightClosure = {  [unowned self](section, index) in
             closure(self.typedContent(section), index)
         }
         return self
@@ -157,7 +157,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var footerHeightClosure: ((SectionType, Int) -> SectionHeight)?
     
     public func footerHeight(_ closure: @escaping (HeaderFooterContent, Int) -> SectionHeight) -> SectionDescriptor {
-        footerHeightClosure = { (section, index) in
+        footerHeightClosure = { [unowned self] (section, index) in
             closure(self.typedContent(section), index)
         }
         return self
@@ -175,7 +175,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var willDisplayHeaderClosure: ((SectionType, UIView, Int) -> Void)?
     
     public func willDisplayHeader(_ closure: @escaping (HeaderFooterContent, UIView, Int) -> Void) -> SectionDescriptorType {
-        willDisplayHeaderClosure = { (section, view, index) in
+        willDisplayHeaderClosure = { [unowned self] (section, view, index) in
             closure(self.typedContent(section), view, index)
         }
         return self
@@ -193,7 +193,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var willDisplayFooterClosure: ((SectionType, UIView, Int) -> Void)?
     
     public func willDisplayFooter(_ closure: @escaping (HeaderFooterContent, UIView, Int) -> Void) -> SectionDescriptorType {
-        willDisplayFooterClosure = { (section, view, index) in
+        willDisplayFooterClosure = { [unowned self] (section, view, index) in
             closure(self.typedContent(section), view, index)
         }
         return self
@@ -211,7 +211,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var didEndDisplayingHeaderClosure: ((SectionType, UIView, Int) -> Void)?
     
     public func didEndDisplayingHeader(_ closure: @escaping (HeaderFooterContent, UIView, Int) -> Void) -> SectionDescriptorType {
-        didEndDisplayingHeaderClosure = { (section, view, index) in
+        didEndDisplayingHeaderClosure = { [unowned self] (section, view, index) in
             closure(self.typedContent(section), view, index)
         }
         return self
@@ -229,7 +229,7 @@ public class SectionDescriptor<HeaderFooterContent>: SectionDescriptorType {
     public private(set) var didEndDisplayingFooterClosure: ((SectionType, UIView, Int) -> Void)?
     
     public func didEndDisplayingFooter(_ closure: @escaping (HeaderFooterContent, UIView, Int) -> Void) -> SectionDescriptorType {
-        didEndDisplayingFooterClosure = { (section, view, index) in
+        didEndDisplayingFooterClosure = { [unowned self] (section, view, index) in
             closure(self.typedContent(section), view, index)
         }
         return self
