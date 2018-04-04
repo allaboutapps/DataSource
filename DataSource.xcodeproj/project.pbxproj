@@ -338,7 +338,6 @@
 				395D14A01B90612D00658680 /* Frameworks */,
 				395D14A11B90612D00658680 /* Headers */,
 				395D14A21B90612D00658680 /* Resources */,
-				5CB482062074F5A700F870CD /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -381,7 +380,7 @@
 				TargetAttributes = {
 					395D147B1B90610A00658680 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 4KWS28V9EP;
+						DevelopmentTeam = PRXJBCN9SJ;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -456,21 +455,6 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 		398248B81E5C70B900F802D1 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		5CB482062074F5A700F870CD /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -677,7 +661,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 4KWS28V9EP;
+				DEVELOPMENT_TEAM = PRXJBCN9SJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -698,7 +682,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 4KWS28V9EP;
+				DEVELOPMENT_TEAM = PRXJBCN9SJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
