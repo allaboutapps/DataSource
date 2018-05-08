@@ -40,6 +40,7 @@ class StartViewController: UITableViewController {
                 Example(title: "Form", segue: "showForm"),
                 Example(title: "Lazy Rows", segue: "showLazyRows"),
                 Example(title: "Diff & Update", segue: "showDiff"),
+                Example(title: "Swipe To Delete", segue: "showSwipeToDelete"),
             ])
         ]
         

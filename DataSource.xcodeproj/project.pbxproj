@@ -19,6 +19,7 @@
 		3968B9131E7C103400EE876F /* DiffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B90F1E7C103400EE876F /* DiffViewController.swift */; };
 		3968B9141E7C103400EE876F /* LazyRowsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B9101E7C103400EE876F /* LazyRowsViewController.swift */; };
 		3968B9161E7C261600EE876F /* UILabel+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3968B9151E7C261600EE876F /* UILabel+Animation.swift */; };
+		396E02E020A1B0090072291F /* SwipeToDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396E02DF20A1B0090072291F /* SwipeToDeleteViewController.swift */; };
 		398248A31E5C6D9900F802D1 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248A11E5C6D9900F802D1 /* StartViewController.swift */; };
 		398248AC1E5C6DDC00F802D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398248A81E5C6DDC00F802D1 /* LaunchScreen.storyboard */; };
 		398248AD1E5C6DDC00F802D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398248AA1E5C6DDC00F802D1 /* Main.storyboard */; };
@@ -112,6 +113,7 @@
 		3968B90F1E7C103400EE876F /* DiffViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiffViewController.swift; path = Examples/DiffViewController.swift; sourceTree = "<group>"; };
 		3968B9101E7C103400EE876F /* LazyRowsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LazyRowsViewController.swift; path = Examples/LazyRowsViewController.swift; sourceTree = "<group>"; };
 		3968B9151E7C261600EE876F /* UILabel+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Animation.swift"; sourceTree = "<group>"; };
+		396E02DF20A1B0090072291F /* SwipeToDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeToDeleteViewController.swift; path = Examples/SwipeToDeleteViewController.swift; sourceTree = "<group>"; };
 		398248A11E5C6D9900F802D1 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		398248A91E5C6DDC00F802D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		398248AB1E5C6DDC00F802D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				3968B90E1E7C103400EE876F /* FormViewController.swift */,
 				3968B9101E7C103400EE876F /* LazyRowsViewController.swift */,
 				3968B90D1E7C103400EE876F /* RandomPersonsViewController.swift */,
+				396E02DF20A1B0090072291F /* SwipeToDeleteViewController.swift */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				39E9E3A81E6566AD00A3C300 /* PersonCell.swift in Sources */,
 				3968B9141E7C103400EE876F /* LazyRowsViewController.swift in Sources */,
 				39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */,
+				396E02E020A1B0090072291F /* SwipeToDeleteViewController.swift in Sources */,
 				3968B9161E7C261600EE876F /* UILabel+Animation.swift in Sources */,
 				39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */,
 				39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */,
