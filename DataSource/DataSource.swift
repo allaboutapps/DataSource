@@ -304,7 +304,9 @@ public class DataSource: NSObject {
 extension DataSource {
     public var leadingSwipeActions: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
         get {
-            return leftSwipeActions as? ((RowType, IndexPath) -> UISwipeActionsConfiguration?)
+            return { [weak self] (rowType, indexPath) in
+                return self?.leftSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+            }
         }
         set {
             leftSwipeActions = newValue
@@ -313,7 +315,9 @@ extension DataSource {
     
     public var trailingSwipeActions: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
         get {
-            return rightSwipeActions as? ((RowType, IndexPath) -> UISwipeActionsConfiguration?)
+            return { [weak self] (rowType, indexPath) in
+                return self?.rightSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+            }
         }
         set {
             rightSwipeActions = newValue
