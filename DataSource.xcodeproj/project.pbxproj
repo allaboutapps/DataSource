@@ -46,6 +46,7 @@
 		39E9E3AC1E659D6C00A3C300 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */; };
 		39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */; };
 		39EBE0671E717FBE006B7E62 /* UIColor+Interpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */; };
+		5C61C91820AF0AB0003A08B8 /* SwipeActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,7 @@
 		39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		39E9E3AD1E659D7D00A3C300 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		39EBE0661E717FBE006B7E62 /* UIColor+Interpolation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Interpolation.swift"; sourceTree = "<group>"; };
+		5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +239,7 @@
 				3968B9101E7C103400EE876F /* LazyRowsViewController.swift */,
 				3968B90D1E7C103400EE876F /* RandomPersonsViewController.swift */,
 				396E02DF20A1B0090072291F /* SwipeToDeleteViewController.swift */,
+				5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -383,7 +386,7 @@
 				TargetAttributes = {
 					395D147B1B90610A00658680 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = PRXJBCN9SJ;
+						DevelopmentTeam = 4KWS28V9EP;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -397,7 +400,7 @@
 					};
 					395D14A31B90612D00658680 = {
 						CreatedOnToolsVersion = 7.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 0930;
 					};
 					39A848631E5E1D9600D7DBC2 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -480,6 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39E9E3A81E6566AD00A3C300 /* PersonCell.swift in Sources */,
+				5C61C91820AF0AB0003A08B8 /* SwipeActionViewController.swift in Sources */,
 				3968B9141E7C103400EE876F /* LazyRowsViewController.swift in Sources */,
 				39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */,
 				396E02E020A1B0090072291F /* SwipeToDeleteViewController.swift in Sources */,
@@ -665,7 +669,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PRXJBCN9SJ;
+				DEVELOPMENT_TEAM = 4KWS28V9EP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -686,7 +690,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PRXJBCN9SJ;
+				DEVELOPMENT_TEAM = 4KWS28V9EP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
