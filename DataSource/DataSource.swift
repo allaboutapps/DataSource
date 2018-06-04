@@ -53,6 +53,11 @@ public class DataSource: NSObject {
     public var willBeginEditing: ((RowType, IndexPath) -> Void)? = nil
     public var didEndEditing: ((IndexPath?) -> Void)? = nil
     
+    // MARK: iOS 11
+    //See extension
+    fileprivate var leftSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
+    fileprivate var rightSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
+    
     public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
     public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil
     
@@ -294,3 +299,30 @@ public class DataSource: NSObject {
         }
     }
 }
+
+@available(iOS 11,*)
+extension DataSource {
+    public var leadingSwipeActions: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
+        get {
+            return { [weak self] (rowType, indexPath) in
+                return self?.leftSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+            }
+        }
+        set {
+            leftSwipeActions = newValue
+        }
+    }
+    
+    public var trailingSwipeActions: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
+        get {
+            return { [weak self] (rowType, indexPath) in
+                return self?.rightSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+            }
+        }
+        set {
+            rightSwipeActions = newValue
+        }
+    }
+    
+}
+

@@ -47,6 +47,7 @@
                         <segue destination="2Pn-bi-ojc" kind="show" identifier="showLazyRows" id="jsk-Ec-GQo"/>
                         <segue destination="Gg3-41-pJm" kind="show" identifier="showDiff" id="UGB-s7-Swz"/>
                         <segue destination="Bae-aT-h6I" kind="show" identifier="showSwipeToDelete" id="g9m-px-iVd"/>
+                        <segue destination="TrW-UD-8u1" kind="show" identifier="showSwipeExample" id="2dN-Xa-NCf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gE9-47-7MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -177,6 +178,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vsi-bH-YPP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1994" y="473"/>
+        </scene>
+        <!--Swipe Actions-->
+        <scene sceneID="pRq-O2-5sd">
+            <objects>
+                <tableViewController id="TrW-UD-8u1" customClass="SwipeActionViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0jW-7F-23h">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <connections>
+                            <outlet property="dataSource" destination="TrW-UD-8u1" id="wFP-YV-fwW"/>
+                            <outlet property="delegate" destination="TrW-UD-8u1" id="rdp-HK-2Zk"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Swipe Actions" id="IZ3-jE-cy0"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WO7-sj-h6w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="974" y="1255"/>
         </scene>
         <!--Form-->
         <scene sceneID="PO7-DX-Qi9">

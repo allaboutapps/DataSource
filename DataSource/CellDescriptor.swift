@@ -67,6 +67,12 @@ public protocol CellDescriptorType {
     var updateClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
 }
 
+@available(iOS 11, *)
+public protocol CellDescriptorTypeiOS11: CellDescriptorType {
+    var leadingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? { get }
+    var trailingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? { get }
+}
+
 // MARK - CellDescriptor
 
 public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
@@ -381,6 +387,12 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
         return self
     }
     
+    // MARK: swipeActions
+    
+    fileprivate var leftSwipeActionClosure: ((RowType, IndexPath) -> Any?)?
+    
+    fileprivate var rightSwipeActionClosure: ((RowType, IndexPath) -> Any?)?
+    
     // MARK: editActions
     
     public private(set) var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)?
@@ -566,4 +578,35 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
         }
         return self
     }
+}
+
+@available(iOS 11, *)
+extension CellDescriptor: CellDescriptorTypeiOS11 {
+    
+    public var leadingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
+        get {
+            return { [weak self] (rowType, indexPath) in
+                return self?.leftSwipeActionClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
+            }
+        }
+    }
+    
+    public var trailingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
+        get {
+            return { [weak self] (rowType, indexPath) in
+                return self?.rightSwipeActionClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
+            }
+        }
+    }
+    
+    public func leadingSwipeAction(_ closure: @escaping ((RowType, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
+        leftSwipeActionClosure = closure
+        return self
+    }
+    
+    public func trailingSwipeAction(_ closure: @escaping ((RowType, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
+        rightSwipeActionClosure = closure
+        return self
+    }
+    
 }
