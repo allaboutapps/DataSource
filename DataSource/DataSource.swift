@@ -21,7 +21,7 @@ public class DataSource: NSObject {
     public var canMove: ((RowType, IndexPath) -> Bool)? = nil
     public var sectionIndexTitles: (() -> [String]?)? = nil
     public var sectionForSectionIndex: ((String, Int) -> Int)? = nil
-    public var commitEditing: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)? = nil
+    public var commitEditing: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)? = nil
     public var moveRow: ((RowType, (IndexPath, IndexPath)) -> Void)? = nil
     
     public var fallbackDataSource: UITableViewDataSource? = nil
@@ -46,7 +46,7 @@ public class DataSource: NSObject {
     public var willDisplay: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
     public var didEndDisplaying: ((UITableViewCell, IndexPath) -> Void)? = nil
     
-    public var editingStyle: ((RowType, IndexPath) -> UITableViewCellEditingStyle)? = nil
+    public var editingStyle: ((RowType, IndexPath) -> UITableViewCell.EditingStyle)? = nil
     public var titleForDeleteConfirmationButton: ((RowType, IndexPath) -> String?)? = nil
     public var editActions: ((RowType, IndexPath) -> [UITableViewRowAction]?)? = nil
     public var shouldIndentWhileEditing: ((RowType, IndexPath) -> Bool)? = nil
@@ -254,11 +254,11 @@ public class DataSource: NSObject {
     
     public func reloadDataAnimated(
         _ tableView: UITableView,
-        rowDeletionAnimation: UITableViewRowAnimation = .fade,
-        rowInsertionAnimation: UITableViewRowAnimation = .fade,
-        rowReloadAnimation: UITableViewRowAnimation = .none,
-        sectionDeletionAnimation: UITableViewRowAnimation = .fade,
-        sectionInsertionAnimation: UITableViewRowAnimation = .fade
+        rowDeletionAnimation: UITableView.RowAnimation = .fade,
+        rowInsertionAnimation: UITableView.RowAnimation = .fade,
+        rowReloadAnimation: UITableView.RowAnimation = .none,
+        sectionDeletionAnimation: UITableView.RowAnimation = .fade,
+        sectionInsertionAnimation: UITableView.RowAnimation = .fade
         ) {
         
         let oldSections = visibleSections.map { $0.diffableSection }

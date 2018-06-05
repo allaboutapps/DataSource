@@ -21,12 +21,12 @@ public enum SectionHeight {
     case automatic
     case zero
     
-    func floatValue(for style: UITableViewStyle) -> CGFloat {
+    func floatValue(for style: UITableView.Style) -> CGFloat {
         switch self {
         case .value(let value):
             return value
         case .automatic:
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         case .zero:
             return style == .plain ? 0.0 : CGFloat.leastNormalMagnitude
         }
