@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Omf-OH-dPB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Omf-OH-dPB">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -48,6 +48,7 @@
                         <segue destination="Gg3-41-pJm" kind="show" identifier="showDiff" id="UGB-s7-Swz"/>
                         <segue destination="Bae-aT-h6I" kind="show" identifier="showSwipeToDelete" id="g9m-px-iVd"/>
                         <segue destination="TrW-UD-8u1" kind="show" identifier="showSwipeExample" id="2dN-Xa-NCf"/>
+                        <segue destination="1fy-zd-ngM" kind="show" identifier="showSeparatedSection" id="xbQ-Ca-Cw5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gE9-47-7MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -277,6 +278,47 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="reH-ip-zjA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1993" y="1256"/>
+        </scene>
+        <!--Custom separators-->
+        <scene sceneID="PXD-v4-tzA">
+            <objects>
+                <viewController id="1fy-zd-ngM" customClass="SeparatedSectionViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="doz-LG-Oez"/>
+                        <viewControllerLayoutGuide type="bottom" id="yJn-Js-5PE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ore-Id-kmN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="uJi-8q-rmA">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="uJi-8q-rmA" firstAttribute="leading" secondItem="ore-Id-kmN" secondAttribute="leading" id="825-X2-l2G"/>
+                            <constraint firstAttribute="bottom" secondItem="uJi-8q-rmA" secondAttribute="bottom" id="k2f-Sr-e7h"/>
+                            <constraint firstItem="uJi-8q-rmA" firstAttribute="top" secondItem="ore-Id-kmN" secondAttribute="top" id="nCi-9M-HBN"/>
+                            <constraint firstAttribute="trailing" secondItem="uJi-8q-rmA" secondAttribute="trailing" id="obT-QS-h9p"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Custom separators" id="S0f-kN-CNL">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="lqv-gg-d8S">
+                            <connections>
+                                <action selector="refresh:" destination="1fy-zd-ngM" id="YpP-aC-AgJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="uJi-8q-rmA" id="xCE-TD-pRd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rb9-hf-KaS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1449" y="2033"/>
         </scene>
         <!--SwipeToDelete-->
         <scene sceneID="6M7-B4-qbB">

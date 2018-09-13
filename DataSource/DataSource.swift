@@ -125,6 +125,11 @@ public class DataSource: NSObject {
             self.cellDescriptors[d.rowIdentifier] = d
         }
         
+        let separator = SeparatorLineCell.descriptor
+        if self.cellDescriptors[separator.rowIdentifier] == nil {
+            self.cellDescriptors[separator.rowIdentifier] = separator
+        }
+        
         let defaultSectionDescriptors: [SectionDescriptorType] = [
             SectionDescriptor<Void>(),
             SectionDescriptor<String>()

@@ -25,13 +25,13 @@ public protocol SectionType {
 
 // MARK: - Section
 
-public class Section: SectionType {
+open class Section: SectionType {
     
     public let identifier: String
     public let content: Any?
     
-    public private(set) var rows: [RowType] = []
-    public private(set) var visibleRows: [RowType] = []
+    public internal(set) var rows: [RowType] = []
+    public internal(set) var visibleRows: [RowType] = []
     
     public init(_ content: Any? = nil, rows: [RowType], visibleRows: [RowType]? = nil, identifier: String? = nil) {
         if let identifier = identifier {
