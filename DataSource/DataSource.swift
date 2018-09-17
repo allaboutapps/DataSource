@@ -6,7 +6,7 @@
 //  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Diff
 
 public class DataSource: NSObject {
