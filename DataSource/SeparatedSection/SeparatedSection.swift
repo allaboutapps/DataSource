@@ -43,7 +43,7 @@ open class SeparatedSection: Section {
         }
     }
     
-    // inti using SeparatorStyle configure closure
+    // inits using SeparatorStyle configure closure
     
     public init(_ content: Any?, rows: [RowType], visibleRows: [RowType]?, identifier: String?, styleConfigureClosure: @escaping StyleConfigureClosure = SeparatedSection.defaultStyleConfigureClosure) {
         self.styleConfigureClosure = styleConfigureClosure
@@ -56,7 +56,7 @@ open class SeparatedSection: Section {
         self.init(content, rows: rows, visibleRows: rows, identifier: sectionIdentifier, styleConfigureClosure: styleConfigureClosure)
     }
     
-    // inti using UIView configure closure
+    // inits using UIView configure closure
     
     public init(_ content: Any?, rows: [RowType], visibleRows: [RowType]?, identifier: String?, viewConfigureClosure: @escaping ViewConfigureClosure) {
         self.styleConfigureClosure = nil

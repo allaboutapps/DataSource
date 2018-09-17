@@ -48,6 +48,8 @@ class SeparatedSectionViewController: UIViewController {
     }
     
     func createSections() -> [SectionType] {
+        
+        // Default section
         let english = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
         let german = ["Eins", "Zwei", "Drei", "Vier", "Fünf", "Sechs", "Sieben", "Acht", "Neun", "Zehn"]
         
@@ -63,6 +65,7 @@ class SeparatedSectionViewController: UIViewController {
             DiffItem($0, text: texts[$0 - 1])
         })
         
+        // Custom insets
         let insets = [16, 32, 48, 64].map { DiffItem($0, text: "\($0)") }
         
         let insetsSection = SeparatedSection("Custom insets", items: insets) { (transition) -> SeparatorStyle in
@@ -74,6 +77,7 @@ class SeparatedSectionViewController: UIViewController {
             }
         }
         
+        // Custom colors
         let colors = [ColorItem(diffIdentifier: "color-1", color: .red, text: "red"),
                       ColorItem(diffIdentifier: "color-2", color: .green, text: "green"),
                       ColorItem(diffIdentifier: "color-3", color: .blue, text: "blue"),
@@ -84,6 +88,7 @@ class SeparatedSectionViewController: UIViewController {
             return SeparatorStyle(edgeEnsets: UIEdgeInsetsMake(0, 16, 0, 16), color: color)
         }
         
+        // Custom view
         let customImageItems = [DiffItem(40, text: "-"),
                                 DiffItem(41, text: "-"),
                                 DiffItem(42, text: "-"),
@@ -100,6 +105,7 @@ class SeparatedSectionViewController: UIViewController {
             }
         }
         
+        // Custom height
         let customHeightItems = [2, 3, 5, 10].map { HeightItem(diffIdentifier: "height-\($0)", height: CGFloat($0)) }
         
         let heightSection = SeparatedSection("Custom height", items: customHeightItems) { (transition) -> SeparatorStyle in
