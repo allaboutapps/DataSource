@@ -24,6 +24,14 @@ class SeparatedSectionViewController: UIViewController {
                     }
                     .update { (item, cell, indexPath) in
                         cell.textLabel?.update(text: item.text, animated: true)
+                },
+                CellDescriptor<ColorItem, TitleCell>()
+                    .configure { (item, cell, indexPath) in
+                        cell.textLabel?.text = item.text
+                },
+                CellDescriptor<HeightItem, TitleCell>()
+                    .configure { (item, cell, indexPath) in
+                        cell.textLabel?.text = String(describing: item.height)
                 }
             ])
     }()
@@ -51,10 +59,56 @@ class SeparatedSectionViewController: UIViewController {
             ? english
             : german
         
+        let defaultSection = SeparatedSection("Default section", items: values.map {
+            DiffItem($0, text: texts[$0 - 1])
+        })
+        
+        let insets = [16, 32, 48, 64].map { DiffItem($0, text: "\($0)") }
+        
+        let insetsSection = SeparatedSection("Custom insets", items: insets) { (transition) -> SeparatorStyle in
+            if transition.isFirst {
+                return SeparatorStyle(leftInset: 0.0)
+            } else {
+                let inset = (transition.from as? DiffItem)?.value ?? 0
+                return SeparatorStyle(leftInset:  CGFloat(inset))
+            }
+        }
+        
+        let colors = [ColorItem(diffIdentifier: "color-1", color: .red, text: "red"),
+                      ColorItem(diffIdentifier: "color-2", color: .green, text: "green"),
+                      ColorItem(diffIdentifier: "color-3", color: .blue, text: "blue"),
+                      ColorItem(diffIdentifier: "color-4", color: .purple, text: "purple")]
+        
+        let colorSection = SeparatedSection("Custom colors", items: colors) { (transition) -> SeparatorStyle in
+            let color = (transition.from as? ColorItem)?.color ?? .black
+            return SeparatorStyle(edgeEnsets: UIEdgeInsetsMake(0, 16, 0, 16), color: color)
+        }
+        
+        let customImageItems = [DiffItem(40, text: "-"),
+                                DiffItem(41, text: "-"),
+                                DiffItem(42, text: "-"),
+                                DiffItem(43, text: "-"),
+                                DiffItem(44, text: "-")]
+        
+        let customViewSection = SeparatedSection("Custom view", items: customImageItems) { (transition) -> UIView? in
+            if transition.isFirst || transition.isLast {
+                return nil
+            } else {
+                let imageView = UIImageView(image: #imageLiteral(resourceName: "wave"))
+                imageView.contentMode = .scaleAspectFit
+                return imageView
+            }
+        }
+        
+        let customHeightItems = [2, 3, 5, 10].map { HeightItem(diffIdentifier: "height-\($0)", height: CGFloat($0)) }
+        
+        let heightSection = SeparatedSection("Custom height", items: customHeightItems) { (transition) -> SeparatorStyle in
+            let height = (transition.from as? HeightItem)?.height ?? 1.0
+            return SeparatorStyle(height: height)
+        }
+        
         return [
-            SeparatedSection(items: values.map {
-                DiffItem($0, text: texts[$0 - 1])
-            })
+            defaultSection, insetsSection, colorSection, customViewSection, heightSection
         ]
     }
     
@@ -67,4 +121,27 @@ class SeparatedSectionViewController: UIViewController {
                                       rowInsertionAnimation: .automatic,
                                       rowReloadAnimation: .none)
     }
+}
+
+struct HeightItem: Diffable {
+    
+    let diffIdentifier: String
+    let height: CGFloat
+    
+    func isEqualToDiffable(_ other: Diffable?) -> Bool {
+        return false
+    }
+    
+}
+
+struct ColorItem: Diffable {
+    
+    let diffIdentifier: String
+    let color: UIColor
+    let text: String
+    
+    func isEqualToDiffable(_ other: Diffable?) -> Bool {
+        return false
+    }
+    
 }

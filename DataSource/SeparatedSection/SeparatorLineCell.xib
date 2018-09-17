@@ -31,9 +31,11 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="bottomInsetConstraint" destination="1wM-q2-nx1" id="7c0-ez-db9"/>
                 <outlet property="leftInsetConstraint" destination="2FB-nA-pZH" id="Y0E-l1-Gcv"/>
                 <outlet property="rightInsetConstraint" destination="3aG-rp-vxd" id="cQ1-dY-Ifs"/>
                 <outlet property="separator" destination="QyS-tG-69Y" id="3rc-xU-YIn"/>
+                <outlet property="topInsetConstraint" destination="rBg-Ed-G94" id="cgs-Ix-faC"/>
             </connections>
             <point key="canvasLocation" x="-112.5" y="-96.5"/>
         </tableViewCell>

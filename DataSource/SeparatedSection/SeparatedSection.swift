@@ -30,28 +30,43 @@ public struct Transition {
 open class SeparatedSection: Section {
 
     public typealias StyleConfigureClosure = (Transition) -> SeparatorStyle
+    public typealias ViewConfigureClosure = (Transition) -> UIView?
     
-    let styleConfigureClosure: StyleConfigureClosure
+    let styleConfigureClosure: StyleConfigureClosure?
+    let viewConfigureClosure: ViewConfigureClosure?
 
-    public static let defaultStyleConfigureClosure: StyleConfigureClosure = {
-        let x: StyleConfigureClosure = { (transition) in
-            if transition.isFirst || transition.isLast  {
-                return SeparatorStyle(leftInset: 0.0)
-            } else {
-                return SeparatorStyle(leftInset: 16.0)
-            }
+    public static let defaultStyleConfigureClosure: StyleConfigureClosure = { (transition) in
+        if transition.isFirst || transition.isLast  {
+            return SeparatorStyle(leftInset: 0.0)
+        } else {
+            return SeparatorStyle(leftInset: 16.0)
         }
-        return x
-    }()
+    }
+    
+    // inti using SeparatorStyle configure closure
     
     public init(_ content: Any?, rows: [RowType], visibleRows: [RowType]?, identifier: String?, styleConfigureClosure: @escaping StyleConfigureClosure = SeparatedSection.defaultStyleConfigureClosure) {
         self.styleConfigureClosure = styleConfigureClosure
+        self.viewConfigureClosure = nil
         super.init(content, rows: rows, visibleRows: visibleRows, identifier: identifier)
     }
     
     public convenience init(_ content: Any? = nil, items: [Any], rowIdentifier: String? = nil, sectionIdentifier: String? = nil, styleConfigureClosure: @escaping StyleConfigureClosure = SeparatedSection.defaultStyleConfigureClosure) {
         let rows = items.map { Row($0, identifier: rowIdentifier) as RowType }
         self.init(content, rows: rows, visibleRows: rows, identifier: sectionIdentifier, styleConfigureClosure: styleConfigureClosure)
+    }
+    
+    // inti using UIView configure closure
+    
+    public init(_ content: Any?, rows: [RowType], visibleRows: [RowType]?, identifier: String?, viewConfigureClosure: @escaping ViewConfigureClosure) {
+        self.styleConfigureClosure = nil
+        self.viewConfigureClosure = viewConfigureClosure
+        super.init(content, rows: rows, visibleRows: visibleRows, identifier: identifier)
+    }
+    
+    public convenience init(_ content: Any? = nil, items: [Any], rowIdentifier: String? = nil, sectionIdentifier: String? = nil, viewConfigureClosure: @escaping ViewConfigureClosure) {
+        let rows = items.map { Row($0, identifier: rowIdentifier) as RowType }
+        self.init(content, rows: rows, visibleRows: rows, identifier: sectionIdentifier, viewConfigureClosure: viewConfigureClosure)
     }
     
     override public func updateVisibility(sectionIndex: Int, dataSource: DataSource) {
@@ -61,8 +76,9 @@ open class SeparatedSection: Section {
         }
         var visibleRows = [RowType]()
         
-        var style = styleConfigureClosure(Transition(from: nil, to: rows.first!.item))
-        visibleRows.append(SeparatorLineViewModel(diffIdentifier: "spacer-\(identifier)-first", style: style).row)
+        var separatorViewModel = separatorLineViewModel(diffIdentifier: "separator-\(identifier)-first",
+                                                        transition: Transition(from: nil, to: rows.first!.item))
+        visibleRows.append(separatorViewModel.row)
         
         for (rowIndex, row) in rows.enumerated() {
             let cellDescriptor = dataSource.cellDescriptors[row.identifier]
@@ -72,13 +88,13 @@ open class SeparatedSection: Section {
             if !isHidden {
                 visibleRows.append(row)
                 
-                let spacerId: String
-                // Use diffIdentifier of row and identifier of section for diffIdentifier of spacer
+                let separatorId: String
+                // Use diffIdentifier of row and identifier of section for diffIdentifier of separator
                 // this prevents unintentional reordering of rows
                 if let diffableRow = row.item as? Diffable {
-                    spacerId = "spacer-\(identifier)-\(diffableRow.diffIdentifier)"
+                    separatorId = "separator-\(identifier)-\(diffableRow.diffIdentifier)"
                 } else {
-                    spacerId = "spacer-\(UUID().uuidString)"
+                    separatorId = "separator-\(UUID().uuidString)"
                 }
                 
                 let nextRow: RowType?
@@ -87,18 +103,24 @@ open class SeparatedSection: Section {
                 } else {
                     nextRow = nil
                 }
-                style = styleConfigureClosure(Transition(from: row.item, to: nextRow?.item))
-                visibleRows.append(SeparatorLineViewModel(diffIdentifier: spacerId, style: style).row)
+                
+                separatorViewModel = separatorLineViewModel(diffIdentifier: separatorId,
+                                                            transition: Transition(from: row.item, to: nextRow?.item))
+                visibleRows.append(separatorViewModel.row)
             }
         }
         
-        print("#####")
-        visibleRows.forEach { (row) in
-            print(row.diffableItem?.diffIdentifier ?? "NO diffIdentifier")
-        }
-        print("#####")
-        
         self.visibleRows = visibleRows
+    }
+    
+    private func separatorLineViewModel(diffIdentifier: String, transition: Transition) -> SeparatorLineViewModel {
+        if let styleConfigureClosure = styleConfigureClosure {
+            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, style: styleConfigureClosure(transition))
+        } else if let viewConfigureClosure = viewConfigureClosure {
+            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, customView: viewConfigureClosure(transition))
+        } else {
+            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, style: SeparatedSection.defaultStyleConfigureClosure(transition))
+        }
     }
     
 }
