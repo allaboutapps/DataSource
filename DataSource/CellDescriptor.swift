@@ -29,7 +29,7 @@ public protocol CellDescriptorType {
 
     var canEditClosure: ((RowType, IndexPath) -> Bool)? { get }
     var canMoveClosure: ((RowType, IndexPath) -> Bool)? { get }
-    var commitEditingClosure: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)? { get }
+    var commitEditingClosure: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)? { get }
     var moveRowClosure: ((RowType, (IndexPath, IndexPath)) -> Void)? { get }
     
     // UITableViewDelegate
@@ -48,7 +48,7 @@ public protocol CellDescriptorType {
     
     var willDisplayClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
     
-    var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCellEditingStyle)? { get }
+    var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCell.EditingStyle)? { get }
     var titleForDeleteConfirmationButtonClosure: ((RowType, IndexPath) -> String?)? { get }
     var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)? { get }
     var shouldIndentWhileEditingClosure: ((RowType, IndexPath) -> Bool)? { get }
@@ -192,9 +192,9 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     
     // MARK: commitEditingStyle
     
-    public private(set) var commitEditingClosure: ((RowType, UITableViewCellEditingStyle, IndexPath) -> Void)?
+    public private(set) var commitEditingClosure: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)?
     
-    public func commitEditing(_ closure: @escaping (Item, UITableViewCellEditingStyle, IndexPath) -> Void) -> CellDescriptor {
+    public func commitEditing(_ closure: @escaping (Item, UITableViewCell.EditingStyle, IndexPath) -> Void) -> CellDescriptor {
         commitEditingClosure = { [unowned self] (row, editingStyle, indexPath) in
             return closure(self.typedItem(row), editingStyle, indexPath)
         }
@@ -353,16 +353,16 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     
     // MARK: editingStyle
     
-    public private(set) var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCellEditingStyle)?
+    public private(set) var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCell.EditingStyle)?
     
-    public func editingStyle(_ closure: @escaping (Item, IndexPath) -> UITableViewCellEditingStyle) -> CellDescriptor {
+    public func editingStyle(_ closure: @escaping (Item, IndexPath) -> UITableViewCell.EditingStyle) -> CellDescriptor {
         editingStyleClosure = { [unowned self] (row, indexPath) in
             return closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
-    public func editingStyle(_ closure: @escaping () -> UITableViewCellEditingStyle) -> CellDescriptor {
+    public func editingStyle(_ closure: @escaping () -> UITableViewCell.EditingStyle) -> CellDescriptor {
         editingStyleClosure = { (_, _) in
             return closure()
         }

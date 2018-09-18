@@ -124,7 +124,7 @@ extension DataSource: UITableViewDataSource {
     
     // MARK: Data manipulation
     
-    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
         
         if let closure = cellDescriptor.commitEditingClosure ?? commitEditing {

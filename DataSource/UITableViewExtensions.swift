@@ -71,11 +71,11 @@ extension UITableView {
     
     func apply(
         batch: Batch,
-        rowDeletionAnimation: UITableViewRowAnimation,
-        rowInsertionAnimation: UITableViewRowAnimation,
-        rowReloadAnimation: UITableViewRowAnimation,
-        sectionDeletionAnimation: UITableViewRowAnimation,
-        sectionInsertionAnimation: UITableViewRowAnimation
+        rowDeletionAnimation: UITableView.RowAnimation,
+        rowInsertionAnimation: UITableView.RowAnimation,
+        rowReloadAnimation: UITableView.RowAnimation,
+        sectionDeletionAnimation: UITableView.RowAnimation,
+        sectionInsertionAnimation: UITableView.RowAnimation
         ) {
         
         beginUpdates()
