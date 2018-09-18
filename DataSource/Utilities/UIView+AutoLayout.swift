@@ -17,12 +17,12 @@ extension UIView {
     func animateConstraints(withDuration duration: TimeInterval, delay: TimeInterval = 0.0, animations: () -> Void, completion: ((Bool) -> Void)?) {
         self.layoutIfNeeded()
         animations()
-        UIView.animate(withDuration: duration, delay: delay, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions(rawValue: 0), animations: { () -> Void in
             self.layoutIfNeeded()
         }, completion: completion)
     }
     
-    func animateConstraints(withDuration duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions, animations: () -> Void, completion: ((Bool) -> Void)?) {
+    func animateConstraints(withDuration duration: TimeInterval, delay: TimeInterval = 0.0, options: UIView.AnimationOptions, animations: () -> Void, completion: ((Bool) -> Void)?) {
         self.layoutIfNeeded()
         animations()
         UIView.animate(withDuration: duration, delay: delay, options: options, animations: { () -> Void in

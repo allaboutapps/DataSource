@@ -121,7 +121,7 @@ extension SeparatorLineCell {
                 if let stlye = viewModel.style {
                     return stlye.height
                 } else if viewModel.customView != nil {
-                    return UITableViewAutomaticDimension
+                    return UITableView.automaticDimension
                 } else {
                     return 0
                 }
