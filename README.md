@@ -232,7 +232,8 @@ Current Swift compatibility breakdown:
 
 | Swift Version | Framework Version |
 | ------------- | ----------------- |
-| 4.x           | 5.x               |
+| 4.2           | 6.x               |
+| 4.1           | 5.x               |
 | 3.x           | 3.x, 4.x          |
 
 [all releases]: https://github.com/mbuchetics/DataSource/releases
