@@ -39,6 +39,7 @@ class StartViewController: UITableViewController {
             Example(title: "Lazy Rows", segue: "showLazyRows"),
             Example(title: "Diff & Update", segue: "showDiff"),
             Example(title: "Swipe To Delete", segue: "showSwipeToDelete"),
+            Example(title: "Custom separators", segue: "showSeparatedSection"),
         ]
         
         if #available(iOS 11, *) {

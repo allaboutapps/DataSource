@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeparatorLineCell" rowHeight="1" id="Uk9-dG-RHw" customClass="SeparatorLineCell" customModule="DataSource" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Uk9-dG-RHw" id="P3l-xG-V7R">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="0.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QyS-tG-69Y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="QyS-tG-69Y" secondAttribute="bottom" id="1wM-q2-nx1"/>
+                    <constraint firstItem="QyS-tG-69Y" firstAttribute="leading" secondItem="P3l-xG-V7R" secondAttribute="leading" id="2FB-nA-pZH"/>
+                    <constraint firstAttribute="trailing" secondItem="QyS-tG-69Y" secondAttribute="trailing" id="3aG-rp-vxd"/>
+                    <constraint firstItem="QyS-tG-69Y" firstAttribute="top" secondItem="P3l-xG-V7R" secondAttribute="top" id="rBg-Ed-G94"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bottomInsetConstraint" destination="1wM-q2-nx1" id="7c0-ez-db9"/>
+                <outlet property="leftInsetConstraint" destination="2FB-nA-pZH" id="Y0E-l1-Gcv"/>
+                <outlet property="rightInsetConstraint" destination="3aG-rp-vxd" id="cQ1-dY-Ifs"/>
+                <outlet property="separator" destination="QyS-tG-69Y" id="3rc-xU-YIn"/>
+                <outlet property="topInsetConstraint" destination="rBg-Ed-G94" id="cgs-Ix-faC"/>
+            </connections>
+            <point key="canvasLocation" x="-112.5" y="-96.5"/>
+        </tableViewCell>
+    </objects>
+</document>
