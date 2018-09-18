@@ -21,15 +21,12 @@ class SeparatedSectionViewController: UIViewController {
                 CellDescriptor<DiffItem, TitleCell>()
                     .configure { (item, cell, indexPath) in
                         cell.textLabel?.text = item.text
-                    }
-                    .update { (item, cell, indexPath) in
-                        cell.textLabel?.update(text: item.text, animated: true)
                 },
                 CellDescriptor<ColorItem, TitleCell>()
                     .configure { (item, cell, indexPath) in
                         cell.textLabel?.text = item.text
                 },
-                CellDescriptor<HeightItem, TitleCell>()
+                CellDescriptor<IntItem, TitleCell>()
                     .configure { (item, cell, indexPath) in
                         cell.textLabel?.text = String(describing: item.height)
                 }
@@ -50,16 +47,11 @@ class SeparatedSectionViewController: UIViewController {
     func createSections() -> [SectionType] {
         
         // Default section
-        let english = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
-        let german = ["Eins", "Zwei", "Drei", "Vier", "Fünf", "Sechs", "Sieben", "Acht", "Neun", "Zehn"]
+        let texts = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
         
         let values = counter % 2 == 0
             ? [1, 2, 3, 8, 9, 10]
             : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        
-        let texts = counter % 2 == 0
-            ? english
-            : german
         
         let defaultSection = SeparatedSection("Default section", items: values.map {
             DiffItem($0, text: texts[$0 - 1])
@@ -85,15 +77,14 @@ class SeparatedSectionViewController: UIViewController {
         
         let colorSection = SeparatedSection("Custom colors", items: colors) { (transition) -> SeparatorStyle in
             let color = (transition.from as? ColorItem)?.color ?? .black
-            return SeparatorStyle(edgeEnsets: UIEdgeInsetsMake(0, 16, 0, 16), color: color)
+            return SeparatorStyle(edgeEnsets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16), color: color)
         }
         
         // Custom view
-        let customImageItems = [DiffItem(40, text: "-"),
-                                DiffItem(41, text: "-"),
-                                DiffItem(42, text: "-"),
-                                DiffItem(43, text: "-"),
-                                DiffItem(44, text: "-")]
+        let customImageItems = [DiffItem(40, text: "custom image 1"),
+                                DiffItem(41, text: "custom image 2"),
+                                DiffItem(42, text: "custom image 3"),
+                                DiffItem(43, text: "custom image 4")]
         
         let customViewSection = SeparatedSection("Custom view", items: customImageItems) { (transition) -> UIView? in
             if transition.isFirst || transition.isLast {
@@ -106,11 +97,11 @@ class SeparatedSectionViewController: UIViewController {
         }
         
         // Custom height
-        let customHeightItems = [2, 3, 5, 10].map { HeightItem(diffIdentifier: "height-\($0)", height: CGFloat($0)) }
+        let customHeightItems = [2, 3, 5, 10].map { IntItem(diffIdentifier: "height-\($0)", height: $0) }
         
         let heightSection = SeparatedSection("Custom height", items: customHeightItems) { (transition) -> SeparatorStyle in
-            let height = (transition.from as? HeightItem)?.height ?? 1.0
-            return SeparatorStyle(height: height)
+            let height = (transition.from as? IntItem)?.height ?? 1
+            return SeparatorStyle(height: CGFloat(height))
         }
         
         return [
@@ -122,20 +113,18 @@ class SeparatedSectionViewController: UIViewController {
         counter += 1
         
         dataSource.sections = createSections()
-        dataSource.reloadDataAnimated(tableView,
-                                      rowDeletionAnimation: .automatic,
-                                      rowInsertionAnimation: .automatic,
-                                      rowReloadAnimation: .none)
+        dataSource.reloadData(tableView, animated: true)
     }
 }
 
-struct HeightItem: Diffable {
+struct IntItem: Diffable {
     
     let diffIdentifier: String
-    let height: CGFloat
+    let height: Int
     
     func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        return false
+        guard let other = other as? IntItem else { return false }
+        return other.height == self.height
     }
     
 }
@@ -147,7 +136,9 @@ struct ColorItem: Diffable {
     let text: String
     
     func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        return false
+        guard let other = other as? ColorItem else { return false }
+        return other.color == self.color
+            && other.text == self.text
     }
     
 }

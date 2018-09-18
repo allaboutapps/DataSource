@@ -15,16 +15,16 @@ public struct SeparatorStyle: Equatable {
     public let backgroundColor: UIColor
     public let height: CGFloat
     
-    public static let defualtColor = UIColor(red: 203.0 / 255.0, green: 203.0 / 255.0, blue: 203.0 / 255.0, alpha: 1.0)
+    public static let defaultColor = UIColor(red: 203.0 / 255.0, green: 203.0 / 255.0, blue: 203.0 / 255.0, alpha: 1.0)
     
-    public init(edgeEnsets: UIEdgeInsets = UIEdgeInsets.zero, color: UIColor = SeparatorStyle.defualtColor, backgroundColor: UIColor = .white, height: CGFloat = 1.0) {
+    public init(edgeEnsets: UIEdgeInsets = .zero, color: UIColor = SeparatorStyle.defaultColor, backgroundColor: UIColor = .white, height: CGFloat = 1.0) {
         self.edgeEnsets = edgeEnsets
         self.color = color
         self.backgroundColor = backgroundColor
         self.height = height
     }
     
-    public init(leftInset: CGFloat, color: UIColor = SeparatorStyle.defualtColor, backgroundColor: UIColor = .white, height: CGFloat = 1.0) {
+    public init(leftInset: CGFloat, color: UIColor = SeparatorStyle.defaultColor, backgroundColor: UIColor = .white, height: CGFloat = 1.0) {
         self.init(edgeEnsets: UIEdgeInsets(top: 0.0, left: leftInset, bottom: 0.0, right: 0.0),
                   color: color,
                   backgroundColor: backgroundColor,
@@ -57,7 +57,11 @@ class SeparatorLineViewModel: Diffable {
     
     func isEqualToDiffable(_ other: Diffable?) -> Bool {
         guard let other = other as? SeparatorLineViewModel else { return false }
-        return self.style == other.style
+        if let otherStlye = other.style, let selfStyle = self.style {
+            return otherStlye == selfStyle
+        } else {
+            return false
+        }
     }
     
 }

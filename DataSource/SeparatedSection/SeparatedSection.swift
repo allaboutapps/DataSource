@@ -76,7 +76,7 @@ open class SeparatedSection: Section {
         }
         var visibleRows = [RowType]()
         
-        var separatorViewModel = separatorLineViewModel(diffIdentifier: "separator-\(identifier)-first",
+        var separatorViewModel = separatorLineViewModel(diffIdentifier: "separator-\(rows[0].diffableItem?.diffIdentifier ?? "")-first",
                                                         transition: Transition(from: nil, to: rows.first!.item))
         visibleRows.append(separatorViewModel.row)
         
