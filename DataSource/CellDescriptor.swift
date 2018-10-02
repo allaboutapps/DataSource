@@ -389,9 +389,8 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     
     // MARK: swipeActions
     
-    fileprivate var leftSwipeActionClosure: ((RowType, IndexPath) -> Any?)?
-    
-    fileprivate var rightSwipeActionClosure: ((RowType, IndexPath) -> Any?)?
+    private var _leadingSwipeActionsClosure: ((RowType, IndexPath) -> Any?)?
+    private var _trailingSwipeActionsClosure: ((RowType, IndexPath) -> Any?)?
     
     // MARK: editActions
     
@@ -585,28 +584,43 @@ extension CellDescriptor: CellDescriptorTypeiOS11 {
     
     public var leadingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
         get {
+            if _leadingSwipeActionsClosure == nil {
+                return nil
+            }
+            
             return { [weak self] (rowType, indexPath) in
-                return self?.leftSwipeActionClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
+                return self?._leadingSwipeActionsClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
             }
         }
     }
     
     public var trailingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
         get {
+            if _trailingSwipeActionsClosure == nil {
+                return nil
+            }
+            
             return { [weak self] (rowType, indexPath) in
-                return self?.rightSwipeActionClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
+                return self?._trailingSwipeActionsClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
             }
         }
     }
     
     public func leadingSwipeAction(_ closure: @escaping ((RowType, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
-        leftSwipeActionClosure = closure
+        _leadingSwipeActionsClosure = closure
         return self
     }
     
     public func trailingSwipeAction(_ closure: @escaping ((RowType, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
-        rightSwipeActionClosure = closure
+        _trailingSwipeActionsClosure = closure
         return self
     }
     
+    public var hasLeadingSwipeAction: Bool {
+        return _leadingSwipeActionsClosure != nil
+    }
+    
+    public var hasTrailingSwipeAction: Bool {
+        return _trailingSwipeActionsClosure != nil
+    }
 }

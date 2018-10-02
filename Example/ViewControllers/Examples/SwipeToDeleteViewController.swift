@@ -37,6 +37,8 @@ class SwipeToDeleteViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dataSource.fallbackDelegate = self
+        
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
         

@@ -30,14 +30,14 @@ class SwipeActionViewController: UITableViewController {
                                 self?.hapticFeedback.impactOccurred()
                                 callback(true)
                             })
-                            ])
+                        ])
                     }.trailingSwipeAction { [weak self] (_, indexPath) -> UISwipeActionsConfiguration? in
                         return UISwipeActionsConfiguration(actions: [
                             UIContextualAction(style: .normal, title: "Change Color", handler: { [weak self] (_, _, callback) in
                                 callback(true)
                                 self?.changeColor(for: indexPath)
                             })
-                            ])
+                        ])
                     }
             ])
     }()

@@ -53,11 +53,6 @@ public class DataSource: NSObject {
     public var willBeginEditing: ((RowType, IndexPath) -> Void)? = nil
     public var didEndEditing: ((IndexPath?) -> Void)? = nil
     
-    // MARK: iOS 11
-    //See extension
-    fileprivate var leftSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
-    fileprivate var rightSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
-    
     public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
     public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil
     
@@ -76,6 +71,10 @@ public class DataSource: NSObject {
     public var canPerformAction: ((RowType, Selector, Any?, IndexPath) -> Bool)? = nil
     public var performAction: ((RowType, Selector, Any?, IndexPath) -> Void)? = nil
     public var canFocus: ((RowType, IndexPath) -> Bool)? = nil
+    
+    // MARK: Swipe Actions (iOS 11+ only)
+    private var _leadingSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
+    private var _trailingSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
     
     // MARK: UITableViewDataSourcePrefetching
     
@@ -96,10 +95,48 @@ public class DataSource: NSObject {
     
     public override func responds(to aSelector: Selector!) -> Bool {
         if super.responds(to: aSelector) {
-            return true
-        } else {
-            return fallbackDelegate?.responds(to: aSelector) ?? false
+            if #available(iOS 11.0, *) {
+                switch aSelector {
+                case #selector(UITableViewDelegate.tableView(_:leadingSwipeActionsConfigurationForRowAt:)):
+                    return isLeadingSwipeActionsImplemented ? true : fallbackDelegateResponds(to: aSelector)
+                case #selector(UITableViewDelegate.tableView(_:trailingSwipeActionsConfigurationForRowAt:)):
+                    return isTrailingSwipeActionsImplemented ? true : fallbackDelegateResponds(to: aSelector)
+                default:
+                    return true
+                }
+            } else {
+                return true
+            }
         }
+        
+        return fallbackDelegateResponds(to: aSelector)
+    }
+    
+    private func fallbackDelegateResponds(to aSelector: Selector!) -> Bool {
+        let result = fallbackDelegate?.responds(to: aSelector) ?? false
+        
+        print(aSelector)
+        print(result)
+        
+        return result
+    }
+    
+    @available(iOS 11.0, *)
+    private var isLeadingSwipeActionsImplemented: Bool {
+        if _leadingSwipeActions != nil {
+            return true
+        }
+        
+        return cellDescriptors.values.contains(where: { ($0 as? CellDescriptorTypeiOS11)?.leadingSwipeActionsClosure != nil })
+    }
+    
+    @available(iOS 11.0, *)
+    private var isTrailingSwipeActionsImplemented: Bool {
+        if _trailingSwipeActions != nil {
+            return true
+        }
+        
+        return cellDescriptors.values.contains(where: { ($0 as? CellDescriptorTypeiOS11)?.trailingSwipeActionsClosure != nil })
     }
     
     // MARK: Additional
@@ -309,23 +346,31 @@ public class DataSource: NSObject {
 extension DataSource {
     public var leadingSwipeActions: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
         get {
+            if _leadingSwipeActions == nil {
+                return nil
+            }
+            
             return { [weak self] (rowType, indexPath) in
-                return self?.leftSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+                return self?._leadingSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
             }
         }
         set {
-            leftSwipeActions = newValue
+            _leadingSwipeActions = newValue
         }
     }
     
     public var trailingSwipeActions: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
         get {
+            if _trailingSwipeActions == nil {
+                return nil
+            }
+            
             return { [weak self] (rowType, indexPath) in
-                return self?.rightSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+                return self?._trailingSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
             }
         }
         set {
-            rightSwipeActions = newValue
+            _trailingSwipeActions = newValue
         }
     }
     
