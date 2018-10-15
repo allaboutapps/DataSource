@@ -114,10 +114,6 @@ public class DataSource: NSObject {
     
     private func fallbackDelegateResponds(to aSelector: Selector!) -> Bool {
         let result = fallbackDelegate?.responds(to: aSelector) ?? false
-        
-        print(aSelector)
-        print(result)
-        
         return result
     }
     
