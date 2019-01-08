@@ -17,14 +17,17 @@ public struct SeparatorStyle: Equatable {
     
     public static let defaultColor = UIColor(red: 203.0 / 255.0, green: 203.0 / 255.0, blue: 203.0 / 255.0, alpha: 1.0)
     
-    public init(edgeEnsets: UIEdgeInsets = .zero, color: UIColor = SeparatorStyle.defaultColor, backgroundColor: UIColor = .white, height: CGFloat = 1.0) {
+    /// One pixle, depending on screen resolution
+    public static let defaultLineHeight: CGFloat = 1.0 / UIScreen.main.scale
+    
+    public init(edgeEnsets: UIEdgeInsets = .zero, color: UIColor = SeparatorStyle.defaultColor, backgroundColor: UIColor = .white, height: CGFloat = SeparatorStyle.defaultLineHeight) {
         self.edgeEnsets = edgeEnsets
         self.color = color
         self.backgroundColor = backgroundColor
         self.height = height
     }
     
-    public init(leftInset: CGFloat, color: UIColor = SeparatorStyle.defaultColor, backgroundColor: UIColor = .white, height: CGFloat = 1.0) {
+    public init(leftInset: CGFloat, color: UIColor = SeparatorStyle.defaultColor, backgroundColor: UIColor = .white, height: CGFloat = SeparatorStyle.defaultLineHeight) {
         self.init(edgeEnsets: UIEdgeInsets(top: 0.0, left: leftInset, bottom: 0.0, right: 0.0),
                   color: color,
                   backgroundColor: backgroundColor,
