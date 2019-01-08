@@ -33,38 +33,7 @@ public struct SeparatorStyle: Equatable {
     
 }
 
-class SeparatorLineViewModel: Diffable {
-    
-    let diffIdentifier: String
-    let style: SeparatorStyle?
-    let customView: UIView?
-    
-    init(diffIdentifier: String, style: SeparatorStyle) {
-        self.diffIdentifier = diffIdentifier
-        self.style = style
-        self.customView = nil
-    }
-    
-    init(diffIdentifier: String, customView: UIView?) {
-        self.diffIdentifier = diffIdentifier
-        self.style = nil
-        self.customView = customView
-    }
-    
-    var row: RowType {
-        return Row(self)
-    }
-    
-    func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? SeparatorLineViewModel else { return false }
-        if let otherStlye = other.style, let selfStyle = self.style {
-            return otherStlye == selfStyle
-        } else {
-            return false
-        }
-    }
-    
-}
+
 
 class SeparatorLineCell: UITableViewCell {
 
@@ -83,18 +52,20 @@ class SeparatorLineCell: UITableViewCell {
     }
     
     func configure(viewModel: SeparatorLineViewModel) {
-        if let style = viewModel.style {
-            separator.backgroundColor = style.color
-            backgroundColor = style.backgroundColor
-            leftInsetConstraint.constant = style.edgeEnsets.left
-            rightInsetConstraint.constant = style.edgeEnsets.right
-            topInsetConstraint.constant = style.edgeEnsets.top
-            bottomInsetConstraint.constant = style.edgeEnsets.bottom
-        } else if let customView = viewModel.customView {
-            separator.addSubview(customView)
-            customView.withConstraints { (view) -> [NSLayoutConstraint] in
-                view.alignEdges()
-            }
+        let style = viewModel.style
+        separator.backgroundColor = style.color
+        backgroundColor = style.backgroundColor
+        leftInsetConstraint.constant = style.edgeEnsets.left
+        rightInsetConstraint.constant = style.edgeEnsets.right
+        topInsetConstraint.constant = style.edgeEnsets.top
+        bottomInsetConstraint.constant = style.edgeEnsets.bottom
+    }
+    
+    func configure(viewModel: SeparatorCustomViewViewModel) {
+        let customView = viewModel.customView
+        separator.addSubview(customView)
+        customView.withConstraints { (view) -> [NSLayoutConstraint] in
+            view.alignEdges()
         }
     }
     
@@ -113,18 +84,21 @@ class SeparatorLineCell: UITableViewCell {
 
 extension SeparatorLineCell {
     
-    static var descriptor: CellDescriptor<SeparatorLineViewModel, SeparatorLineCell> {
+    static var descriptorLine: CellDescriptor<SeparatorLineViewModel, SeparatorLineCell> {
         return CellDescriptor(bundle: Bundle(for: SeparatorLineCell.self))
             .configure { (viewModel, cell, _) in
                 cell.configure(viewModel: viewModel)
             }.height { (viewModel, _) -> CGFloat in
-                if let stlye = viewModel.style {
-                    return stlye.height
-                } else if viewModel.customView != nil {
-                    return UITableView.automaticDimension
-                } else {
-                    return 0
-                }
+                return viewModel.style.height
+            }
+    }
+    
+    static var descriptorCustomView: CellDescriptor<SeparatorCustomViewViewModel, SeparatorLineCell> {
+        return CellDescriptor(bundle: Bundle(for: SeparatorLineCell.self))
+            .configure { (viewModel, cell, _) in
+                cell.configure(viewModel: viewModel)
+            }.height { (_, _) -> CGFloat in
+                return UITableView.automaticDimension
             }
     }
     

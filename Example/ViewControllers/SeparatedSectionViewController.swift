@@ -28,7 +28,7 @@ class SeparatedSectionViewController: UIViewController {
                 },
                 CellDescriptor<IntItem, TitleCell>()
                     .configure { (item, cell, indexPath) in
-                        cell.textLabel?.text = String(describing: item.height)
+                        cell.textLabel?.text = String(describing: item.number)
                 }
             ])
     }()
@@ -60,7 +60,7 @@ class SeparatedSectionViewController: UIViewController {
         // Custom insets
         let insets = [16, 32, 48, 64].map { DiffItem($0, text: "\($0)") }
         
-        let insetsSection = SeparatedSection("Custom insets", items: insets) { (transition) -> SeparatorStyle in
+        let insetsSection = SeparatedSection("Custom insets", items: insets) { (transition) -> SeparatorStyle? in
             if transition.isFirst {
                 return SeparatorStyle(leftInset: 0.0)
             } else {
@@ -75,9 +75,9 @@ class SeparatedSectionViewController: UIViewController {
                       ColorItem(diffIdentifier: "color-3", color: .blue, text: "blue"),
                       ColorItem(diffIdentifier: "color-4", color: .purple, text: "purple")]
         
-        let colorSection = SeparatedSection("Custom colors", items: colors) { (transition) -> SeparatorStyle in
-            let color = (transition.from as? ColorItem)?.color ?? .black
-            return SeparatorStyle(edgeEnsets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16), color: color)
+        let colorSection = SeparatedSection("Custom colors", items: colors) { (transition) -> SeparatorStyle? in
+            let color = (transition.from as? ColorItem)?.color
+            return color.map { SeparatorStyle(edgeEnsets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16), color: $0) }
         }
         
         // Custom view
@@ -97,15 +97,23 @@ class SeparatedSectionViewController: UIViewController {
         }
         
         // Custom height
-        let customHeightItems = [2, 3, 5, 10].map { IntItem(diffIdentifier: "height-\($0)", height: $0) }
+        let customHeightItems = [2, 3, 5, 10].map { IntItem(diffIdentifier: "height-\($0)", number: $0) }
         
-        let heightSection = SeparatedSection("Custom height", items: customHeightItems) { (transition) -> SeparatorStyle in
-            let height = (transition.from as? IntItem)?.height ?? 1
+        let heightSection = SeparatedSection("Custom height", items: customHeightItems) { (transition) -> SeparatorStyle? in
+            let height = (transition.from as? IntItem)?.number ?? 1
             return SeparatorStyle(height: CGFloat(height))
         }
         
+        // Skip separator
+        let skipSeparatorItems = (1...4).map { IntItem(diffIdentifier: "skip-separator-\($0)", number: $0) }
+        
+        let skipSeparatorSection = SeparatedSection("Skip separator", items: skipSeparatorItems) { (transition) -> SeparatorStyle? in
+            let number = (transition.from as? IntItem)?.number ?? 0
+            return number % 2 == 0 ? SeparatorStyle(leftInset: 0) : nil
+        }
+        
         return [
-            defaultSection, insetsSection, colorSection, customViewSection, heightSection
+            defaultSection, insetsSection, colorSection, customViewSection, heightSection, skipSeparatorSection
         ]
     }
     
@@ -120,11 +128,11 @@ class SeparatedSectionViewController: UIViewController {
 struct IntItem: Diffable {
     
     let diffIdentifier: String
-    let height: Int
+    let number: Int
     
     func isEqualToDiffable(_ other: Diffable?) -> Bool {
         guard let other = other as? IntItem else { return false }
-        return other.height == self.height
+        return other.number == self.number
     }
     
 }
