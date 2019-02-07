@@ -29,7 +29,7 @@ public struct Transition {
 
 open class SeparatedSection: Section {
 
-    public typealias StyleConfigureClosure = (Transition) -> SeparatorStyle
+    public typealias StyleConfigureClosure = (Transition) -> SeparatorStyle?
     public typealias ViewConfigureClosure = (Transition) -> UIView?
     
     let styleConfigureClosure: StyleConfigureClosure?
@@ -76,9 +76,11 @@ open class SeparatedSection: Section {
         }
         var visibleRows = [RowType]()
         
-        var separatorViewModel = separatorLineViewModel(diffIdentifier: "separator-\(rows[0].diffableItem?.diffIdentifier ?? "")-first",
-                                                        transition: Transition(from: nil, to: rows.first!.item))
-        visibleRows.append(separatorViewModel.row)
+        let _separatorViewModelRow = separatorViewModelRow(diffIdentifier: "separator-\(rows[0].diffableItem?.diffIdentifier ?? "")-first",
+                                                           transition: Transition(from: nil, to: rows.first!.item))
+        if let separatorViewModelRow = _separatorViewModelRow {
+            visibleRows.append(separatorViewModelRow)
+        }
         
         for (rowIndex, row) in rows.enumerated() {
             let cellDescriptor = dataSource.cellDescriptors[row.identifier]
@@ -104,22 +106,33 @@ open class SeparatedSection: Section {
                     nextRow = nil
                 }
                 
-                separatorViewModel = separatorLineViewModel(diffIdentifier: separatorId,
-                                                            transition: Transition(from: row.item, to: nextRow?.item))
-                visibleRows.append(separatorViewModel.row)
+                let _separatorViewModelRow = separatorViewModelRow(diffIdentifier: separatorId,
+                                                                   transition: Transition(from: row.item, to: nextRow?.item))
+                
+                if let separatorViewModelRow = _separatorViewModelRow {
+                    visibleRows.append(separatorViewModelRow)
+                }
             }
         }
         
         self.visibleRows = visibleRows
     }
     
-    private func separatorLineViewModel(diffIdentifier: String, transition: Transition) -> SeparatorLineViewModel {
+    private func separatorViewModelRow(diffIdentifier: String, transition: Transition) -> RowType? {
         if let styleConfigureClosure = styleConfigureClosure {
-            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, style: styleConfigureClosure(transition))
+            if let style = styleConfigureClosure(transition) {
+                return SeparatorLineViewModel(diffIdentifier: diffIdentifier, style: style).row
+            } else {
+                return nil
+            }
         } else if let viewConfigureClosure = viewConfigureClosure {
-            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, customView: viewConfigureClosure(transition))
+            if let customView = viewConfigureClosure(transition) {
+                return SeparatorCustomViewViewModel(diffIdentifier: diffIdentifier, customView: customView).row
+            } else {
+                return nil
+            }
         } else {
-            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, style: SeparatedSection.defaultStyleConfigureClosure(transition))
+            return SeparatorLineViewModel(diffIdentifier: diffIdentifier, style: SeparatedSection.defaultStyleConfigureClosure(transition)!).row
         }
     }
     

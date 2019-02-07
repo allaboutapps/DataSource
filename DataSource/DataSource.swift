@@ -153,15 +153,14 @@ public class DataSource: NSObject {
     
     public init(cellDescriptors: [CellDescriptorType], sectionDescriptors: [SectionDescriptorType] = [], registerNibs: Bool = true) {
         self.registerNibs = registerNibs
+        super.init()
         
         for d in cellDescriptors {
             self.cellDescriptors[d.rowIdentifier] = d
         }
         
-        let separator = SeparatorLineCell.descriptor
-        if self.cellDescriptors[separator.rowIdentifier] == nil {
-            self.cellDescriptors[separator.rowIdentifier] = separator
-        }
+        self.addDescriptorIfNotSet(SeparatorLineCell.descriptorLine)
+        self.addDescriptorIfNotSet(SeparatorLineCell.descriptorCustomView)
         
         let defaultSectionDescriptors: [SectionDescriptorType] = [
             SectionDescriptor<Void>(),
@@ -178,8 +177,12 @@ public class DataSource: NSObject {
         for d in sectionDescriptors {
             self.sectionDescriptors[d.identifier] = d
         }
-        
-        super.init()
+    }
+    
+    private func addDescriptorIfNotSet(_ descriptor: CellDescriptorType) {
+        if self.cellDescriptors[descriptor.rowIdentifier] == nil {
+            self.cellDescriptors[descriptor.rowIdentifier] = descriptor
+        }
     }
     
     // MARK: Getters & Setters
