@@ -245,7 +245,7 @@ Current Swift compatibility breakdown:
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "mbuchetics/DataSource", ~> 6.0
+github "allaboutapps/DataSource", ~> 6.0
 ```
 
 Then run `carthage update`.
