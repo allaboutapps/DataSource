@@ -24,8 +24,6 @@
 		398248AC1E5C6DDC00F802D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398248A81E5C6DDC00F802D1 /* LaunchScreen.storyboard */; };
 		398248AD1E5C6DDC00F802D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398248AA1E5C6DDC00F802D1 /* Main.storyboard */; };
 		398248AF1E5C6EFB00F802D1 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248AE1E5C6EFB00F802D1 /* DataSource.swift */; };
-		398248B71E5C70B200F802D1 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
-		398248BA1E5C717400F802D1 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
 		398248C11E5C7A3500F802D1 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C01E5C7A3500F802D1 /* Row.swift */; };
 		398248C31E5C7A4000F802D1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C21E5C7A4000F802D1 /* Section.swift */; };
 		398248C51E5C7A5600F802D1 /* CellDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398248C41E5C7A5600F802D1 /* CellDescriptor.swift */; };
@@ -36,10 +34,10 @@
 		39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39913AB71E61BBCC00623635 /* SwiftRandom.swift */; };
 		39A848671E5E1D9600D7DBC2 /* DataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */; };
 		39A848691E5E1D9600D7DBC2 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; };
-		39A848721E5E2D2D00D7DBC2 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; };
-		39A848741E5E2DD800D7DBC2 /* Diff.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 398248B61E5C70B200F802D1 /* Diff.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39A848751E5E2DEC00D7DBC2 /* DataSource.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 395D14A41B90612D00658680 /* DataSource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39B621801E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */; };
+		39D22FF7221C403C00C12A01 /* Differ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D22FF6221C403C00C12A01 /* Differ.framework */; };
+		39D22FF8221C40BB00C12A01 /* Differ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D22FF6221C403C00C12A01 /* Differ.framework */; };
 		39E9E3A81E6566AD00A3C300 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3A51E6566AD00A3C300 /* PersonCell.swift */; };
 		39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9E3A61E6566AD00A3C300 /* TitleCell.swift */; };
 		39E9E3AA1E6566AD00A3C300 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39E9E3A71E6566AD00A3C300 /* TitleCell.xib */; };
@@ -99,7 +97,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				39A848751E5E2DEC00D7DBC2 /* DataSource.framework in Copy Frameworks */,
-				39A848741E5E2DD800D7DBC2 /* Diff.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,7 +125,6 @@
 		398248AE1E5C6EFB00F802D1 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		398248B31E5C704700F802D1 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		398248B41E5C705000F802D1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		398248B61E5C70B200F802D1 /* Diff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Diff.framework; path = Carthage/Build/iOS/Diff.framework; sourceTree = "<group>"; };
 		398248C01E5C7A3500F802D1 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		398248C21E5C7A4000F802D1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		398248C41E5C7A5600F802D1 /* CellDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDescriptor.swift; sourceTree = "<group>"; };
@@ -142,6 +138,7 @@
 		39A848661E5E1D9600D7DBC2 /* DataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceTests.swift; sourceTree = "<group>"; };
 		39A848681E5E1D9600D7DBC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39B6217F1E6D757000BE18EE /* DataSource+UITableViewDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableViewDataSourcePrefetching.swift"; sourceTree = "<group>"; };
+		39D22FF6221C403C00C12A01 /* Differ.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Differ.framework; path = Carthage/Build/iOS/Differ.framework; sourceTree = "<group>"; };
 		39E9E3A51E6566AD00A3C300 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		39E9E3A61E6566AD00A3C300 /* TitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		39E9E3A71E6566AD00A3C300 /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
@@ -163,8 +160,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39D22FF8221C40BB00C12A01 /* Differ.framework in Frameworks */,
 				395D14B91B90612D00658680 /* DataSource.framework in Frameworks */,
-				398248BA1E5C717400F802D1 /* Diff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398248B71E5C70B200F802D1 /* Diff.framework in Frameworks */,
+				39D22FF7221C403C00C12A01 /* Differ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +177,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39A848721E5E2D2D00D7DBC2 /* Diff.framework in Frameworks */,
 				39A848691E5E1D9600D7DBC2 /* DataSource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,7 +279,7 @@
 		398248B51E5C707A00F802D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				398248B61E5C70B200F802D1 /* Diff.framework */,
+				39D22FF6221C403C00C12A01 /* Differ.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -506,14 +502,14 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Differ.framework",
 			);
 			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

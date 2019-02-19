@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Diff
+import Differ
 
 extension DataSource: UITableViewDataSource {
     
