@@ -70,23 +70,19 @@ class DiffViewController: UITableViewController {
 
 // MARK: - Diff Item
 
-struct DiffItem {
+struct DiffItem: Hashable, Equatable {
     
     let value: Int
     let text: String
-    let diffIdentifier: String
     
     init(_ value: Int, text: String) {
         self.value = value
         self.text = text
-        self.diffIdentifier = String(value)
+    }
+    
+    var hashValue: Int {
+        return value
     }
 }
 
-extension DiffItem: Diffable {
-    
-    public func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? DiffItem else { return false }
-        return self.text == other.text
-    }
-}
+extension DiffItem: Diffable { }

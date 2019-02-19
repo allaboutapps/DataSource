@@ -128,11 +128,6 @@ extension Person: Diffable {
     public var diffIdentifier: String {
         return fullName
     }
-    
-    func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? Person else { return false }
-        return self == other
-    }
 }
 
 extension Person: CustomStringConvertible {

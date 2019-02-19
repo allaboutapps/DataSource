@@ -15,14 +15,17 @@ public protocol Diffable {
     func isEqualToDiffable(_ other: Diffable?) -> Bool
 }
 
-extension String: Diffable {
-    
-    public var diffIdentifier: String {
-        return self
+public extension Diffable where Self: Hashable {
+
+    var diffIdentifier: String {
+        return String(hashValue)
     }
+}
+
+public extension Diffable where Self: Equatable {
     
-    public func isEqualToDiffable(_ other: Diffable?) -> Bool {
-        guard let other = other as? String else { return false }
+    func isEqualToDiffable(_ other: Diffable?) -> Bool {
+         guard let other = other as? Self else { return false }
         return self == other
     }
 }
