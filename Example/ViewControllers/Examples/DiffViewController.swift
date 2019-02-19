@@ -70,7 +70,7 @@ class DiffViewController: UITableViewController {
 
 // MARK: - Diff Item
 
-struct DiffItem: Hashable, Equatable {
+struct DiffItem: Hashable {
     
     let value: Int
     let text: String

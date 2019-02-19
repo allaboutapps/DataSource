@@ -25,10 +25,12 @@ public extension Diffable where Self: Hashable {
 public extension Diffable where Self: Equatable {
     
     func isEqualToDiffable(_ other: Diffable?) -> Bool {
-         guard let other = other as? Self else { return false }
+        guard let other = other as? Self else { return false }
         return self == other
     }
 }
+
+extension String: Diffable { }
 
 // MARK: - DiffableSection
 
