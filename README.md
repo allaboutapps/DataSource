@@ -232,6 +232,7 @@ Current Swift compatibility breakdown:
 
 | Swift Version | Framework Version |
 | ------------- | ----------------- |
+| 5.0           | 7.x               |
 | 4.2           | 6.x               |
 | 4.1           | 5.x               |
 | 3.x           | 3.x, 4.x          |
@@ -245,7 +246,7 @@ Current Swift compatibility breakdown:
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "allaboutapps/DataSource", ~> 6.0
+github "allaboutapps/DataSource", ~> 7.0
 ```
 
 Then run `carthage update`.

@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.name        = "MBDataSource"
-  s.version     = "5.2.0"
-  s.swift_version = "4.0"
+  s.version     = "7.0"
+  s.swift_version = "5.0"
   s.summary     = "Simplifies the setup of UITableView data sources and cells using type-safe cell configurators."
   s.description = <<-DESC
                     Framework to simplify the setup of UITableView data sources and cells.
@@ -28,6 +28,6 @@ Pod::Spec.new do |s|
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.requires_arc = true
-  s.dependency "Diff", "~> 0.5"
+  s.dependency "Differ", "~> 1.4"
 
 end
