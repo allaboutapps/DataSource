@@ -80,8 +80,8 @@ struct DiffItem: Hashable {
         self.text = text
     }
     
-    var hashValue: Int {
-        return value
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(value)
     }
 }
 

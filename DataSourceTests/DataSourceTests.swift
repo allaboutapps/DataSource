@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import Diff
 
 @testable import DataSource
 
