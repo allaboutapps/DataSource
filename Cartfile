@@ -1,1 +1,1 @@
-github "tonyarnold/Differ" ~> 1.3
+github "tonyarnold/Differ" == 1.3.0
