@@ -241,6 +241,14 @@ Current Swift compatibility breakdown:
 
 ## Installation
 
+### Swift Package Manager (Recommended)
+
+Add the following dependency to your `Package.swift` file:
+
+```
+.package(url: "https://github.com/allaboutapps/DataSource.git", from: "7.1.0")
+```
+
 ### Carthage
 
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
