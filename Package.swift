@@ -17,7 +17,7 @@ let package = Package(
         .package(url: "https://github.com/tonyarnold/Differ.git", from: "1.4.3")
     ],
     targets: [
-        .target(name: "DataSource", dependencies: ["Differ"], path: "DataSource/DataSource")
+        .target(name: "DataSource", dependencies: ["Differ"], path: "DataSource/")
     ],
     swiftLanguageVersions: [.v5]
 )
