@@ -232,6 +232,7 @@ Current Swift compatibility breakdown:
 
 | Swift Version | Framework Version |
 | ------------- | ----------------- |
+| 5.1           | 8.x               |
 | 5.0           | 7.x               |
 | 4.2           | 6.x               |
 | 4.1           | 5.x               |
@@ -246,7 +247,7 @@ Current Swift compatibility breakdown:
 Add the following dependency to your `Package.swift` file:
 
 ```
-.package(url: "https://github.com/allaboutapps/DataSource.git", from: "7.1.0")
+.package(url: "https://github.com/allaboutapps/DataSource.git", from: "8.0.0")
 ```
 
 ### Carthage
@@ -254,7 +255,7 @@ Add the following dependency to your `Package.swift` file:
 Add the following line to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
 ```
-github "allaboutapps/DataSource", ~> 7.0
+github "allaboutapps/DataSource", ~> 8.0
 ```
 
 Then run `carthage update`.
