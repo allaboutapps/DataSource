@@ -36,22 +36,46 @@ public struct SeparatorStyle: Equatable {
     
 }
 
-
-
 class SeparatorLineCell: UITableViewCell {
 
-    @IBOutlet weak var separator: UIView!
-    @IBOutlet weak var leftInsetConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightInsetConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topInsetConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomInsetConstraint: NSLayoutConstraint!
+    var separator: UIView!
+    var leftInsetConstraint: NSLayoutConstraint!
+    var rightInsetConstraint: NSLayoutConstraint!
+    var topInsetConstraint: NSLayoutConstraint!
+    var bottomInsetConstraint: NSLayoutConstraint!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        customInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        customInit()
+    }
+    
+    func customInit() {
         selectionStyle = .none
-        separator.backgroundColor = .clear
         backgroundColor = .clear
+        
+        separator = UIView()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(separator)
+        separator.backgroundColor = .clear
+        
+        leftInsetConstraint = separator.leftAnchor.constraint(equalTo: contentView.leftAnchor)
+        topInsetConstraint = separator.topAnchor.constraint(equalTo: contentView.topAnchor)
+        rightInsetConstraint = separator.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+        bottomInsetConstraint = separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        
+        NSLayoutConstraint.activate([
+            leftInsetConstraint,
+            topInsetConstraint,
+            rightInsetConstraint,
+            bottomInsetConstraint
+        ])
     }
     
     func configure(viewModel: SeparatorLineViewModel) {
