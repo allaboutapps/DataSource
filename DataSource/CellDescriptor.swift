@@ -606,13 +606,17 @@ extension CellDescriptor: CellDescriptorTypeiOS11 {
         }
     }
     
-    public func leadingSwipeAction(_ closure: @escaping ((RowType, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
-        _leadingSwipeActionsClosure = closure
+    public func leadingSwipeAction(_ closure: @escaping ((Item, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
+        _leadingSwipeActionsClosure = { [unowned self] (row, indexPath) in
+            return closure(self.typedItem(row), indexPath)
+        }
         return self
     }
-    
-    public func trailingSwipeAction(_ closure: @escaping ((RowType, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
-        _trailingSwipeActionsClosure = closure
+
+    public func trailingSwipeAction(_ closure: @escaping ((Item, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
+        _trailingSwipeActionsClosure = { [unowned self] (row, indexPath) in
+            return closure(self.typedItem(row), indexPath)
+        }
         return self
     }
     
