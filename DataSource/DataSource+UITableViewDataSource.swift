@@ -32,7 +32,7 @@ extension DataSource: UITableViewDataSource {
             if bundle.path(forResource: cellIdentifier, ofType: "nib") != nil {
                 tableView.registerNib(cellIdentifier, bundle: bundle)
                 reuseIdentifiers.insert(cellIdentifier)
-            } else {
+            } else if cellIdentifier == SeparatorLineCell.cellIdentifier {
                 tableView.register(cellDescriptor.cellClass, forCellReuseIdentifier: cellIdentifier)
                 reuseIdentifiers.insert(cellIdentifier)
             }
