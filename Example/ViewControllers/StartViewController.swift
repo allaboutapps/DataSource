@@ -30,7 +30,7 @@ class StartViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.separatorStyle = .none
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
         var items = [
@@ -42,12 +42,23 @@ class StartViewController: UITableViewController {
             Example(title: "Custom separators", segue: "showSeparatedSection"),
         ]
         
+        let separatorItems = [
+            Example(title: "Random Persons", segue: "showRandomPersons"),
+            Example(title: "Form", segue: "showForm"),
+        ]
+        
         if #available(iOS 11, *) {
             items.append(Example(title: "Swipe Actions", segue: "showSwipeExample"))
         }
         
         dataSource.sections = [
-            Section(items: items)
+            Section(items: items),
+            SeparatedSection(items: separatorItems, styleConfigureClosure: { transition -> SeparatorStyle? in
+                let leftInset: CGFloat = transition.isLast ? 0 : 20
+                return SeparatorStyle(edgeEnsets: UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: -20),
+                                      color: UIColor.blue,
+                                      height: 1.0)
+            })
         ]
         
         dataSource.reloadData(tableView, animated: false)
