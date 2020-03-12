@@ -36,7 +36,7 @@ public struct SeparatorStyle: Equatable {
     
 }
 
-class SeparatorLineCell: UITableViewCell {
+class SeparatorLineCell: UITableViewCell, AutoregisterCell {
 
     var separator: UIView!
     var leftInsetConstraint: NSLayoutConstraint!
