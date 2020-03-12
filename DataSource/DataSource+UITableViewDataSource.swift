@@ -32,7 +32,7 @@ extension DataSource: UITableViewDataSource {
             if bundle.path(forResource: cellIdentifier, ofType: "nib") != nil {
                 tableView.registerNib(cellIdentifier, bundle: bundle)
                 reuseIdentifiers.insert(cellIdentifier)
-            } else if cellDescriptor.cellClass is AutoregisterCell.Type {
+            } else if cellDescriptor.cellClass is AutoRegisterCell.Type {
                 tableView.register(cellDescriptor.cellClass, forCellReuseIdentifier: cellIdentifier)
                 reuseIdentifiers.insert(cellIdentifier)
             }
