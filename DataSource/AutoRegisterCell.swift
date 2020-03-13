@@ -8,5 +8,5 @@
 
 import Foundation
 
-protocol AutoRegisterCell {
+public protocol AutoRegisterCell {
 }
