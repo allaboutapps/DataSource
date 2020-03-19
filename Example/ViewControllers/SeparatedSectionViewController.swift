@@ -21,7 +21,18 @@ class SeparatedSectionViewController: UIViewController {
                 CellDescriptor<DiffItem, TitleCell>()
                     .configure { (item, cell, indexPath) in
                         cell.textLabel?.text = item.text
-                },
+                    }
+                    .canEdit { [weak self] (_, _) -> Bool in
+                        return true
+                    }
+                    .trailingSwipeAction { [weak self] (_, _) -> UISwipeActionsConfiguration? in
+                        return UISwipeActionsConfiguration(actions: [
+                            UIContextualAction(style: .destructive, title: "TestAction", handler: { [weak self] (_, _, callback) in
+
+                                callback(true)
+                            })
+                        ])
+                    },
                 CellDescriptor<ColorItem, TitleCell>()
                     .configure { (item, cell, indexPath) in
                         cell.textLabel?.text = item.text
