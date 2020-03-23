@@ -474,7 +474,7 @@ extension DataSource {
     public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let cellDescriptor = self.cellDescriptor(at: indexPath) as? CellDescriptorTypeiOS11
         if let closure = cellDescriptor?.trailingSwipeActionsClosure {
-            return closure(row(at: indexPath), indexPath)
+            return closure(visibleRow(at: indexPath), indexPath)
         } else {
             return fallbackDelegate?.tableView?(tableView, trailingSwipeActionsConfigurationForRowAt: indexPath)
         }
@@ -483,7 +483,7 @@ extension DataSource {
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let cellDescriptor = self.cellDescriptor(at: indexPath) as? CellDescriptorTypeiOS11
         if let closure = cellDescriptor?.leadingSwipeActionsClosure {
-            return closure(row(at: indexPath), indexPath)
+            return closure(visibleRow(at: indexPath), indexPath)
         } else {
             return fallbackDelegate?.tableView?(tableView, leadingSwipeActionsConfigurationForRowAt: indexPath)
         }
