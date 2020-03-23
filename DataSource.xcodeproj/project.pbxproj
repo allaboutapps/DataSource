@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		196512982417A743004B77AF /* AutoRegisterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196512972417A743004B77AF /* AutoRegisterCell.swift */; };
+		3903C1832428C7410094EF50 /* ExpandableCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3903C1822428C7410094EF50 /* ExpandableCellViewController.swift */; };
+		3903C1852428C7DE0094EF50 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3903C1842428C7DE0094EF50 /* TextCell.swift */; };
+		3903C1872428C7E80094EF50 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3903C1862428C7E80094EF50 /* TextCell.xib */; };
 		390CAF1C1E79AA560024E3E6 /* SectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */; };
 		395D14801B90610A00658680 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D147F1B90610A00658680 /* AppDelegate.swift */; };
 		395D14871B90610A00658680 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 395D14861B90610A00658680 /* Assets.xcassets */; };
@@ -105,6 +108,9 @@
 
 /* Begin PBXFileReference section */
 		196512972417A743004B77AF /* AutoRegisterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRegisterCell.swift; sourceTree = "<group>"; };
+		3903C1822428C7410094EF50 /* ExpandableCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableCellViewController.swift; sourceTree = "<group>"; };
+		3903C1842428C7DE0094EF50 /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
+		3903C1862428C7E80094EF50 /* TextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		390CAF1B1E79AA560024E3E6 /* SectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionDescriptor.swift; sourceTree = "<group>"; };
 		395D147C1B90610A00658680 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		395D147F1B90610A00658680 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -254,6 +260,7 @@
 				396E02DF20A1B0090072291F /* SwipeToDeleteViewController.swift */,
 				5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */,
 				4C6076DE21490C80002E8BD1 /* SeparatedSectionViewController.swift */,
+				3903C1822428C7410094EF50 /* ExpandableCellViewController.swift */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -312,6 +319,8 @@
 				39E9E3AB1E659D6C00A3C300 /* TextFieldCell.swift */,
 				39E9E3A61E6566AD00A3C300 /* TitleCell.swift */,
 				39E9E3A71E6566AD00A3C300 /* TitleCell.xib */,
+				3903C1842428C7DE0094EF50 /* TextCell.swift */,
+				3903C1862428C7E80094EF50 /* TextCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -473,6 +482,7 @@
 			files = (
 				398248AC1E5C6DDC00F802D1 /* LaunchScreen.storyboard in Resources */,
 				395D14871B90610A00658680 /* Assets.xcassets in Resources */,
+				3903C1872428C7E80094EF50 /* TextCell.xib in Resources */,
 				39E9E3AA1E6566AD00A3C300 /* TitleCell.xib in Resources */,
 				398248AD1E5C6DDC00F802D1 /* Main.storyboard in Resources */,
 			);
@@ -521,9 +531,11 @@
 				5C61C91820AF0AB0003A08B8 /* SwipeActionViewController.swift in Sources */,
 				3968B9141E7C103400EE876F /* LazyRowsViewController.swift in Sources */,
 				39913AB81E61BBCC00623635 /* SwiftRandom.swift in Sources */,
+				3903C1852428C7DE0094EF50 /* TextCell.swift in Sources */,
 				396E02E020A1B0090072291F /* SwipeToDeleteViewController.swift in Sources */,
 				3968B9161E7C261600EE876F /* UILabel+Animation.swift in Sources */,
 				39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */,
+				3903C1832428C7410094EF50 /* ExpandableCellViewController.swift in Sources */,
 				39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */,
 				3968B9111E7C103400EE876F /* RandomPersonsViewController.swift in Sources */,
 				395D14801B90610A00658680 /* AppDelegate.swift in Sources */,
