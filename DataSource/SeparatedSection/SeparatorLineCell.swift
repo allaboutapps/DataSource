@@ -56,7 +56,12 @@ class SeparatorLineCell: UITableViewCell, AutoRegisterCell {
         customInit()
     }
     
+    override func accessibilityElementCount() -> Int {
+        return 0
+    }
+    
     func customInit() {
+        isAccessibilityElement = false
         selectionStyle = .none
         backgroundColor = .clear
         
