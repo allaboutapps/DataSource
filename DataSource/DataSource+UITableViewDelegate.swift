@@ -6,11 +6,10 @@
 //  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import UIKit
 import Differ
+import UIKit
 
 extension DataSource: UITableViewDelegate {
-    
     // MARK: Highlighting
     
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -42,7 +41,7 @@ extension DataSource: UITableViewDelegate {
             closure(visibleRow(at: indexPath), indexPath)
             return
         }
-
+        
         fallbackDelegate?.tableView?(tableView, didUnhighlightRowAt: indexPath)
     }
     
@@ -72,7 +71,6 @@ extension DataSource: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(at: indexPath)
-        
         
         if let closure = cellDescriptor.didSelectClosure ?? didSelect {
             let selectionResult = closure(visibleRow(at: indexPath), indexPath)
@@ -151,13 +149,13 @@ extension DataSource: UITableViewDelegate {
         return fallbackDelegate?.tableView?(tableView, heightForRowAt: indexPath)
             ?? tableView.rowHeight
     }
-
+    
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let index = indexPath.section
         let section = visibleSection(at: index)
         
-        // Do not get the CellDescriptor if we are dealing with a LazySection because it would instaniate all the rows,
-        // i.e. estimatedHeightClosure will not be called for LazySections. Instead, use the estimatedHeight on the 
+        // Do not get the CellDescriptor if we are dealing with a LazySection because it would instantiate all the rows,
+        // i.e. estimatedHeightClosure will not be called for LazySections. Instead, use the estimatedHeight on the
         // DataSource, the fallback delegate or a constant.
         
         if !(section is LazySectionType) {
@@ -185,12 +183,12 @@ extension DataSource: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sectionDescriptor = self.sectionDescriptor(at: section)
-
+        
         if let closure = sectionDescriptor?.headerHeightClosure ?? sectionHeaderHeight {
             return closure(visibleSection(at: section), section).floatValue(for: tableView.style)
         }
         
-        if let result =  fallbackDelegate?.tableView?(tableView, heightForHeaderInSection: section) {
+        if let result = fallbackDelegate?.tableView?(tableView, heightForHeaderInSection: section) {
             return result
         }
         
@@ -259,7 +257,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, willDisplay:cell, forRowAt:indexPath)
+        fallbackDelegate?.tableView?(tableView, willDisplay: cell, forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -270,7 +268,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, willDisplayHeaderView:view, forSection:section)
+        fallbackDelegate?.tableView?(tableView, willDisplayHeaderView: view, forSection: section)
     }
     
     public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -281,7 +279,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, willDisplayFooterView:view, forSection:section)
+        fallbackDelegate?.tableView?(tableView, willDisplayFooterView: view, forSection: section)
     }
     
     // the didEnd delegate methods are only supported on a "fallback" level as we may not have the row or section
@@ -293,7 +291,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, didEndDisplaying:cell, forRowAt:indexPath)
+        fallbackDelegate?.tableView?(tableView, didEndDisplaying: cell, forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
@@ -302,7 +300,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, didEndDisplayingHeaderView:view, forSection:section)
+        fallbackDelegate?.tableView?(tableView, didEndDisplayingHeaderView: view, forSection: section)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
@@ -311,7 +309,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, didEndDisplayingFooterView:view, forSection:section)
+        fallbackDelegate?.tableView?(tableView, didEndDisplayingFooterView: view, forSection: section)
     }
     
     // MARK: Editing
@@ -323,7 +321,7 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleRow(at: indexPath), indexPath)
         }
         
-        if let result = fallbackDelegate?.tableView?(tableView, editingStyleForRowAt:indexPath) {
+        if let result = fallbackDelegate?.tableView?(tableView, editingStyleForRowAt: indexPath) {
             return result
         }
         
@@ -341,7 +339,7 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleRow(at: indexPath), indexPath)
         }
         
-        return fallbackDelegate?.tableView?(tableView, titleForDeleteConfirmationButtonForRowAt:indexPath)
+        return fallbackDelegate?.tableView?(tableView, titleForDeleteConfirmationButtonForRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -351,7 +349,7 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleRow(at: indexPath), indexPath)
         }
         
-        return fallbackDelegate?.tableView?(tableView, editActionsForRowAt:indexPath)
+        return fallbackDelegate?.tableView?(tableView, editActionsForRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
@@ -361,7 +359,7 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleRow(at: indexPath), indexPath)
         }
         
-        return fallbackDelegate?.tableView?(tableView, shouldIndentWhileEditingRowAt:indexPath)
+        return fallbackDelegate?.tableView?(tableView, shouldIndentWhileEditingRowAt: indexPath)
             ?? true
     }
     
@@ -373,7 +371,7 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, willBeginEditingRowAt:indexPath)
+        fallbackDelegate?.tableView?(tableView, willBeginEditingRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
@@ -382,9 +380,9 @@ extension DataSource: UITableViewDelegate {
             return
         }
         
-        fallbackDelegate?.tableView?(tableView, didEndEditingRowAt:indexPath)
+        fallbackDelegate?.tableView?(tableView, didEndEditingRowAt: indexPath)
     }
-
+    
     // MARK: Moving & Reordering
     
     public func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
@@ -394,10 +392,9 @@ extension DataSource: UITableViewDelegate {
             return closure(visibleRow(at: sourceIndexPath), (sourceIndexPath, proposedDestinationIndexPath))
         }
         
-        return fallbackDelegate?.tableView?(tableView, targetIndexPathForMoveFromRowAt:sourceIndexPath, toProposedIndexPath: proposedDestinationIndexPath)
+        return fallbackDelegate?.tableView?(tableView, targetIndexPathForMoveFromRowAt: sourceIndexPath, toProposedIndexPath: proposedDestinationIndexPath)
             ?? proposedDestinationIndexPath
     }
-    
     
     // MARK: Indentation
     
@@ -450,23 +447,22 @@ extension DataSource: UITableViewDelegate {
     // MARK: Focus
     
     public func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
-        return fallbackDelegate?.tableView?(tableView, canFocusRowAt:indexPath)
+        return fallbackDelegate?.tableView?(tableView, canFocusRowAt: indexPath)
             ?? true
     }
     
     public func tableView(_ tableView: UITableView, shouldUpdateFocusIn context: UITableViewFocusUpdateContext) -> Bool {
-        return fallbackDelegate?.tableView?(tableView, shouldUpdateFocusIn:context)
+        return fallbackDelegate?.tableView?(tableView, shouldUpdateFocusIn: context)
             ?? true
     }
     
     public func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        fallbackDelegate?.tableView?(tableView, didUpdateFocusIn:context, with:coordinator)
+        fallbackDelegate?.tableView?(tableView, didUpdateFocusIn: context, with: coordinator)
     }
     
     public func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
         return fallbackDelegate?.indexPathForPreferredFocusedView?(in: tableView)
     }
-
 }
 
 @available(iOS 11,*)
@@ -486,6 +482,19 @@ extension DataSource {
             return closure(visibleRow(at: indexPath), indexPath)
         } else {
             return fallbackDelegate?.tableView?(tableView, leadingSwipeActionsConfigurationForRowAt: indexPath)
+        }
+    }
+}
+
+@available(iOS 13,*)
+extension DataSource {
+    public func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let cellDescriptor = self.cellDescriptor(at: indexPath) as? CellDescriptorTypeiOS13
+        
+        if let closure = cellDescriptor?.configurationForMenuAtLocationClosure {
+            return closure(visibleRow(at: indexPath), indexPath)
+        } else {
+            return fallbackDelegate?.tableView?(tableView, contextMenuConfigurationForRowAt: indexPath, point: CGPoint(x: 0, y: 0))
         }
     }
 }

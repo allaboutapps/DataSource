@@ -6,26 +6,56 @@
 //  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import UIKit
 import DataSource
+import UIKit
 
 // MARK: - View Controller
 
 class DiffViewController: UITableViewController {
-    
     var counter = 0
     
     lazy var dataSource: DataSource = {
-        DataSource(
-            cellDescriptors: [
-                CellDescriptor<DiffItem, TitleCell>()
-                    .configure { (item, cell, indexPath) in
-                        cell.textLabel?.text = item.text
-                    }
-                    .update { (item, cell, indexPath) in
-                        cell.textLabel?.update(text: item.text, animated: true)
-                    }
-            ])
+        if #available(iOS 13.0, *) {
+            return DataSource(
+                cellDescriptors: [
+                    CellDescriptor<DiffItem, TitleCell>()
+                        .configure { item, cell, _ in
+                            cell.textLabel?.text = item.text
+                        }
+                        .update { item, cell, _ in
+                            cell.textLabel?.update(text: item.text, animated: true)
+                        }
+                        .configurationForMenuAtLocation { _, indexPath -> UIContextMenuConfiguration in
+                            let index = indexPath.row
+                            
+                            let identifier = "\(index)" as NSString
+                            return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { _ in
+                                let mapAction = UIAction(
+                                    title: "View map",
+                                    image: UIImage(systemName: "map")) { _ in
+                                }
+                                
+                                let shareAction = UIAction(
+                                    title: "Share",
+                                    image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                                }
+                                
+                                return UIMenu(title: "", image: nil, children: [mapAction, shareAction])
+                            }
+                        }
+                ])
+        } else {
+            return DataSource(
+                cellDescriptors: [
+                    CellDescriptor<DiffItem, TitleCell>()
+                        .configure { item, cell, _ in
+                            cell.textLabel?.text = item.text
+                        }
+                        .update { item, cell, _ in
+                            cell.textLabel?.update(text: item.text, animated: true)
+                        }
+                ])
+        }
     }()
     
     override func viewDidLoad() {
@@ -56,22 +86,21 @@ class DiffViewController: UITableViewController {
             })
         ]
     }
-
+    
     @IBAction func refresh(_ sender: Any) {
         counter += 1
         
         dataSource.sections = createSections()
         dataSource.reloadDataAnimated(tableView,
-            rowDeletionAnimation: .automatic,
-            rowInsertionAnimation: .automatic,
-            rowReloadAnimation: .none)
+                                      rowDeletionAnimation: .automatic,
+                                      rowInsertionAnimation: .automatic,
+                                      rowReloadAnimation: .none)
     }
 }
 
 // MARK: - Diff Item
 
 struct DiffItem: Hashable {
-    
     let value: Int
     let text: String
     
@@ -85,4 +114,4 @@ struct DiffItem: Hashable {
     }
 }
 
-extension DiffItem: Diffable { }
+extension DiffItem: Diffable {}
