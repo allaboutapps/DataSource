@@ -15,47 +15,16 @@ class DiffViewController: UITableViewController {
     var counter = 0
     
     lazy var dataSource: DataSource = {
-        if #available(iOS 13.0, *) {
-            return DataSource(
-                cellDescriptors: [
-                    CellDescriptor<DiffItem, TitleCell>()
-                        .configure { item, cell, _ in
-                            cell.textLabel?.text = item.text
-                        }
-                        .update { item, cell, _ in
-                            cell.textLabel?.update(text: item.text, animated: true)
-                        }
-                        .configurationForMenuAtLocation { _, indexPath -> UIContextMenuConfiguration in
-                            let index = indexPath.row
-                            
-                            let identifier = "\(index)" as NSString
-                            return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { _ in
-                                let mapAction = UIAction(
-                                    title: "View map",
-                                    image: UIImage(systemName: "map")) { _ in
-                                }
-                                
-                                let shareAction = UIAction(
-                                    title: "Share",
-                                    image: UIImage(systemName: "square.and.arrow.up")) { _ in
-                                }
-                                
-                                return UIMenu(title: "", image: nil, children: [mapAction, shareAction])
-                            }
-                        }
-                ])
-        } else {
-            return DataSource(
-                cellDescriptors: [
-                    CellDescriptor<DiffItem, TitleCell>()
-                        .configure { item, cell, _ in
-                            cell.textLabel?.text = item.text
-                        }
-                        .update { item, cell, _ in
-                            cell.textLabel?.update(text: item.text, animated: true)
-                        }
-                ])
-        }
+        DataSource(
+            cellDescriptors: [
+                CellDescriptor<DiffItem, TitleCell>()
+                    .configure { item, cell, _ in
+                        cell.textLabel?.text = item.text
+                    }
+                    .update { item, cell, _ in
+                        cell.textLabel?.update(text: item.text, animated: true)
+                    }
+            ])
     }()
     
     override func viewDidLoad() {
