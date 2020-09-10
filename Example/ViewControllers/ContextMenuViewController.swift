@@ -41,11 +41,11 @@ class ContextMenuViewController: UITableViewController {
     }
     
     func createSections() -> [Section] {
-        let english = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
+        let items = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
         
         
         return [
-            Section(items: english)
+            Section(items: items)
         ]
     }
     
