@@ -9,24 +9,22 @@
 import UIKit
 
 public enum SelectionResult {
-    
     case deselect
     case keepSelected
 }
 
-// MARK - CellDescriptorType
+// MARK: - CellDescriptorType
 
 public protocol CellDescriptorType {
-    
     var rowIdentifier: String { get }
     var cellIdentifier: String { get }
     var bundle: Bundle? { get }
     var cellClass: UITableViewCell.Type { get }
-
+    
     // UITableViewDataSource
     
     var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)? { get }
-
+    
     var canEditClosure: ((RowType, IndexPath) -> Bool)? { get }
     var canMoveClosure: ((RowType, IndexPath) -> Bool)? { get }
     var commitEditingClosure: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)? { get }
@@ -53,7 +51,7 @@ public protocol CellDescriptorType {
     var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)? { get }
     var shouldIndentWhileEditingClosure: ((RowType, IndexPath) -> Bool)? { get }
     var willBeginEditingClosure: ((RowType, IndexPath) -> Void)? { get }
-
+    
     var targetIndexPathForMoveClosure: ((RowType, (IndexPath, IndexPath)) -> IndexPath)? { get }
     var indentationLevelClosure: ((RowType, IndexPath) -> Int)? { get }
     var shouldShowMenuClosure: ((RowType, IndexPath) -> Bool)? { get }
@@ -73,10 +71,14 @@ public protocol CellDescriptorTypeiOS11: CellDescriptorType {
     var trailingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? { get }
 }
 
-// MARK - CellDescriptor
+@available(iOS 13.0, *)
+public protocol CellDescriptorTypeiOS13: CellDescriptorType {
+    var configurationForMenuAtLocationClosure: ((RowType, IndexPath) -> UIContextMenuConfiguration?)? { get }
+}
+
+// MARK: - CellDescriptor
 
 public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
-    
     public let rowIdentifier: String
     public let cellIdentifier: String
     public let bundle: Bundle?
@@ -104,7 +106,7 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
         }
         return cell
     }
-
+    
     // MARK: - UITableViewDataSource
     
     // MARK: configure
@@ -112,7 +114,7 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var configureClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
     
     public func configure(_ closure: @escaping (Item, Cell, IndexPath) -> Void) -> CellDescriptor {
-        configureClosure = { [unowned self] (row, cell, indexPath) in
+        configureClosure = { [unowned self] row, cell, indexPath in
             closure(self.typedItem(row), self.typedCell(cell), indexPath)
         }
         return self
@@ -123,14 +125,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var canEditClosure: ((RowType, IndexPath) -> Bool)?
     
     public func canEdit(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        canEditClosure = { [unowned self] (row, indexPath) in
+        canEditClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func canEdit(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        canEditClosure = { (_, _) in
+        canEditClosure = { _, _ in
             closure()
         }
         return self
@@ -141,14 +143,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var canMoveClosure: ((RowType, IndexPath) -> Bool)?
     
     public func canMove(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        canMoveClosure = { [unowned self] (row, indexPath) in
+        canMoveClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func canMove(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        canMoveClosure = { (_, _) in
+        canMoveClosure = { _, _ in
             closure()
         }
         return self
@@ -159,15 +161,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var heightClosure: ((RowType, IndexPath) -> CGFloat)?
     
     public func height(_ closure: @escaping (Item, IndexPath) -> CGFloat) -> CellDescriptor {
-        heightClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        heightClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func height(_ closure: @escaping () -> CGFloat) -> CellDescriptor {
-        heightClosure = { (_, _) in
-            return closure()
+        heightClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -177,15 +179,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var estimatedHeightClosure: ((RowType, IndexPath) -> CGFloat)?
     
     public func estimatedHeight(_ closure: @escaping (Item, IndexPath) -> CGFloat) -> CellDescriptor {
-        estimatedHeightClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        estimatedHeightClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func estimatedHeight(_ closure: @escaping () -> CGFloat) -> CellDescriptor {
-        estimatedHeightClosure = { (_, _) in
-            return closure()
+        estimatedHeightClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -195,8 +197,8 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var commitEditingClosure: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)?
     
     public func commitEditing(_ closure: @escaping (Item, UITableViewCell.EditingStyle, IndexPath) -> Void) -> CellDescriptor {
-        commitEditingClosure = { [unowned self] (row, editingStyle, indexPath) in
-            return closure(self.typedItem(row), editingStyle, indexPath)
+        commitEditingClosure = { [unowned self] row, editingStyle, indexPath in
+            closure(self.typedItem(row), editingStyle, indexPath)
         }
         return self
     }
@@ -206,8 +208,8 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var moveRowClosure: ((RowType, (IndexPath, IndexPath)) -> Void)?
     
     public func moveRow(_ closure: @escaping (Item, (IndexPath, IndexPath)) -> Void) -> CellDescriptor {
-        moveRowClosure = { [unowned self] (row, indexPaths) in
-            return closure(self.typedItem(row), indexPaths)
+        moveRowClosure = { [unowned self] row, indexPaths in
+            closure(self.typedItem(row), indexPaths)
         }
         return self
     }
@@ -219,15 +221,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var shouldHighlightClosure: ((RowType, IndexPath) -> Bool)?
     
     public func shouldHighlight(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        shouldHighlightClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        shouldHighlightClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func shouldHighlight(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        shouldHighlightClosure = { (_, _) in
-            return closure()
+        shouldHighlightClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -237,15 +239,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var didHighlightClosure: ((RowType, IndexPath) -> Void)?
     
     public func didHighlight(_ closure: @escaping (Item, IndexPath) -> Void) -> CellDescriptor {
-        didHighlightClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        didHighlightClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func didHighlight(_ closure: @escaping () -> Void) -> CellDescriptor {
-        didHighlightClosure = { (_, _) in
-            return closure()
+        didHighlightClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -255,15 +257,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var didUnhighlightClosure: ((RowType, IndexPath) -> Void)?
     
     public func didUnhighlight(_ closure: @escaping (Item, IndexPath) -> Void) -> CellDescriptor {
-        didUnhighlightClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        didUnhighlightClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func didUnhighlight(_ closure: @escaping () -> Void) -> CellDescriptor {
-        didUnhighlightClosure = { (_, _) in
-            return closure()
+        didUnhighlightClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -273,15 +275,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var willSelectClosure: ((RowType, IndexPath) -> IndexPath?)?
     
     public func willSelect(_ closure: @escaping (Item, IndexPath) -> IndexPath?) -> CellDescriptor {
-        willSelectClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        willSelectClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func willSelect(_ closure: @escaping () -> IndexPath?) -> CellDescriptor {
-        willSelectClosure = { (_, _) in
-            return closure()
+        willSelectClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -291,15 +293,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var willDeselectClosure: ((RowType, IndexPath) -> IndexPath?)?
     
     public func willDeselect(_ closure: @escaping (Item, IndexPath) -> IndexPath?) -> CellDescriptor {
-        willDeselectClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        willDeselectClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func willDeselect(_ closure: @escaping () -> IndexPath?) -> CellDescriptor {
-        willDeselectClosure = { (_, _) in
-            return closure()
+        willDeselectClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -309,15 +311,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var didSelectClosure: ((RowType, IndexPath) -> SelectionResult)?
     
     public func didSelect(_ closure: @escaping (Item, IndexPath) -> SelectionResult) -> CellDescriptor {
-        didSelectClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        didSelectClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func didSelect(_ closure: @escaping () -> SelectionResult) -> CellDescriptor {
-        didSelectClosure = { (_, _) in
-            return closure()
+        didSelectClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -327,15 +329,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var didDeselectClosure: ((RowType, IndexPath) -> Void)?
     
     public func didDeselect(_ closure: @escaping (Item, IndexPath) -> Void) -> CellDescriptor {
-        didDeselectClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        didDeselectClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func didDeselect(_ closure: @escaping () -> Void) -> CellDescriptor {
-        didDeselectClosure = { (_, _) in
-            return closure()
+        didDeselectClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -345,8 +347,8 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var willDisplayClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
     
     public func willDisplay(_ closure: @escaping (Item, Cell, IndexPath) -> Void) -> CellDescriptor {
-        willDisplayClosure = { [unowned self] (row, cell, indexPath) in
-            return closure(self.typedItem(row), self.typedCell(cell), indexPath)
+        willDisplayClosure = { [unowned self] row, cell, indexPath in
+            closure(self.typedItem(row), self.typedCell(cell), indexPath)
         }
         return self
     }
@@ -356,15 +358,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var editingStyleClosure: ((RowType, IndexPath) -> UITableViewCell.EditingStyle)?
     
     public func editingStyle(_ closure: @escaping (Item, IndexPath) -> UITableViewCell.EditingStyle) -> CellDescriptor {
-        editingStyleClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        editingStyleClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func editingStyle(_ closure: @escaping () -> UITableViewCell.EditingStyle) -> CellDescriptor {
-        editingStyleClosure = { (_, _) in
-            return closure()
+        editingStyleClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -374,15 +376,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var titleForDeleteConfirmationButtonClosure: ((RowType, IndexPath) -> String?)?
     
     public func titleForDeleteConfirmationButton(_ closure: @escaping (Item, IndexPath) -> String?) -> CellDescriptor {
-        titleForDeleteConfirmationButtonClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        titleForDeleteConfirmationButtonClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func titleForDeleteConfirmationButton(_ closure: @escaping () -> String?) -> CellDescriptor {
-        titleForDeleteConfirmationButtonClosure = { (_, _) in
-            return closure()
+        titleForDeleteConfirmationButtonClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -392,20 +394,24 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     private var _leadingSwipeActionsClosure: ((RowType, IndexPath) -> Any?)?
     private var _trailingSwipeActionsClosure: ((RowType, IndexPath) -> Any?)?
     
+    // MARK: contextMenu
+    
+    public var _configurationForMenuAtLocationClosure: ((RowType, IndexPath) -> Any)?
+    
     // MARK: editActions
     
     public private(set) var editActionsClosure: ((RowType, IndexPath) -> [UITableViewRowAction]?)?
     
     public func editActions(_ closure: @escaping (Item, IndexPath) -> [UITableViewRowAction]?) -> CellDescriptor {
-        editActionsClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        editActionsClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func editActions(_ closure: @escaping () -> [UITableViewRowAction]?) -> CellDescriptor {
-        editActionsClosure = { (_, _) in
-            return closure()
+        editActionsClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -415,15 +421,15 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var shouldIndentWhileEditingClosure: ((RowType, IndexPath) -> Bool)?
     
     public func shouldIndentWhileEditing(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        shouldIndentWhileEditingClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        shouldIndentWhileEditingClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func shouldIndentWhileEditing(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        shouldIndentWhileEditingClosure = { (_, _) in
-            return closure()
+        shouldIndentWhileEditingClosure = { _, _ in
+            closure()
         }
         return self
     }
@@ -433,14 +439,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var willBeginEditingClosure: ((RowType, IndexPath) -> Void)?
     
     public func willBeginEditing(_ closure: @escaping (Item, IndexPath) -> Void) -> CellDescriptor {
-        willBeginEditingClosure = { [unowned self] (row, indexPath) in
+        willBeginEditingClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func willBeginEditing(_ closure: @escaping () -> Void) -> CellDescriptor {
-        willBeginEditingClosure = { (_, _) in
+        willBeginEditingClosure = { _, _ in
             closure()
         }
         return self
@@ -451,7 +457,7 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var targetIndexPathForMoveClosure: ((RowType, (IndexPath, IndexPath)) -> IndexPath)?
     
     public func targetIndexPathForMove(_ closure: @escaping (Item, (IndexPath, IndexPath)) -> IndexPath) -> CellDescriptor {
-        targetIndexPathForMoveClosure = { [unowned self] (row, indexPaths) in
+        targetIndexPathForMoveClosure = { [unowned self] row, indexPaths in
             closure(self.typedItem(row), indexPaths)
         }
         return self
@@ -462,14 +468,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var indentationLevelClosure: ((RowType, IndexPath) -> Int)?
     
     public func indentationLevel(_ closure: @escaping (Item, IndexPath) -> Int) -> CellDescriptor {
-        indentationLevelClosure = { [unowned self] (row, indexPath) in
+        indentationLevelClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func indentationLevel(_ closure: @escaping () -> Int) -> CellDescriptor {
-        indentationLevelClosure = { (_, _) in
+        indentationLevelClosure = { _, _ in
             closure()
         }
         return self
@@ -480,14 +486,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var shouldShowMenuClosure: ((RowType, IndexPath) -> Bool)?
     
     public func shouldShowMenu(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        shouldShowMenuClosure = { [unowned self] (row, indexPath) in
+        shouldShowMenuClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func shouldShowMenu(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        shouldShowMenuClosure = { (_, _) in
+        shouldShowMenuClosure = { _, _ in
             closure()
         }
         return self
@@ -498,14 +504,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var canPerformActionClosure: ((RowType, Selector, Any?, IndexPath) -> Bool)?
     
     public func canPerformAction(_ closure: @escaping (Item, Selector, Any?, IndexPath) -> Bool) -> CellDescriptor {
-        canPerformActionClosure = { [unowned self] (row, selector, sender, indexPath) in
+        canPerformActionClosure = { [unowned self] row, selector, sender, indexPath in
             closure(self.typedItem(row), selector, sender, indexPath)
         }
         return self
     }
     
     public func canPerformAction(_ closure: @escaping (Selector, Any?) -> Bool) -> CellDescriptor {
-        canPerformActionClosure = { (_, selector, sender, _) in
+        canPerformActionClosure = { _, selector, sender, _ in
             closure(selector, sender)
         }
         return self
@@ -516,14 +522,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var performActionClosure: ((RowType, Selector, Any?, IndexPath) -> Void)?
     
     public func performAction(_ closure: @escaping (Item, Selector, Any?, IndexPath) -> Void) -> CellDescriptor {
-        performActionClosure = { [unowned self] (row, selector, sender, indexPath) in
+        performActionClosure = { [unowned self] row, selector, sender, indexPath in
             closure(self.typedItem(row), selector, sender, indexPath)
         }
         return self
     }
     
     public func performAction(_ closure: @escaping (Selector, Any?) -> Void) -> CellDescriptor {
-        performActionClosure = { (_, selector, sender, _) in
+        performActionClosure = { _, selector, sender, _ in
             closure(selector, sender)
         }
         return self
@@ -534,14 +540,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var canFocusClosure: ((RowType, IndexPath) -> Bool)?
     
     public func canFocus(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        canFocusClosure = { [unowned self] (row, indexPath) in
+        canFocusClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func canFocus(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        canFocusClosure = { (_, _) in
+        canFocusClosure = { _, _ in
             closure()
         }
         return self
@@ -554,14 +560,14 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var isHiddenClosure: ((RowType, IndexPath) -> Bool)?
     
     public func isHidden(_ closure: @escaping (Item, IndexPath) -> Bool) -> CellDescriptor {
-        isHiddenClosure = { [unowned self] (row, indexPath) in
+        isHiddenClosure = { [unowned self] row, indexPath in
             closure(self.typedItem(row), indexPath)
         }
         return self
     }
     
     public func isHidden(_ closure: @escaping () -> Bool) -> CellDescriptor {
-        isHiddenClosure = { (_, _) in
+        isHiddenClosure = { _, _ in
             closure()
         }
         return self
@@ -572,7 +578,7 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
     public private(set) var updateClosure: ((RowType, UITableViewCell, IndexPath) -> Void)?
     
     public func update(_ closure: @escaping (Item, Cell, IndexPath) -> Void) -> CellDescriptor {
-        updateClosure = { [unowned self] (row, cell, indexPath) in
+        updateClosure = { [unowned self] row, cell, indexPath in
             closure(self.typedItem(row), self.typedCell(cell), indexPath)
         }
         return self
@@ -581,41 +587,36 @@ public class CellDescriptor<Item, Cell: UITableViewCell>: CellDescriptorType {
 
 @available(iOS 11, *)
 extension CellDescriptor: CellDescriptorTypeiOS11 {
-    
     public var leadingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
-        get {
-            if _leadingSwipeActionsClosure == nil {
-                return nil
-            }
-            
-            return { [weak self] (rowType, indexPath) in
-                return self?._leadingSwipeActionsClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
-            }
+        if _leadingSwipeActionsClosure == nil {
+            return nil
+        }
+        
+        return { [weak self] rowType, indexPath in
+            self?._leadingSwipeActionsClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
         }
     }
     
     public var trailingSwipeActionsClosure: ((RowType, IndexPath) -> UISwipeActionsConfiguration?)? {
-        get {
-            if _trailingSwipeActionsClosure == nil {
-                return nil
-            }
-            
-            return { [weak self] (rowType, indexPath) in
-                return self?._trailingSwipeActionsClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
-            }
+        if _trailingSwipeActionsClosure == nil {
+            return nil
+        }
+        
+        return { [weak self] rowType, indexPath in
+            self?._trailingSwipeActionsClosure?(rowType, indexPath) as? UISwipeActionsConfiguration
         }
     }
     
     public func leadingSwipeAction(_ closure: @escaping ((Item, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
-        _leadingSwipeActionsClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        _leadingSwipeActionsClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
-
+    
     public func trailingSwipeAction(_ closure: @escaping ((Item, IndexPath) -> UISwipeActionsConfiguration?)) -> CellDescriptor {
-        _trailingSwipeActionsClosure = { [unowned self] (row, indexPath) in
-            return closure(self.typedItem(row), indexPath)
+        _trailingSwipeActionsClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
         }
         return self
     }
@@ -626,5 +627,25 @@ extension CellDescriptor: CellDescriptorTypeiOS11 {
     
     public var hasTrailingSwipeAction: Bool {
         return _trailingSwipeActionsClosure != nil
+    }
+}
+
+@available(iOS 13, *)
+extension CellDescriptor: CellDescriptorTypeiOS13 {
+    public var configurationForMenuAtLocationClosure: ((RowType, IndexPath) -> UIContextMenuConfiguration?)? {
+        if _configurationForMenuAtLocationClosure == nil {
+            return nil
+        }
+        
+        return { [weak self] rowType, indexPath in
+            self?._configurationForMenuAtLocationClosure?(rowType, indexPath) as? UIContextMenuConfiguration
+        }
+    }
+    
+    public func configurationForMenuAtLocation(_ closure: @escaping ((Item, IndexPath) -> UIContextMenuConfiguration)) -> CellDescriptor {
+        _configurationForMenuAtLocationClosure = { [unowned self] row, indexPath in
+            closure(self.typedItem(row), indexPath)
+        }
+        return self
     }
 }

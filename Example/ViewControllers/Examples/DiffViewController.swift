@@ -6,23 +6,22 @@
 //  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import UIKit
 import DataSource
+import UIKit
 
 // MARK: - View Controller
 
 class DiffViewController: UITableViewController {
-    
     var counter = 0
     
     lazy var dataSource: DataSource = {
         DataSource(
             cellDescriptors: [
                 CellDescriptor<DiffItem, TitleCell>()
-                    .configure { (item, cell, indexPath) in
+                    .configure { item, cell, _ in
                         cell.textLabel?.text = item.text
                     }
-                    .update { (item, cell, indexPath) in
+                    .update { item, cell, _ in
                         cell.textLabel?.update(text: item.text, animated: true)
                     }
             ])
@@ -56,22 +55,21 @@ class DiffViewController: UITableViewController {
             })
         ]
     }
-
+    
     @IBAction func refresh(_ sender: Any) {
         counter += 1
         
         dataSource.sections = createSections()
         dataSource.reloadDataAnimated(tableView,
-            rowDeletionAnimation: .automatic,
-            rowInsertionAnimation: .automatic,
-            rowReloadAnimation: .none)
+                                      rowDeletionAnimation: .automatic,
+                                      rowInsertionAnimation: .automatic,
+                                      rowReloadAnimation: .none)
     }
 }
 
 // MARK: - Diff Item
 
 struct DiffItem: Hashable {
-    
     let value: Int
     let text: String
     
@@ -85,4 +83,4 @@ struct DiffItem: Hashable {
     }
 }
 
-extension DiffItem: Diffable { }
+extension DiffItem: Diffable {}

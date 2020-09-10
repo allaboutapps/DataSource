@@ -6,88 +6,90 @@
 //  Copyright © 2017 aaa - all about apps GmbH. All rights reserved.
 //
 
-import UIKit
 import Differ
+import UIKit
 
 public class DataSource: NSObject {
-    
     public var sections: [SectionType] = []
     public internal(set) var visibleSections: [SectionType] = []
     
     // MARK: UITableViewDataSource
     
-    public var configure: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
-    public var canEdit: ((RowType, IndexPath) -> Bool)? = nil
-    public var canMove: ((RowType, IndexPath) -> Bool)? = nil
-    public var sectionIndexTitles: (() -> [String]?)? = nil
-    public var sectionForSectionIndex: ((String, Int) -> Int)? = nil
-    public var commitEditing: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)? = nil
-    public var moveRow: ((RowType, (IndexPath, IndexPath)) -> Void)? = nil
+    public var configure: ((RowType, UITableViewCell, IndexPath) -> Void)?
+    public var canEdit: ((RowType, IndexPath) -> Bool)?
+    public var canMove: ((RowType, IndexPath) -> Bool)?
+    public var sectionIndexTitles: (() -> [String]?)?
+    public var sectionForSectionIndex: ((String, Int) -> Int)?
+    public var commitEditing: ((RowType, UITableViewCell.EditingStyle, IndexPath) -> Void)?
+    public var moveRow: ((RowType, (IndexPath, IndexPath)) -> Void)?
     
-    public var fallbackDataSource: UITableViewDataSource? = nil
+    public var fallbackDataSource: UITableViewDataSource?
     
     // MARK: UITableViewDelegate
     
-    public var height: ((RowType, IndexPath) -> CGFloat)? = nil
+    public var height: ((RowType, IndexPath) -> CGFloat)?
     
     // no RowType parameter for estimatedHeight because we do not want to potentially instantiate
     // a LazyRow just to get the height estimate
-    public var estimatedHeight: ((IndexPath) -> CGFloat)? = nil
+    public var estimatedHeight: ((IndexPath) -> CGFloat)?
     
-    public var shouldHighlight: ((RowType, IndexPath) -> Bool)? = nil
-    public var didHighlight: ((RowType, IndexPath) -> Void)? = nil
-    public var didUnhighlight: ((RowType, IndexPath) -> Void)? = nil
+    public var shouldHighlight: ((RowType, IndexPath) -> Bool)?
+    public var didHighlight: ((RowType, IndexPath) -> Void)?
+    public var didUnhighlight: ((RowType, IndexPath) -> Void)?
     
-    public var willSelect: ((RowType, IndexPath) -> IndexPath?)? = nil
-    public var willDeselect: ((RowType, IndexPath) -> IndexPath?)? = nil
-    public var didSelect: ((RowType, IndexPath) -> SelectionResult)? = nil
-    public var didDeselect: ((RowType, IndexPath) -> Void)? = nil
+    public var willSelect: ((RowType, IndexPath) -> IndexPath?)?
+    public var willDeselect: ((RowType, IndexPath) -> IndexPath?)?
+    public var didSelect: ((RowType, IndexPath) -> SelectionResult)?
+    public var didDeselect: ((RowType, IndexPath) -> Void)?
     
-    public var willDisplay: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
-    public var didEndDisplaying: ((UITableViewCell, IndexPath) -> Void)? = nil
+    public var willDisplay: ((RowType, UITableViewCell, IndexPath) -> Void)?
+    public var didEndDisplaying: ((UITableViewCell, IndexPath) -> Void)?
     
-    public var editingStyle: ((RowType, IndexPath) -> UITableViewCell.EditingStyle)? = nil
-    public var titleForDeleteConfirmationButton: ((RowType, IndexPath) -> String?)? = nil
-    public var editActions: ((RowType, IndexPath) -> [UITableViewRowAction]?)? = nil
-    public var shouldIndentWhileEditing: ((RowType, IndexPath) -> Bool)? = nil
-    public var willBeginEditing: ((RowType, IndexPath) -> Void)? = nil
-    public var didEndEditing: ((IndexPath?) -> Void)? = nil
+    public var editingStyle: ((RowType, IndexPath) -> UITableViewCell.EditingStyle)?
+    public var titleForDeleteConfirmationButton: ((RowType, IndexPath) -> String?)?
+    public var editActions: ((RowType, IndexPath) -> [UITableViewRowAction]?)?
+    public var shouldIndentWhileEditing: ((RowType, IndexPath) -> Bool)?
+    public var willBeginEditing: ((RowType, IndexPath) -> Void)?
+    public var didEndEditing: ((IndexPath?) -> Void)?
     
-    public var sectionHeader: ((SectionType, Int) -> HeaderFooter)? = nil
-    public var sectionFooter: ((SectionType, Int) -> HeaderFooter)? = nil
+    public var sectionHeader: ((SectionType, Int) -> HeaderFooter)?
+    public var sectionFooter: ((SectionType, Int) -> HeaderFooter)?
     
-    public var sectionHeaderHeight: ((SectionType, Int) -> SectionHeight)? = nil
-    public var sectionFooterHeight: ((SectionType, Int) -> SectionHeight)? = nil
+    public var sectionHeaderHeight: ((SectionType, Int) -> SectionHeight)?
+    public var sectionFooterHeight: ((SectionType, Int) -> SectionHeight)?
     
-    public var willDisplaySectionHeader: ((SectionType, UIView, Int) -> Void)? = nil
-    public var willDisplaySectionFooter: ((SectionType, UIView, Int) -> Void)? = nil
+    public var willDisplaySectionHeader: ((SectionType, UIView, Int) -> Void)?
+    public var willDisplaySectionFooter: ((SectionType, UIView, Int) -> Void)?
     
-    public var didEndDisplayingSectionHeader: ((UIView, Int) -> Void)? = nil
-    public var didEndDisplayingSectionFooter: ((UIView, Int) -> Void)? = nil
+    public var didEndDisplayingSectionHeader: ((UIView, Int) -> Void)?
+    public var didEndDisplayingSectionFooter: ((UIView, Int) -> Void)?
     
-    public var targetIndexPathForMove: ((RowType, (IndexPath, IndexPath)) -> IndexPath)? = nil
-    public var indentationLevel: ((RowType, IndexPath) -> Int)? = nil
-    public var shouldShowMenu: ((RowType, IndexPath) -> Bool)? = nil
-    public var canPerformAction: ((RowType, Selector, Any?, IndexPath) -> Bool)? = nil
-    public var performAction: ((RowType, Selector, Any?, IndexPath) -> Void)? = nil
-    public var canFocus: ((RowType, IndexPath) -> Bool)? = nil
+    public var targetIndexPathForMove: ((RowType, (IndexPath, IndexPath)) -> IndexPath)?
+    public var indentationLevel: ((RowType, IndexPath) -> Int)?
+    public var shouldShowMenu: ((RowType, IndexPath) -> Bool)?
+    public var canPerformAction: ((RowType, Selector, Any?, IndexPath) -> Bool)?
+    public var performAction: ((RowType, Selector, Any?, IndexPath) -> Void)?
+    public var canFocus: ((RowType, IndexPath) -> Bool)?
     
     // MARK: Swipe Actions (iOS 11+ only)
-    private var _leadingSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
-    private var _trailingSwipeActions: ((RowType, IndexPath) -> Any?)? = nil
+    
+    private var _leadingSwipeActions: ((RowType, IndexPath) -> Any?)?
+    private var _trailingSwipeActions: ((RowType, IndexPath) -> Any?)?
+    
+    public var _configurationForMenuAtLocationClosure: ((RowType, IndexPath) -> Any)?
     
     // MARK: UITableViewDataSourcePrefetching
     
-    public var prefetchRows: (([IndexPath]) -> Void)? = nil
-    public var cancelPrefetching: (([IndexPath]) -> Void)? = nil
+    public var prefetchRows: (([IndexPath]) -> Void)?
+    public var cancelPrefetching: (([IndexPath]) -> Void)?
     
-    public weak var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching? = nil
+    public weak var fallbackDataSourcePrefetching: UITableViewDataSourcePrefetching?
     
     // MARK: Fallback delegate
     
     /// Fallback used when DataSource doesn't handle delegate method itself.
     /// - Note: The fallback delegate needs to be set *before* setting the table view's delegate, otherwise certain delegate methods will never be called.
-    public weak var fallbackDelegate: UITableViewDelegate? = nil
+    public weak var fallbackDelegate: UITableViewDelegate?
     
     public override func forwardingTarget(for aSelector: Selector!) -> Any? {
         return fallbackDelegate
@@ -135,11 +137,13 @@ public class DataSource: NSObject {
         return cellDescriptors.values.contains(where: { ($0 as? CellDescriptorTypeiOS11)?.trailingSwipeActionsClosure != nil })
     }
     
+    // MARK: ContextMenu
+    
     // MARK: Additional
     
-    public var isRowHidden: ((RowType, IndexPath) -> Bool)? = nil
-    public var isSectionHidden: ((SectionType, Int) -> Bool)? = nil
-    public var update: ((RowType, UITableViewCell, IndexPath) -> Void)? = nil
+    public var isRowHidden: ((RowType, IndexPath) -> Bool)?
+    public var isSectionHidden: ((SectionType, Int) -> Bool)?
+    public var update: ((RowType, UITableViewCell, IndexPath) -> Void)?
     
     // MARK: Internal
     
@@ -159,15 +163,15 @@ public class DataSource: NSObject {
             self.cellDescriptors[d.rowIdentifier] = d
         }
         
-        self.addDescriptorIfNotSet(SeparatorLineCell.descriptorLine)
-        self.addDescriptorIfNotSet(SeparatorLineCell.descriptorCustomView)
+        addDescriptorIfNotSet(SeparatorLineCell.descriptorLine)
+        addDescriptorIfNotSet(SeparatorLineCell.descriptorCustomView)
         
         let defaultSectionDescriptors: [SectionDescriptorType] = [
             SectionDescriptor<Void>(),
             SectionDescriptor<String>()
-                .header { (title, _) in
+                .header { title, _ in
                     .title(title)
-            }
+                }
         ]
         
         for d in defaultSectionDescriptors {
@@ -180,8 +184,8 @@ public class DataSource: NSObject {
     }
     
     private func addDescriptorIfNotSet(_ descriptor: CellDescriptorType) {
-        if self.cellDescriptors[descriptor.rowIdentifier] == nil {
-            self.cellDescriptors[descriptor.rowIdentifier] = descriptor
+        if cellDescriptors[descriptor.rowIdentifier] == nil {
+            cellDescriptors[descriptor.rowIdentifier] = descriptor
         }
     }
     
@@ -244,7 +248,7 @@ public class DataSource: NSObject {
             return nil
         }
     }
-
+    
     // MARK: Visibility
     
     internal func updateVisibility() {
@@ -266,7 +270,7 @@ public class DataSource: NSObject {
                 isHidden = false
             }
             
-            if isHidden == false && section.numberOfVisibleRows > 0 {
+            if isHidden == false, section.numberOfVisibleRows > 0 {
                 visibleSections.append(section)
             }
         }
@@ -300,8 +304,7 @@ public class DataSource: NSObject {
         rowReloadAnimation: UITableView.RowAnimation = .none,
         sectionDeletionAnimation: UITableView.RowAnimation = .fade,
         sectionInsertionAnimation: UITableView.RowAnimation = .fade
-        ) {
-        
+    ) {
         let oldSections = visibleSections.map { $0.diffableSection }
         let newSections = updateSectionVisiblity()
         let diffableNewSections = newSections.map { $0.diffableSection }
@@ -309,7 +312,7 @@ public class DataSource: NSObject {
         let diff = computeDiff(oldSections: oldSections, newSections: diffableNewSections)
         let updates = computeUpdate(oldSections: oldSections, newSections: diffableNewSections)
         
-        self.visibleSections = newSections
+        visibleSections = newSections
         
         if rowReloadAnimation == .none {
             for update in updates {
@@ -323,7 +326,8 @@ public class DataSource: NSObject {
             rowInsertionAnimation: rowInsertionAnimation,
             rowReloadAnimation: rowReloadAnimation,
             sectionDeletionAnimation: sectionDeletionAnimation,
-            sectionInsertionAnimation: sectionInsertionAnimation)
+            sectionInsertionAnimation: sectionInsertionAnimation
+        )
     }
     
     public func updateRow(_ tableView: UITableView, row: RowType, at indexPath: IndexPath) {
@@ -331,9 +335,9 @@ public class DataSource: NSObject {
         
         let closure =
             cellDescriptor.updateClosure
-            ?? update
-            ?? cellDescriptor.configureClosure
-            ?? configure
+                ?? update
+                ?? cellDescriptor.configureClosure
+                ?? configure
         
         if let cell = tableView.cellForRow(at: indexPath), let closure = closure {
             closure(row, cell, indexPath)
@@ -349,8 +353,8 @@ extension DataSource {
                 return nil
             }
             
-            return { [weak self] (rowType, indexPath) in
-                return self?._leadingSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+            return { [weak self] rowType, indexPath in
+                self?._leadingSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
             }
         }
         set {
@@ -364,14 +368,31 @@ extension DataSource {
                 return nil
             }
             
-            return { [weak self] (rowType, indexPath) in
-                return self?._trailingSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
+            return { [weak self] rowType, indexPath in
+                self?._trailingSwipeActions?(rowType, indexPath) as? UISwipeActionsConfiguration
             }
         }
         set {
             _trailingSwipeActions = newValue
         }
     }
-    
 }
 
+@available(iOS 13,*)
+extension DataSource {
+    public var configurationForMenuAtLocationClosure: ((RowType, IndexPath) -> UIContextMenuConfiguration?)? {
+        get {
+            if _configurationForMenuAtLocationClosure == nil {
+                return nil
+            }
+            
+            return { [weak self] rowType, indexPath in
+                self?._configurationForMenuAtLocationClosure?(rowType, indexPath) as? UIContextMenuConfiguration
+            }
+        }
+        
+        set {
+            _configurationForMenuAtLocationClosure = newValue
+        }
+    }
+}

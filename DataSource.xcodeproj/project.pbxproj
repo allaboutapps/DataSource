@@ -51,6 +51,7 @@
 		4C6076DF21490C80002E8BD1 /* SeparatedSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6076DE21490C80002E8BD1 /* SeparatedSectionViewController.swift */; };
 		4CA65F60214F952E004F2F19 /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA65F5F214F952E004F2F19 /* UIView+AutoLayout.swift */; };
 		5C61C91820AF0AB0003A08B8 /* SwipeActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */; };
+		5F91D0C625091B8300CF5053 /* ContextMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F91D0C525091B8300CF5053 /* ContextMenuViewController.swift */; };
 		5FD722022500F36800835AA1 /* Differ in Frameworks */ = {isa = PBXBuildFile; productRef = 5FD722012500F36800835AA1 /* Differ */; };
 		D8D61BEE21E4DD3E00937D1C /* SeparatorLineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D61BED21E4DD3E00937D1C /* SeparatorLineViewModel.swift */; };
 		D8D61BF021E4E11300937D1C /* SeparatorCustomViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D61BEF21E4E11300937D1C /* SeparatorCustomViewViewModel.swift */; };
@@ -154,6 +155,7 @@
 		4C6076DE21490C80002E8BD1 /* SeparatedSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatedSectionViewController.swift; sourceTree = "<group>"; };
 		4CA65F5F214F952E004F2F19 /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayout.swift"; sourceTree = "<group>"; };
 		5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionViewController.swift; sourceTree = "<group>"; };
+		5F91D0C525091B8300CF5053 /* ContextMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuViewController.swift; sourceTree = "<group>"; };
 		D8D61BED21E4DD3E00937D1C /* SeparatorLineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLineViewModel.swift; sourceTree = "<group>"; };
 		D8D61BEF21E4E11300937D1C /* SeparatorCustomViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorCustomViewViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -255,6 +257,7 @@
 				5C61C91720AF0AB0003A08B8 /* SwipeActionViewController.swift */,
 				4C6076DE21490C80002E8BD1 /* SeparatedSectionViewController.swift */,
 				3903C1822428C7410094EF50 /* ExpandableCellViewController.swift */,
+				5F91D0C525091B8300CF5053 /* ContextMenuViewController.swift */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				3903C1852428C7DE0094EF50 /* TextCell.swift in Sources */,
 				396E02E020A1B0090072291F /* SwipeToDeleteViewController.swift in Sources */,
 				3968B9161E7C261600EE876F /* UILabel+Animation.swift in Sources */,
+				5F91D0C625091B8300CF5053 /* ContextMenuViewController.swift in Sources */,
 				39E9E3AE1E659D7D00A3C300 /* SwitchCell.swift in Sources */,
 				3903C1832428C7410094EF50 /* ExpandableCellViewController.swift in Sources */,
 				39E9E3A91E6566AD00A3C300 /* TitleCell.swift in Sources */,

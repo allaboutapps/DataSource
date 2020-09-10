@@ -41,6 +41,7 @@ class StartViewController: UITableViewController {
             Example(title: "Swipe To Delete", segue: "showSwipeToDelete"),
             Example(title: "Custom separators", segue: "showSeparatedSection"),
             Example(title: "Expandable Cell", segue: "showExpandableCell"),
+            Example(title: "Context Menu", segue: "showContextMenuExample")
         ]
         
         let separatorItems = [

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Omf-OH-dPB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Omf-OH-dPB">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -48,6 +48,7 @@
                         <segue destination="TrW-UD-8u1" kind="show" identifier="showSwipeExample" id="2dN-Xa-NCf"/>
                         <segue destination="1fy-zd-ngM" kind="show" identifier="showSeparatedSection" id="xbQ-Ca-Cw5"/>
                         <segue destination="Dia-ia-ETQ" kind="show" identifier="showExpandableCell" id="v3I-X9-f4N"/>
+                        <segue destination="AHW-Ns-05d" kind="show" identifier="showContextMenuExample" id="hVT-XX-wMi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gE9-47-7MG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -215,7 +216,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ypn-SH-S6c">
-                                            <rect key="frame" x="15" y="14.5" width="345" height="21"/>
+                                            <rect key="frame" x="15" y="14" width="345" height="22"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                             <connections>
@@ -360,7 +361,26 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JE0-5f-jWe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3671" y="-304"/>
+            <point key="canvasLocation" x="3762" y="-304"/>
+        </scene>
+        <!--Context Menu-->
+        <scene sceneID="mh0-i2-ykw">
+            <objects>
+                <tableViewController id="AHW-Ns-05d" userLabel="Context Menu" customClass="ContextMenuViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="zm1-Nd-rHh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="AHW-Ns-05d" id="7Fa-1O-Zff"/>
+                            <outlet property="delegate" destination="AHW-Ns-05d" id="R19-mv-vHX"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Expandable Cells" id="5Qf-er-ziq" userLabel="Context Menu"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h8g-Mb-uhl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4594" y="-304"/>
         </scene>
     </scenes>
 </document>
