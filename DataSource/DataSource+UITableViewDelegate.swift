@@ -468,6 +468,13 @@ extension DataSource: UITableViewDelegate {
 @available(iOS 11,*)
 extension DataSource {
     public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.indices.count != 2 {
+            // Problem: "Crash in IndexPath.section.getter"
+            // When an indexPath has not exactly two indices, the getter for
+            // `section` traps, causing crashes. This should not happen, but
+            // sometimes it does anyways.
+            return nil
+        }
         let cellDescriptor = self.cellDescriptor(at: indexPath) as? CellDescriptorTypeiOS11
         if let closure = cellDescriptor?.trailingSwipeActionsClosure {
             return closure(visibleRow(at: indexPath), indexPath)
@@ -477,6 +484,13 @@ extension DataSource {
     }
     
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.indices.count != 2 {
+            // Problem: "Crash in IndexPath.section.getter"
+            // When an indexPath has not exactly two indices, the getter for
+            // `section` traps, causing crashes. This should not happen, but
+            // sometimes it does anyways.
+            return nil
+        }
         let cellDescriptor = self.cellDescriptor(at: indexPath) as? CellDescriptorTypeiOS11
         if let closure = cellDescriptor?.leadingSwipeActionsClosure {
             return closure(visibleRow(at: indexPath), indexPath)
@@ -489,6 +503,13 @@ extension DataSource {
 @available(iOS 13,*)
 extension DataSource {
     public func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        if indexPath.indices.count != 2 {
+            // Problem: "Crash in IndexPath.section.getter"
+            // When an indexPath has not exactly two indices, the getter for
+            // `section` traps, causing crashes. This should not happen, but
+            // sometimes it does anyways.
+            return nil
+        }
         let cellDescriptor = self.cellDescriptor(at: indexPath) as? CellDescriptorTypeiOS13
         
         if let closure = cellDescriptor?.configurationForMenuAtLocationClosure {
