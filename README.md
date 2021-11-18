@@ -1,6 +1,6 @@
 # DataSource
 
-[![Swift 4](https://img.shields.io/badge/Language-Swift%204-orange.svg)](https://developer.apple.com/swift)
+[![Swift 5](https://img.shields.io/badge/Language-Swift%205-orange.svg)](https://developer.apple.com/swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/Carthage/Carthage)
 [![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBDataSource.svg)](https://cocoapods.org/pods/MBDataSource)
 
@@ -225,6 +225,10 @@ Cells can be registered from custom bundles. You can specify in the cell descrip
 ```swift
 let descriptor = CellDescriptor(bundle: customBundle)
 ```
+
+### Cell Registration
+If you define your cell types in a separate xib(outside your tableView definition in a storyboard) or entirely in code your cell needs to be registered with the tableView you want to use it with.
+You can either register the cell with the tableView manually(see UITableView docs) or let DataSource do that for you by conforming to the `AutoRegisterCell` protocol.
 
 ## Version Compatibility
 
