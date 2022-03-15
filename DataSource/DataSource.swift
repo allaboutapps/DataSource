@@ -333,11 +333,10 @@ public class DataSource: NSObject {
     public func updateRow(_ tableView: UITableView, row: RowType, at indexPath: IndexPath) {
         let cellDescriptor = self.cellDescriptor(for: row.identifier)
         
-        let closure =
-            cellDescriptor.updateClosure
-                ?? update
-                ?? cellDescriptor.configureClosure
-                ?? configure
+        let updateClosure = cellDescriptor.updateClosure ?? update
+        let configureClosure = cellDescriptor.configureClosure ?? configure
+        
+        let closure = updateClosure ?? configureClosure
         
         if let cell = tableView.cellForRow(at: indexPath), let closure = closure {
             closure(row, cell, indexPath)
