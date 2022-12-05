@@ -8,9 +8,9 @@
 
 import UIKit
 
-class SeparatorLineViewModel: Diffable {
+public class SeparatorLineViewModel: Diffable {
     
-    let diffIdentifier: String
+    public let diffIdentifier: String
     let style: SeparatorStyle
     
     init(diffIdentifier: String, style: SeparatorStyle) {
@@ -22,7 +22,7 @@ class SeparatorLineViewModel: Diffable {
         return Row(self)
     }
     
-    func isEqualToDiffable(_ other: Diffable?) -> Bool {
+    public func isEqualToDiffable(_ other: Diffable?) -> Bool {
         guard let other = other as? SeparatorLineViewModel else { return false }
         return other.style == self.style
     }
