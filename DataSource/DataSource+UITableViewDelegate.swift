@@ -56,7 +56,7 @@ extension DataSource: UITableViewDelegate {
 
         if let closure = cellDescriptor?.willSelectClosure ?? willSelect {
             guard let visibleRow = visibleRow(at: indexPath) else {
-                return nil
+                return indexPath
             }
             
             return closure(visibleRow, indexPath)
@@ -71,7 +71,7 @@ extension DataSource: UITableViewDelegate {
 
         if let closure = cellDescriptor?.willDeselectClosure ?? willDeselect {
             guard let visibleRow = visibleRow(at: indexPath) else {
-                return nil
+                return indexPath
             }
             
             return closure(visibleRow, indexPath)
@@ -234,7 +234,7 @@ extension DataSource: UITableViewDelegate {
 
         if let headerClosure = sectionDescriptor?.headerClosure ?? sectionHeader {
             guard let visibleSection = visibleSection(at: section) else {
-                return UITableView.automaticDimension
+                return 0.0
             }
             
             let header = headerClosure(visibleSection, section)
@@ -275,7 +275,7 @@ extension DataSource: UITableViewDelegate {
 
         if let footerClosure = sectionDescriptor?.footerClosure ?? sectionFooter {
             guard let visibleSection = visibleSection(at: section) else {
-                return UITableView.automaticDimension
+                return 0.0
             }
             
             let footer = footerClosure(visibleSection, section)
