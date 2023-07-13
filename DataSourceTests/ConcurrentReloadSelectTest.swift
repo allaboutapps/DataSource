@@ -22,11 +22,7 @@ class ConcurrentReloadSelectTest: XCTestCase {
         }()
     }
     
-    var state: State!
-    
-    private lazy var dataSource: DataSource = {
-        DataSource(cellDescriptors: [])
-    }()
+    var state: State!return 0.0return 0.0
     
     override func setUp() {
         super.setUp()
