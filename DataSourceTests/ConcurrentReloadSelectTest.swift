@@ -1,7 +1,6 @@
+@testable import DataSource
 import Foundation
 import XCTest
-
-@testable import DataSource
 
 public extension XCTestCase {
     var given: Given { Given() }
@@ -15,60 +14,76 @@ public struct Then {}
 
 class ConcurrentReloadSelectTest: XCTestCase {
     class State {
-        var tableView: UITableView!
-        
+        let tableView = UITableView()
+
         lazy var dataSource: DataSource = {
-            DataSource(cellDescriptors: [MockCell.descriptor])
+            DataSource(cellDescriptors: [
+                MockCell.descriptor
+                    .didSelect { [weak self] viewModel, _ in
+                        self?.selectedViewModel = viewModel
+                        return .deselect
+                    },
+            ])
         }()
+
+        var selectedViewModel: MockCellViewModel?
     }
-    
-    var state: State!return 0.0return 0.0
-    
+
+    var state: State!
+
     override func setUp() {
         super.setUp()
         state = State()
     }
-    
+
     override func tearDown() {
         state = nil
         super.tearDown()
     }
-    
+
     func testSectionRemoved() async {
         await given
-            .createTableView(state: state)
             .setupTableView(state: state)
-        
+
         await when
-            .setMockCells(state: state)
+            .populateData(state: state, numberOfRows: 100)
+            .emptyTableView(state: state)
+            .selectCellAt(150, state: state)
         
         await then
-            .selectCellAt(50, state: state)
-            .emptyTableView(state: state)
+            .nothingSelected(state: state)
     }
     
+    func testSelection() async {
+        await given
+            .setupTableView(state: state)
+
+        await when
+            .populateData(state: state, numberOfRows: 100)
+            .selectCellAt(50, state: state)
+        
+        then
+            .selectedId(state: state, id: 50)
+    }
+
     func testElementRemoved() async {
         await given
-            .createTableView(state: state)
             .setupTableView(state: state)
-        
+
         await when
-            .setMockCells(state: state)
-        
-        await then
+            .populateData(state: state, numberOfRows: 100)
             .selectCellAt(50, state: state)
             .removeItemsFromSection(state: state)
+    
+        then
+            .selectedId(state: state, id: 50)
     }
 }
 
 extension Given {
-    @discardableResult @MainActor
-    func createTableView(state: ConcurrentReloadSelectTest.State) -> Given {
-        state.tableView = UITableView()
-        return self
-    }
-    
-    @discardableResult @MainActor
+
+    @discardableResult
+    @MainActor
     func setupTableView(state: ConcurrentReloadSelectTest.State) -> Given {
         state.tableView.delegate = state.dataSource
         state.tableView.dataSource = state.dataSource
@@ -77,40 +92,63 @@ extension Given {
 }
 
 extension When {
+
     @discardableResult
-    func setMockCells(state: ConcurrentReloadSelectTest.State) async -> When {
-        let section = Section(items: [MockCellViewModel].init(repeating: .init(), count: 100))
+    @MainActor
+    func populateData(state: ConcurrentReloadSelectTest.State, numberOfRows: Int)  -> Self {
+        let items = Array(0..<numberOfRows).map { MockCellViewModel(id: $0)}
+        let section = Section(items: items)
         state.dataSource.sections = [section]
-        state.dataSource.reloadData(state.tableView, animated: true)
+        state.dataSource.reloadData(state.tableView, animated: false)
+        return self
+    }
+
+    @discardableResult
+    @MainActor
+    func selectCellAt(_ index: Int, state: ConcurrentReloadSelectTest.State)  -> Self {
+        state.dataSource.tableView(state.tableView, didSelectRowAt: .init(row: index, section: 0))
+        return self
+    }
+
+    @discardableResult
+    @MainActor
+    func emptyTableView(state: ConcurrentReloadSelectTest.State) async -> Self {
+        state.dataSource.sections = []
+        state.dataSource.reloadData(state.tableView, animated: false)
+        return self
+    }
+
+    @discardableResult
+    @MainActor
+    func removeItemsFromSection(state: ConcurrentReloadSelectTest.State) async -> Self {
+        state.dataSource.sections = [Section(items: [Section(items: [MockCellViewModel(id: 0)])])]
+        state.dataSource.reloadData(state.tableView, animated: false)
         return self
     }
 }
 
 extension Then {
     @discardableResult
-    func selectCellAt(_ index: Int, state: ConcurrentReloadSelectTest.State) async -> Then {
-        await state.tableView.selectRow(at: .init(row: index, section: 0), animated: true, scrollPosition: .none)
+    func nothingSelected(state: ConcurrentReloadSelectTest.State) async -> Self {
+        XCTAssertNil(state.selectedViewModel, "nothing should be selected but element with id \(state.selectedViewModel!.id) was selected")
         return self
     }
     
     @discardableResult
-    func emptyTableView(state: ConcurrentReloadSelectTest.State) async -> Then {
-        state.dataSource.sections = []
-        state.dataSource.reloadData(state.tableView, animated: true)
-        return self
-    }
-    
-    @discardableResult
-    func removeItemsFromSection(state: ConcurrentReloadSelectTest.State) async -> Then {
-        state.dataSource.sections = [Section(items: [Section(items: [MockCellViewModel()])])]
-        state.dataSource.reloadData(state.tableView, animated: true)
+    func selectedId(state: ConcurrentReloadSelectTest.State, id: Int) -> Self {
+        do {
+            let selectedId = try XCTUnwrap(state.selectedViewModel?.id, "there should have been a selection")
+            XCTAssertEqual(selectedId, id, "mismatch on id selection: selected \(selectedId) but should have been \(id)")
+        } catch {
+            XCTFail("unwrap of selected cell failed")
+        }
         return self
     }
 }
 
 class MockCell: UITableViewCell, AutoRegisterCell {
-    public func configure(viewModel: MockCellViewModel) { }
-    
+    public func configure(viewModel _: MockCellViewModel) {}
+
     static var descriptor: CellDescriptor<MockCellViewModel, MockCell> {
         return CellDescriptor().configure { viewModel, cell, _ in
             cell.configure(viewModel: viewModel)
@@ -118,4 +156,10 @@ class MockCell: UITableViewCell, AutoRegisterCell {
     }
 }
 
-class MockCellViewModel {}
+class MockCellViewModel {
+    let id: Int
+    
+    init(id: Int) {
+        self.id = id
+    }
+}
