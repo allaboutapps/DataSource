@@ -56,7 +56,7 @@ extension DataSource: UITableViewDelegate {
 
         if let closure = cellDescriptor?.willSelectClosure ?? willSelect {
             guard let visibleRow = visibleRow(at: indexPath) else {
-                return indexPath
+                return nil
             }
             
             return closure(visibleRow, indexPath)
@@ -71,7 +71,7 @@ extension DataSource: UITableViewDelegate {
 
         if let closure = cellDescriptor?.willDeselectClosure ?? willDeselect {
             guard let visibleRow = visibleRow(at: indexPath) else {
-                return indexPath
+                return nil
             }
             
             return closure(visibleRow, indexPath)
