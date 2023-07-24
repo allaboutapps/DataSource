@@ -15,6 +15,7 @@ public protocol SectionType {
     var identifier: String { get }
     var content: Any? { get }
     var numberOfVisibleRows: Int { get }
+    var numberOfRows: Int { get }
     
     var diffableSection: DiffableSection { get }
     
@@ -58,6 +59,10 @@ open class Section: SectionType {
 
     public var numberOfVisibleRows: Int {
         return visibleRows.count
+    }
+    
+    public var numberOfRows: Int {
+        return rows.count
     }
     
     public func row(at index: Int) -> RowType {
@@ -139,6 +144,10 @@ public class LazySection: LazySectionType {
     
     public var numberOfVisibleRows: Int {
         return rowCount()
+    }
+    
+    public var numberOfRows: Int {
+        rowCount()
     }
     
     // there is no difference between row and visibleRow for on-demand sections,
