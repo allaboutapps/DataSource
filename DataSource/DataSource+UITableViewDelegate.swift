@@ -415,6 +415,8 @@ extension DataSource: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard !indexPath.isEmpty else { return [] }
+        
         let cellDescriptor = self.cellDescriptor(at: indexPath)
 
         if let closure = cellDescriptor?.editActionsClosure ?? editActions {
