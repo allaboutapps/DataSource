@@ -62,10 +62,13 @@ class SeparatorLineCell: UITableViewCell, AutoRegisterCell {
     
     func customInit() {
         isAccessibilityElement = false
+        accessibilityElementsHidden = true
         selectionStyle = .none
         backgroundColor = .clear
         
         separator = UIView()
+        separator.isAccessibilityElement = false
+        separator.accessibilityElementsHidden = true
         separator.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(separator)
         separator.backgroundColor = .clear
@@ -95,6 +98,8 @@ class SeparatorLineCell: UITableViewCell, AutoRegisterCell {
     
     func configure(viewModel: SeparatorCustomViewViewModel) {
         let customView = viewModel.customView
+        customView.isAccessibilityElement = false
+        customView.accessibilityElementsHidden = true
         separator.addSubview(customView)
         customView.withConstraints { (view) -> [NSLayoutConstraint] in
             view.alignEdges()
